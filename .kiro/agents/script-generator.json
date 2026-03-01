@@ -2,14 +2,15 @@
   "name": "script-generator",
   "description": "Generates production-ready ChromaScape scripts from natural language OSRS task descriptions",
   "prompt": "script-generator.md",
+  "mcpServers": {},
   "tools": ["read", "write", "shell", "web", "grep", "glob", "code"],
   "allowedTools": ["read", "grep", "glob", "code"],
   "toolAliases": {},
   "resources": [
-    ".kiro/knowledge/chromascape-wiki/Making-your-first-script.md",
-    ".kiro/knowledge/chromascape-wiki/Intermediate-Scripting:-From-Planning-to-Execution.md",
-    ".kiro/knowledge/chromascape-wiki/Colour-picker.md",
-    ".kiro/knowledge/chromascape-wiki/Discord-Notifier.md"
+    "file://.kiro/knowledge/chromascape-wiki/Making-your-first-script.md",
+    "file://.kiro/knowledge/chromascape-wiki/Intermediate-Scripting:-From-Planning-to-Execution.md",
+    "file://.kiro/knowledge/chromascape-wiki/Colour-picker.md",
+    "file://.kiro/knowledge/chromascape-wiki/Discord-Notifier.md"
   ],
   "hooks": {
     "agentSpawn": [
