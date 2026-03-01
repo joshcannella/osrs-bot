@@ -1,0 +1,3 @@
+[submodule "ChromaScape"]
+	path = ChromaScape
+	url = https://github.com/StaticSweep/ChromaScape.git

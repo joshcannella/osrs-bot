@@ -1,0 +1,21 @@
+{
+  "name": "osrs-expert",
+  "description": "OSRS bot development expert",
+  "prompt": "osrs-expert.md",
+  "mcpServers": {},
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "toolAliases": {},
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "toolsSettings": {},
+  "includeMcpJson": true,
+  "model": null
+}

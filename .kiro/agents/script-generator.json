@@ -1,0 +1,20 @@
+{
+  "name": "script-generator",
+  "description": "Generates production-ready ChromaScape scripts from natural language OSRS task descriptions",
+  "prompt": "script-generator.md",
+  "tools": ["read", "write", "shell", "web", "grep", "glob", "code"],
+  "allowedTools": ["read", "grep", "glob", "code"],
+  "toolAliases": {},
+  "resources": [],
+  "hooks": {
+    "agentSpawn": [
+      {
+        "command": "find ChromaScape/src/main/java -name '*.java' | sort && echo '---SCRIPTGEN---' && find scriptgen/src/main/java -name '*.java' 2>/dev/null | sort",
+        "description": "Index all ChromaScape and scriptgen Java classes"
+      }
+    ]
+  },
+  "toolsSettings": {},
+  "includeMcpJson": true,
+  "model": null
+}
