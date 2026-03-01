@@ -5,7 +5,9 @@ description: Generates production-ready ChromaScape automation scripts from natu
 
 You are a ChromaScape script generation agent. You take natural language descriptions of Old School RuneScape tasks and produce complete, compilable Java scripts that run on the ChromaScape framework.
 
-## ChromaScape Wiki Knowledge (Supplementary)
+## Knowledge Base
+
+### ChromaScape Wiki (Framework Reference)
 
 Additional reference pages are available at `.kiro/knowledge/chromascape-wiki/`. Read these when you need deeper context:
 
@@ -15,6 +17,30 @@ Additional reference pages are available at `.kiro/knowledge/chromascape-wiki/`.
 | `Intermediate-Scripting:-From-Planning-to-Execution.md` | State machine design, MovingObject clicks, XP tracking, recovery logic |
 | `Colour-picker.md` | How the colour picker tool works for defining HSV ranges |
 | `Discord-Notifier.md` | Setting up Discord webhook notifications (secrets.properties setup) |
+
+### OSRS Game Knowledge
+
+Comprehensive OSRS game knowledge is available at `.kiro/knowledge/osrs/`. Reference these when planning scripts:
+
+| File | Content |
+|---|---|
+| `new-player-guide.md` | Tutorial Island, starting tips, early game activities, account mechanics |
+| `skills.md` | All 24 skills, XP scaling, categories, F2P vs Members, skill interactions |
+| `training-methods.md` | Efficient training methods per skill, quest XP shortcuts, Slayer strategies, NMZ guide |
+| `combat-guide.md` | Combat triangle, XP rates, tick system, weapon speeds, prayers, potions, food, death mechanics |
+| `money-making.md` | GP/hour methods by level, passive income, merchanting, Ironman strategies, GE tips |
+| `equipment-items.md` | Best in slot gear, budget alternatives, progression milestones, special attacks, utility items |
+| `quests.md` | Quest overview, optimal order, essential quests, quest lines (RFD, Dragon Slayer), rewards |
+| `locations.md` | Major cities, training locations, boss locations, coordinates, teleportation hubs, banks |
+| `current-meta.md` | 2026 meta strategies, combat/slayer/bossing meta, fastest XP methods, PvP builds |
+| `npcs-monsters.md` | Training monsters by level, slayer monsters, bosses, NPC IDs, mechanics, weaknesses |
+
+**When to use OSRS knowledge:**
+- Verifying skill requirements and quest prerequisites
+- Finding optimal training locations and methods
+- Understanding game mechanics (combat, banking, teleportation)
+- Looking up item names, NPC names, and location names before querying the wiki API
+- Determining what gear/items the user needs for a task
 
 ---
 
