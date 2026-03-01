@@ -126,10 +126,18 @@ public class CooksAssistantScript extends BaseScript {
 
         switch (step) {
             case GET_POT -> {
-                walkTo(POT_TILE, "pot");
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(1200, 1800));
-                if (hasItem(POT_IMAGE)) {
+                if (!hasItem(POT_IMAGE)) {
+                    walkTo(POT_TILE, "pot");
+                    Point potLoc = findImageInGameView(POT_IMAGE);
+                    if (potLoc != null) {
+                        controller().mouse().moveTo(potLoc, "medium");
+                        controller().mouse().leftClick();
+                        waitMillis(HumanBehavior.adjustDelay(1200, 1800));
+                    } else {
+                        logger.warn("Pot not found in game view, retrying...");
+                        waitMillis(HumanBehavior.adjustDelay(500, 1000));
+                    }
+                } else {
                     step = Step.GO_TO_CELLAR;
                 }
             }
@@ -141,10 +149,18 @@ public class CooksAssistantScript extends BaseScript {
                 step = Step.GET_BUCKET;
             }
             case GET_BUCKET -> {
-                walkTo(BUCKET_TILE, "bucket");
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(1200, 1800));
-                if (hasItem(BUCKET_IMAGE)) {
+                if (!hasItem(BUCKET_IMAGE)) {
+                    walkTo(BUCKET_TILE, "bucket");
+                    Point bucketLoc = findImageInGameView(BUCKET_IMAGE);
+                    if (bucketLoc != null) {
+                        controller().mouse().moveTo(bucketLoc, "medium");
+                        controller().mouse().leftClick();
+                        waitMillis(HumanBehavior.adjustDelay(1200, 1800));
+                    } else {
+                        logger.warn("Bucket not found in game view, retrying...");
+                        waitMillis(HumanBehavior.adjustDelay(500, 1000));
+                    }
+                } else {
                     step = Step.LEAVE_CELLAR;
                 }
             }
@@ -156,29 +172,38 @@ public class CooksAssistantScript extends BaseScript {
                 step = Step.GET_EGG;
             }
             case GET_EGG -> {
-                walkTo(EGG_TILE, "egg");
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(1200, 1800));
-                if (hasItem(EGG_IMAGE)) {
+                if (!hasItem(EGG_IMAGE)) {
+                    walkTo(EGG_TILE, "egg");
+                    Point eggLoc = findImageInGameView(EGG_IMAGE);
+                    if (eggLoc != null) {
+                        controller().mouse().moveTo(eggLoc, "medium");
+                        controller().mouse().leftClick();
+                        waitMillis(HumanBehavior.adjustDelay(1200, 1800));
+                    } else {
+                        logger.warn("Egg not found in game view, retrying...");
+                        waitMillis(HumanBehavior.adjustDelay(500, 1000));
+                    }
+                } else {
                     step = Step.GET_MILK;
                 }
             }
             case GET_MILK -> {
-                walkTo(DAIRY_COW_TILE, "dairy cow");
-                // Use bucket on dairy cow: click bucket in inventory, then click cow at center
-                clickInventoryItem(BUCKET_IMAGE);
-                waitMillis(HumanBehavior.adjustDelay(300, 500));
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(3000, 4000));
-                if (hasItem(MILK_IMAGE)) {
+                if (!hasItem(MILK_IMAGE)) {
+                    walkTo(DAIRY_COW_TILE, "dairy cow");
+                    clickInventoryItem(BUCKET_IMAGE);
+                    waitMillis(HumanBehavior.adjustDelay(300, 500));
+                    clickGameCenter();
+                    waitMillis(HumanBehavior.adjustDelay(3000, 4000));
+                } else {
                     step = Step.GET_GRAIN;
                 }
             }
             case GET_GRAIN -> {
-                walkTo(WHEAT_TILE, "wheat");
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(1200, 1800));
-                if (hasItem(GRAIN_IMAGE)) {
+                if (!hasItem(GRAIN_IMAGE)) {
+                    walkTo(WHEAT_TILE, "wheat");
+                    clickGameCenter(); // Wheat is tall and visible at center
+                    waitMillis(HumanBehavior.adjustDelay(1200, 1800));
+                } else {
                     step = Step.MILL_CLIMB_UP;
                 }
             }
@@ -192,12 +217,14 @@ public class CooksAssistantScript extends BaseScript {
                 step = Step.MILL_USE_HOPPER;
             }
             case MILL_USE_HOPPER -> {
-                // Use grain on hopper: click grain in inventory, then click hopper at center
-                clickInventoryItem(GRAIN_IMAGE);
-                waitMillis(HumanBehavior.adjustDelay(300, 500));
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(1500, 2500));
-                step = Step.MILL_PULL_LEVER;
+                if (hasItem(GRAIN_IMAGE)) {
+                    clickInventoryItem(GRAIN_IMAGE);
+                    waitMillis(HumanBehavior.adjustDelay(300, 500));
+                    clickGameCenter();
+                    waitMillis(HumanBehavior.adjustDelay(1500, 2500));
+                } else {
+                    step = Step.MILL_PULL_LEVER;
+                }
             }
             case MILL_PULL_LEVER -> {
                 clickGameCenter();
@@ -213,12 +240,12 @@ public class CooksAssistantScript extends BaseScript {
                 step = Step.MILL_GET_FLOUR;
             }
             case MILL_GET_FLOUR -> {
-                // Use pot on flour bin
-                clickInventoryItem(POT_IMAGE);
-                waitMillis(HumanBehavior.adjustDelay(300, 500));
-                clickGameCenter();
-                waitMillis(HumanBehavior.adjustDelay(1500, 2500));
-                if (hasItem(FLOUR_IMAGE)) {
+                if (!hasItem(FLOUR_IMAGE)) {
+                    clickInventoryItem(POT_IMAGE);
+                    waitMillis(HumanBehavior.adjustDelay(300, 500));
+                    clickGameCenter();
+                    waitMillis(HumanBehavior.adjustDelay(1500, 2500));
+                } else {
                     step = Step.DELIVER;
                 }
             }
@@ -255,7 +282,7 @@ public class CooksAssistantScript extends BaseScript {
             step = Step.GO_TO_CELLAR;
         }
         if ((step == Step.GO_TO_CELLAR || step == Step.GET_BUCKET || step == Step.LEAVE_CELLAR)
-                && hasItem(BUCKET_IMAGE)) {
+                && (hasItem(BUCKET_IMAGE) || hasItem(MILK_IMAGE))) {
             step = Step.GET_EGG;
         }
         if (step == Step.GET_EGG && hasItem(EGG_IMAGE)) {
@@ -322,6 +349,21 @@ public class CooksAssistantScript extends BaseScript {
         }
         logger.error("Item not found in inventory: {}", templatePath);
         stop();
+    }
+
+    /**
+     * Searches for an image template in the game view and returns a random click point.
+     *
+     * @param templatePath classpath path to the item image
+     * @return random point within the matched region, or null if not found
+     */
+    private Point findImageInGameView(String templatePath) {
+        BufferedImage gameView = controller().zones().getGameView();
+        var match = TemplateMatching.match(templatePath, gameView, MATCH_THRESHOLD);
+        if (match.success()) {
+            return ClickDistribution.generateRandomPoint(match.boundingBox());
+        }
+        return null;
     }
 
     /**
