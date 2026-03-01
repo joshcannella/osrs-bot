@@ -5,7 +5,16 @@
   "tools": ["read", "write", "shell", "web", "grep", "glob", "code"],
   "allowedTools": ["read", "grep", "glob", "code"],
   "toolAliases": {},
-  "resources": [],
+  "resources": [
+    ".kiro/knowledge/chromascape-wiki/Home.md",
+    ".kiro/knowledge/chromascape-wiki/Making-your-first-script.md",
+    ".kiro/knowledge/chromascape-wiki/Intermediate-Scripting:-From-Planning-to-Execution.md",
+    ".kiro/knowledge/chromascape-wiki/Colour-picker.md",
+    ".kiro/knowledge/chromascape-wiki/ZoneManager-&-SubZoneMapper.md",
+    ".kiro/knowledge/chromascape-wiki/Discord-Notifier.md",
+    ".kiro/knowledge/chromascape-wiki/Requirements.md",
+    ".kiro/knowledge/chromascape-wiki/Pre\u2010requisite-installations.md"
+  ],
   "hooks": {
     "agentSpawn": [
       {
