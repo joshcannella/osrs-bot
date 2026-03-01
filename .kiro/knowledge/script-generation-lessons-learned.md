@@ -91,3 +91,36 @@ private void clickInventoryItem(String templatePath) {
 ```
 
 **Rule**: Never assume inventory slot positions. Always scan and match.
+
+---
+
+## Ground vs Inventory Image Differences
+**Problem**: Template matching failed for ground items even though the image existed, because ground items render differently than inventory icons.
+
+**Solution**: Use relaxed thresholds and fallback strategies for ground items:
+```java
+Point itemLoc = findImageInGameView(ITEM_IMAGE, 0.15); // relaxed threshold
+if (itemLoc == null) {
+    logger.warn("Item not detected, clicking center as fallback");
+    clickGameCenter();
+}
+```
+
+**Rule**: Ground items need higher thresholds (0.10-0.15) than inventory items (0.05-0.07). Always provide a fallback (center-click) for common spawn points. Only advance when item appears in inventory.
+
+---
+
+## API Differences Between Projects
+**Problem**: Code compiled in scriptgen but failed in ChromaScape due to API differences (e.g., `match.boundingBox()` vs `match.bounds()`).
+
+**Solution**: Always test compilation in the target environment:
+```bash
+./scripts/sync-and-compile.sh
+```
+
+**Rule**: Use the sync script to copy from scriptgen → ChromaScape. It handles:
+- Package name changes (com.scriptgen.behavior → com.chromascape.scripts)
+- Import statement updates
+- Compilation verification in ChromaScape
+
+Check the ChromaScape API when using framework classes - don't assume method names match between projects.

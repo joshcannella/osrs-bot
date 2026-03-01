@@ -174,15 +174,17 @@ public class CooksAssistantScript extends BaseScript {
             case GET_EGG -> {
                 if (!hasItem(EGG_IMAGE)) {
                     walkTo(EGG_TILE, "egg");
-                    Point eggLoc = findImageInGameView(EGG_IMAGE);
-                    if (eggLoc != null) {
+                    // Try template matching first with relaxed threshold
+                    Point eggLoc = findImageInGameView(EGG_IMAGE, 0.15);
+                    if (eggLoc == null) {
+                        // Fallback: just click center, eggs are common at spawn
+                        logger.warn("Egg not detected, clicking center");
+                        clickGameCenter();
+                    } else {
                         controller().mouse().moveTo(eggLoc, "medium");
                         controller().mouse().leftClick();
-                        waitMillis(HumanBehavior.adjustDelay(1200, 1800));
-                    } else {
-                        logger.warn("Egg not found in game view, retrying...");
-                        waitMillis(HumanBehavior.adjustDelay(500, 1000));
                     }
+                    waitMillis(HumanBehavior.adjustDelay(1200, 1800));
                 } else {
                     step = Step.GET_MILK;
                 }
@@ -358,10 +360,21 @@ public class CooksAssistantScript extends BaseScript {
      * @return random point within the matched region, or null if not found
      */
     private Point findImageInGameView(String templatePath) {
+        return findImageInGameView(templatePath, MATCH_THRESHOLD);
+    }
+
+    /**
+     * Searches for an image template in the game view with custom threshold.
+     *
+     * @param templatePath classpath path to the item image
+     * @param threshold custom matching threshold
+     * @return random point within the matched region, or null if not found
+     */
+    private Point findImageInGameView(String templatePath, double threshold) {
         BufferedImage gameView = controller().zones().getGameView();
-        var match = TemplateMatching.match(templatePath, gameView, MATCH_THRESHOLD);
+        var match = TemplateMatching.match(templatePath, gameView, threshold);
         if (match.success()) {
-            return ClickDistribution.generateRandomPoint(match.boundingBox());
+            return ClickDistribution.generateRandomPoint(match.bounds());
         }
         return null;
     }
