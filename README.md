@@ -81,7 +81,7 @@ The scripter syncs everything to ChromaScape automatically. To deploy:
 ./scripts/deploy.sh
 ```
 
-This syncs scripts, compiles in ChromaScape, commits, and pushes. Then on your Windows machine, double-click `run.bat` (or run it from PowerShell) — it pulls latest and launches ChromaScape at `http://localhost:8080`.
+This syncs scripts, compiles in ChromaScape, commits, and pushes. Then on your Windows machine, run `run.bat` (or `run.bat --launch-browser` to also open the UI) — it pulls latest and launches ChromaScape at `http://localhost:8080`.
 
 Setup instructions are saved to `.kiro/specs/scripts/<id>/SETUP.md` — check this on Windows before testing to verify RuneLite config, inventory layout, and starting position.
 
@@ -103,7 +103,7 @@ git pull
 > Read the bug report for al-kharid-iron-mining and fix it
 ```
 
-The scripter reads the bug report, fixes the script, logs the change in `implementation-notes.md`, re-compiles, and syncs. Run `./scripts/deploy.sh`, then `run.bat` on Windows to test again.
+The scripter reads the bug report, fixes the script, logs the change in `implementation-notes.md`, re-compiles, and syncs. Run `./scripts/deploy.sh`, then `run.bat` on Windows to test again (add `--launch-browser` to auto-open the UI).
 
 ## Example: Fly Fishing Script
 
@@ -235,7 +235,7 @@ osrs-bot/
 │   ├── sync-and-compile.sh              # Sync scriptgen → ChromaScape
 │   ├── complete-script.sh               # Move script from dev → completed
 │   └── check-scriptgen.sh              # Compile check only
-├── run.bat                              # Windows: pull + launch ChromaScape
+├── run.bat                              # Windows: pull + launch (--launch-browser to open UI)
 ├── report-bug.bat                       # Windows: copy log + open bug template + push
 └── docs/                                # User guide + documentation
 ```
