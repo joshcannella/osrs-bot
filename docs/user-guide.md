@@ -32,9 +32,11 @@ A comprehensive guide to setting up and running generated automation scripts for
   - [9.3 Selecting and Starting a Script](#93-selecting-and-starting-a-script)
   - [9.4 Monitoring](#94-monitoring)
   - [9.5 Stopping](#95-stopping)
-- [10. Colour System Reference](#10-colour-system-reference)
-- [11. Troubleshooting](#11-troubleshooting)
-- [12. Tips for Best Results](#12-tips-for-best-results)
+- [10. Reporting Bugs](#10-reporting-bugs)
+- [11. Completing a Script](#11-completing-a-script)
+- [12. Colour System Reference](#12-colour-system-reference)
+- [13. Troubleshooting](#13-troubleshooting)
+- [14. Tips for Best Results](#14-tips-for-best-results)
 
 ---
 
@@ -171,15 +173,34 @@ This compiles the Java source, copies the KInput DLLs to `build\dist\`, and runs
 
 ## 4. Compiling ScriptGen Scripts
 
-The generated scripts live in the `scriptgen\` project, which references ChromaScape as a read-only dependency via Gradle composite build (`includeBuild("../ChromaScape")` in `settings.gradle.kts`).
+The generated scripts live in the `scriptgen\` project. On the Linux development machine, compilation and syncing to ChromaScape is handled automatically:
 
-```powershell
-cd ~\projects\osrs-bot\scriptgen
-$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17.0.x-hotspot"  # adjust path
-.\gradlew.bat compileJava
+```bash
+./scripts/deploy.sh
 ```
 
-If compilation succeeds with no errors, your scripts are ready. If it fails, the error output will point to the exact line — usually a missing import or type mismatch.
+This runs `sync-and-compile.sh` which:
+- Copies scripts from `scriptgen/` to `ChromaScape/src/main/java/com/chromascape/scripts/`
+- Updates package declarations and imports automatically
+- Copies `HumanBehavior.java` and fixes its package
+- Syncs image resources from `scriptgen/src/main/resources/images/user/` to ChromaScape
+- Patches `log4j2.xml` to enable file logging (`ChromaScape/logs/chromascape.log`)
+- Compiles in ChromaScape
+- Commits and pushes if successful
+
+On Windows, just pull the latest and everything is ready:
+
+```powershell
+git pull
+```
+
+If you need to compile manually on Windows:
+
+```powershell
+cd ~\projects\osrs-bot\ChromaScape
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17.0.x-hotspot"
+.\gradlew.bat compileJava
+```
 
 ---
 
@@ -243,7 +264,7 @@ Before starting the script:
 3. **Empty your inventory** — the script detects a full inventory by template-matching the iron ore image in slot 28 (the last slot)
 4. **Verify highlights are visible** — you should see Cyan outlines on the iron rocks and the bank booth
 
-For other scripts, check the Javadoc at the top of the script file — it lists prerequisites, required items, inventory layout, and RuneLite plugin configuration specific to that script.
+For other scripts, check the SETUP.md file in `.kiro/specs/scripts/dev/<script-id>/SETUP.md` (or `.kiro/specs/scripts/<script-id>/SETUP.md` for completed scripts) — it lists prerequisites, required items, inventory layout, and RuneLite plugin configuration specific to that script.
 
 ---
 
@@ -317,8 +338,14 @@ Invoke-WebRequest -Uri "https://oldschool.runescape.wiki/images/Iron_ore.png" `
 
 **Important:** RuneLite must be open and logged in before starting ChromaScape. The framework locates the RuneLite window by title ("RuneLite") on startup and attaches KInput to its process.
 
+**Easiest method — double-click `test.bat`** at the repo root. It runs `git pull` then launches ChromaScape.
+
+Or manually:
+
 ```powershell
-cd ~\projects\osrs-bot\ChromaScape
+cd ~\projects\osrs-bot
+git pull
+cd ChromaScape
 $env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17.0.x-hotspot"
 .\gradlew.bat bootRun
 ```
@@ -336,34 +363,9 @@ You'll see the **ChromaScape Hub** dashboard with three columns:
 
 ### 9.2 Script Class Loading
 
-The web UI dynamically loads script classes from the `com.chromascape.scripts` package. Since generated scripts are in `com.scriptgen.scripts`, you need to make them visible to ChromaScape.
+Scripts are automatically synced from `scriptgen/` to `ChromaScape/src/main/java/com/chromascape/scripts/` by `deploy.sh` on the Linux development machine. Package declarations and imports are updated automatically during sync. When you `git pull` on Windows, the scripts are already in the correct location and compiled.
 
-**Option A — Copy the script (simplest):**
-
-```powershell
-# Copy the script
-Copy-Item "scriptgen\src\main\java\com\scriptgen\scripts\AlKharidIronMiningScript.java" `
-    -Destination "ChromaScape\src\main\java\com\chromascape\scripts\AlKharidIronMiningScript.java"
-
-# Copy HumanBehavior (required dependency)
-New-Item -ItemType Directory -Force -Path "ChromaScape\src\main\java\com\chromascape\scripts\behavior"
-Copy-Item "scriptgen\src\main\java\com\scriptgen\behavior\HumanBehavior.java" `
-    -Destination "ChromaScape\src\main\java\com\chromascape\scripts\behavior\HumanBehavior.java"
-```
-
-Then update the `package` declarations in the copied files:
-- `AlKharidIronMiningScript.java`: change `package com.scriptgen.scripts;` → `package com.chromascape.scripts;`
-- `HumanBehavior.java`: change `package com.scriptgen.behavior;` → `package com.chromascape.scripts.behavior;`
-- Update the import in the script: `import com.scriptgen.behavior.HumanBehavior;` → `import com.chromascape.scripts.behavior.HumanBehavior;`
-
-Rebuild ChromaScape:
-
-```powershell
-cd ChromaScape
-.\gradlew.bat build
-```
-
-**Option B — Modify ScriptInstance to search both packages** (better for ongoing development — avoids copying files every time you generate a new script).
+If you need to manually sync (e.g., you edited a script directly on Windows), run `sync-and-compile.sh` from the Linux machine or manually copy the file and update the package from `com.scriptgen.scripts` to `com.chromascape.scripts`.
 
 ### 9.3 Selecting and Starting a Script
 
@@ -394,7 +396,46 @@ Three ways to stop:
 
 ---
 
-## 10. Colour System Reference
+## 10. Reporting Bugs
+
+When a script misbehaves at runtime, use the `report-bug.bat` script on Windows:
+
+```powershell
+.\report-bug.bat al-kharid-iron-mining
+```
+
+This will:
+1. Copy `ChromaScape\logs\chromascape.log` to the script's dev directory as `runtime.log`
+2. Open the bug report template in Notepad — fill in what happened, expected behavior, and which state the bot was in
+3. After you save and close Notepad, it commits and pushes automatically
+
+On the Linux machine, pull and ask the scripter agent to fix it:
+
+```
+git pull
+/agent osrs-scripter
+> Read the bug report for al-kharid-iron-mining and fix it
+```
+
+### Log File
+
+ChromaScape writes logs to `ChromaScape\logs\chromascape.log`. This file is created automatically by the patched `log4j2.xml` (applied during `deploy.sh`). The log uses the same format as the Terminal Output in the web UI.
+
+---
+
+## 11. Completing a Script
+
+Once a script is working correctly, mark it as complete from the Linux machine:
+
+```bash
+./scripts/complete-script.sh al-kharid-iron-mining
+```
+
+This moves the script from `.kiro/specs/scripts/dev/al-kharid-iron-mining/` to `.kiro/specs/scripts/al-kharid-iron-mining/` with a merged `SETUP.md` (setup instructions + changelog) and a copy of the Java source. The dev directory is removed.
+
+---
+
+## 12. Colour System Reference
 
 ChromaScape uses OpenCV HSV colour space for all colour detection. The framework ships with predefined colours in `colours\colours.json`:
 
@@ -417,7 +458,7 @@ When configuring RuneLite highlight colours, use the hex colour that maps to the
 
 ---
 
-## 11. Troubleshooting
+## 13. Troubleshooting
 
 | Problem | Cause | Fix |
 |---|---|---|
@@ -435,7 +476,7 @@ When configuring RuneLite highlight colours, use the hex colour that maps to the
 
 ---
 
-## 12. Tips for Best Results
+## 14. Tips for Best Results
 
 - **Camera zoom** — keep at default zoom so colour highlights are a consistent pixel size for detection
 - **Don't move RuneLite** while the bot is running — screen coordinates are calibrated on startup via `ScreenManager.getWindowBounds()`
