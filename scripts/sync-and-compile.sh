@@ -25,6 +25,7 @@ fi
 # Update all imports in script files
 echo "  ✓ Updating imports..."
 find "$CHROMASCAPE_SCRIPTS" -name "*.java" -type f -exec sed -i 's/import com.scriptgen.behavior.HumanBehavior;/import com.chromascape.scripts.HumanBehavior;/g' {} \;
+find "$CHROMASCAPE_SCRIPTS" -name "*.java" -type f -exec sed -i 's/package com.scriptgen.scripts;/package com.chromascape.scripts;/g' {} \;
 
 echo "=== Syncing image resources ==="
 mkdir -p "$CHROMASCAPE_RESOURCES"
