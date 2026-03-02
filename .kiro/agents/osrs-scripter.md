@@ -150,3 +150,4 @@ When modifying existing scripts: read the file, modify in place, re-validate. Do
 7. **Auto-download wiki images** during generation
 8. **ColourObj uses OpenCV HSV** — H:0-180, S:0-255, V:0-255
 9. **Always log state transitions** — every state change, click target, and detection result must have a `logger.info()` call so runtime failures are diagnosable from terminal output
+10. **Always commit and push all work** — including dev/in-progress files (requirements, specs, scripts, images). Never leave changes uncommitted.
