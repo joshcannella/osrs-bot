@@ -13,10 +13,11 @@ cd "$PROJECT_ROOT"
 
 echo ""
 echo "=== Committing and pushing ==="
-git add ChromaScape/src/main/java/com/chromascape/scripts/ \
+git add scriptgen/ \
+        .kiro/specs/scripts/ \
+        ChromaScape/src/main/java/com/chromascape/scripts/*.java \
         ChromaScape/src/main/resources/images/user/ \
-        scriptgen/ \
-        .kiro/specs/scripts/ 2>/dev/null || true
+        ChromaScape/src/main/resources/log4j2.xml 2>/dev/null || true
 
 if git diff --cached --quiet; then
     echo "  No changes to commit"

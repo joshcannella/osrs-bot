@@ -81,7 +81,14 @@ The template lives at `.kiro/specs/scripts/TEMPLATE.md` — read it before writi
 3. **Design states** — Think through every state the bot can be in. Apply the fail-fast, defensive programming approach from the Intermediate Scripting guide.
 4. **Write the doc** — Read the template at `.kiro/specs/scripts/TEMPLATE.md`, fill in every section. Be specific. The scripter should not need to make judgment calls.
 5. **Save** — Generate a kebab-case script ID from the goal (e.g., `catherby-lobster-fishing`). Create the directory `.kiro/specs/scripts/<script-id>/` and save the requirements as `requirements.md` inside it.
-6. **Check for implementation notes** — If `.kiro/specs/scripts/<script-id>/implementation-notes.md` exists from a previous scripter session, read it and incorporate the feedback into your revised requirements.
+6. **Check for feedback** — Before writing or revising requirements, check the script directory for:
+   - `implementation-notes.md` — scripter findings, API limitations discovered during implementation
+   - `changelog.md` — history of code changes and their reasons
+   - `bug-report.md` — runtime failures reported by the user
+   - `runtime.log` — ChromaScape log output from a failed test run
+   - `SETUP.md` — current setup instructions (verify they match your requirements)
+   
+   Incorporate any feedback into your revised requirements.
 
 ## What You Do NOT Do
 
