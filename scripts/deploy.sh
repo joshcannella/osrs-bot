@@ -19,13 +19,21 @@ cd "$PROJECT_ROOT"
 echo "  ✓ Dry-run passed"
 
 echo ""
-echo "=== Committing and pushing ==="
-git add scriptgen/ \
-        .kiro/specs/scripts/ \
-        ChromaScape/src/main/java/com/chromascape/scripts/*.java \
-        ChromaScape/src/main/resources/images/user/ \
-        ChromaScape/src/main/resources/log4j2.xml 2>/dev/null || true
+echo "=== Pushing ChromaScape submodule ==="
+cd ChromaScape
+git add -A
+if git diff --cached --quiet; then
+    echo "  No submodule changes to commit"
+else
+    git commit -m "deploy: sync custom scripts and resources"
+    git push
+    echo "  ✓ Submodule pushed"
+fi
+cd "$PROJECT_ROOT"
 
+echo ""
+echo "=== Pushing parent repo ==="
+git add -A
 if git diff --cached --quiet; then
     echo "  No changes to commit"
 else
