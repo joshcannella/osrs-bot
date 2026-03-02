@@ -1,21 +1,50 @@
 {
   "name": "osrs-expert",
-  "description": "OSRS bot development expert",
+  "description": "OSRS game knowledge expert. Provides advice on training methods, money making, quest guides, combat strategies, items, NPCs, skills, locations, and all aspects of Old School RuneScape gameplay.",
   "prompt": "osrs-expert.md",
-  "mcpServers": {},
+  "mcpServers": {
+    "wiseoldman": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/develop/github/osrs-bot/mcp-servers/wiseoldman",
+        "run",
+        "wiseoldman-mcp"
+      ],
+      "env": {}
+    },
+    "osrswiki": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/develop/github/osrs-bot/mcp-servers/osrswiki",
+        "run",
+        "osrswiki-mcp"
+      ],
+      "env": {}
+    }
+  },
   "tools": [
     "read",
-    "write",
-    "shell",
     "grep",
-    "glob",
-    "code"
+    "glob"
   ],
   "toolAliases": {},
   "allowedTools": [],
-  "resources": [],
+  "resources": [
+    "file://.kiro/knowledge/osrs/new-player-guide.md",
+    "file://.kiro/knowledge/osrs/skills.md",
+    "file://.kiro/knowledge/osrs/training-methods.md",
+    "file://.kiro/knowledge/osrs/combat-guide.md",
+    "file://.kiro/knowledge/osrs/money-making.md",
+    "file://.kiro/knowledge/osrs/equipment-items.md",
+    "file://.kiro/knowledge/osrs/quests.md",
+    "file://.kiro/knowledge/osrs/locations.md",
+    "file://.kiro/knowledge/osrs/current-meta.md",
+    "file://.kiro/knowledge/osrs/npcs-monsters.md"
+  ],
   "hooks": {},
   "toolsSettings": {},
-  "includeMcpJson": true,
-  "model": null
+  "includeMcpJson": false,
+  "model": "claude-opus-4.6"
 }

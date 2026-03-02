@@ -1,0 +1,48 @@
+{
+  "name": "osrs-dev",
+  "description": "OSRS requirements architect. Understands ChromaScape framework capabilities and OSRS game mechanics. Produces detailed requirements documents that serve as instructions for osrs-scripter.",
+  "prompt": "osrs-dev.md",
+  "mcpServers": {
+    "wiseoldman": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/develop/github/osrs-bot/mcp-servers/wiseoldman",
+        "run",
+        "wiseoldman-mcp"
+      ],
+      "env": {}
+    },
+    "osrswiki": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/develop/github/osrs-bot/mcp-servers/osrswiki",
+        "run",
+        "osrswiki-mcp"
+      ],
+      "env": {}
+    }
+  },
+  "tools": [
+    "read",
+    "write",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "toolAliases": {},
+  "allowedTools": [],
+  "resources": [
+    "file://.kiro/knowledge/chromascape-wiki/Making-your-first-script.md",
+    "file://.kiro/knowledge/chromascape-wiki/Intermediate-Scripting-From-Planning-to-Execution.md",
+    "file://.kiro/knowledge/chromascape-wiki/Colour-picker.md",
+    "file://.kiro/knowledge/chromascape-wiki/Discord-Notifier.md",
+    "file://.kiro/knowledge/chromascape-wiki/ZoneManager-&-SubZoneMapper.md",
+    "file://.kiro/knowledge/script-generation-lessons-learned.md"
+  ],
+  "hooks": {},
+  "toolsSettings": {},
+  "includeMcpJson": false,
+  "model": "claude-opus-4.6"
+}
