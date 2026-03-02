@@ -124,3 +124,15 @@ if (itemLoc == null) {
 - Compilation verification in ChromaScape
 
 Check the ChromaScape API when using framework classes - don't assume method names match between projects.
+
+---
+
+## Package Declaration Rewrite in Sync Script
+**Problem**: Scripts synced to ChromaScape retained `package com.scriptgen.scripts;` instead of `package com.chromascape.scripts;`. The source files appeared in the correct directory and the UI listed them, but `Class.forName()` failed at runtime because the compiled `.class` files were under the wrong package.
+
+**Solution**: The `sync-and-compile.sh` script must rewrite package declarations in addition to import statements:
+```bash
+find "$CHROMASCAPE_SCRIPTS" -name "*.java" -type f -exec sed -i 's/package com.scriptgen.scripts;/package com.chromascape.scripts;/g' {} \;
+```
+
+**Rule**: After any sync script change, verify the compiled `.class` files land in `build/classes/java/main/com/chromascape/scripts/`, not `com/scriptgen/scripts/`.
