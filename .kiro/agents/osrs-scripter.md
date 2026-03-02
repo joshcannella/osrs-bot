@@ -59,9 +59,9 @@ Compile: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scrip
 
 After compilation succeeds in scriptgen, **always run the full deploy**:
 ```bash
-./scripts/deploy.sh
+uv run --project cli osrs-bot deploy
 ```
-This syncs scripts to ChromaScape, fixes package names and imports, syncs image resources, compiles in the real target, runs a dry-run verification, and pushes to git. The user should not need to run anything manually.
+This syncs scripts to ChromaScape, fixes package names and imports, syncs image resources, compiles in the real target, runs a dry-run verification, and pushes to git. For a single script: `uv run --project cli osrs-bot deploy <script-id>`. The user should not need to run anything manually.
 
 ---
 
@@ -97,12 +97,12 @@ Key rules from the API reference:
 
 1. **Compile in scriptgen**: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
 2. Fix compile errors (max 3 attempts)
-3. **Deploy**: Run `./scripts/deploy.sh` — this handles everything automatically:
+3. **Deploy**: Run `uv run --project cli osrs-bot deploy` (or `deploy <script-id>` for targeted) — this handles everything automatically:
    - Syncs scripts to ChromaScape (fixes package names and imports)
    - Syncs image resources
    - Compiles in ChromaScape (catches API mismatches)
    - Runs `gradle bootRun --dry-run` to verify the full task graph resolves
-   - Commits and pushes to git
+   - Commits and pushes to git (both submodule and parent)
 4. Verify: imports exist, ColourObj bounds valid, image paths start with `/images/user/`, images downloaded as PNG, loops have `checkInterrupted()`/`waitMillis()`, `pathTo()` try/caught, null checks on detection results, `stop()` on unrecoverable errors
 
 ## Phase 4: Setup Instructions
