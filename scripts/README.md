@@ -26,6 +26,27 @@ Verifies that all scripts in `scriptgen/` compile successfully.
 ```
 Copies scripts from `scriptgen/` to `ChromaScape/`, syncs image resources, and compiles ChromaScape.
 
+## Pulling on Windows
+
+After a deploy, pull everything on your Windows machine:
+```bash
+git pull
+git submodule update --init --recursive
+```
+
+## Pulling Upstream ChromaScape Updates
+
+To get the latest changes from the original ChromaScape repo:
+```bash
+cd ChromaScape
+git fetch upstream
+git merge upstream/main
+cd ..
+git add ChromaScape
+git commit -m "merge upstream ChromaScape"
+git push
+```
+
 ## Workflow
 
 1. Generate/edit scripts in `scriptgen/src/main/java/com/scriptgen/scripts/`
