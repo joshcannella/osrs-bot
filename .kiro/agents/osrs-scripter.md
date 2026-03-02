@@ -57,6 +57,12 @@ osrs-bot/
 
 Compile: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
 
+After compilation succeeds in scriptgen, **always run the full sync**:
+```bash
+./scripts/sync-and-compile.sh
+```
+This copies scripts to ChromaScape, fixes package names and imports, syncs image resources, and compiles in the real target. The user can then run `./scripts/deploy.sh` to launch.
+
 ---
 
 ## Phase 1: Research (only if no requirements doc)
@@ -89,9 +95,10 @@ Key rules from the API reference:
 
 ## Phase 3: Validation
 
-1. **Compile**: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
+1. **Compile in scriptgen**: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
 2. Fix compile errors (max 3 attempts)
-3. Verify: imports exist, ColourObj bounds valid, image paths start with `/images/user/`, images downloaded as PNG, loops have `checkInterrupted()`/`waitMillis()`, `pathTo()` try/caught, null checks on detection results, `stop()` on unrecoverable errors
+3. **Sync to ChromaScape**: `./scripts/sync-and-compile.sh` — this is the real validation; it catches API mismatches between scriptgen and ChromaScape
+4. Verify: imports exist, ColourObj bounds valid, image paths start with `/images/user/`, images downloaded as PNG, loops have `checkInterrupted()`/`waitMillis()`, `pathTo()` try/caught, null checks on detection results, `stop()` on unrecoverable errors
 
 ## Phase 4: Setup Instructions
 
@@ -102,6 +109,11 @@ Print: RuneLite requirements, image templates (auto vs manual), plugin config, i
 When you discover issues during implementation (detection method won't work, API limitation, missing data in requirements):
 1. Write findings to `.kiro/specs/scripts/<script-id>/implementation-notes.md`
 2. Continue with your best judgment or stop and ask the user
+
+When the user reports a runtime bug:
+1. Read `.kiro/specs/scripts/<script-id>/bug-report.md` (template at `.kiro/specs/scripts/BUG-TEMPLATE.md`)
+2. Cross-reference the bug with the script source, requirements doc, and terminal output
+3. Fix the script, re-validate (compile + sync), and note the fix in implementation-notes.md
 
 When you discover a new pattern, gotcha, or fix a non-obvious bug:
 - Append it to `.kiro/knowledge/script-generation-lessons-learned.md`

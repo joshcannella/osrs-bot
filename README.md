@@ -73,14 +73,35 @@ The scripter agent will:
 5. Compile and fix any errors
 6. Print setup instructions (RuneLite config, inventory layout, prerequisites)
 
-### Step 4: Iterate
+### Step 4: Deploy and Test
 
-If the scripter hits issues during implementation, it writes them to:
-```
-.kiro/specs/scripts/al-kharid-iron-mining/implementation-notes.md
+The scripter syncs everything to ChromaScape automatically. To launch:
+
+```bash
+./scripts/deploy.sh
 ```
 
-Switch back to `osrs-dev` and ask it to revise the requirements — it will read the implementation notes and update accordingly. Then switch back to `osrs-scripter` to re-implement.
+This runs `sync-and-compile.sh` (copies scripts, fixes packages, syncs images, compiles in ChromaScape) then starts the web UI at `http://localhost:8080`. Select your script and hit Start.
+
+Use `./scripts/deploy.sh --no-launch` to just sync and compile without launching.
+
+### Step 5: Debug
+
+When something goes wrong at runtime, create a bug report:
+
+```
+cp .kiro/specs/scripts/BUG-TEMPLATE.md .kiro/specs/scripts/al-kharid-iron-mining/bug-report.md
+# Fill in what happened, expected behavior, terminal output
+```
+
+Then tell the scripter:
+
+```
+/agent osrs-scripter
+> Read the bug report for al-kharid-iron-mining and fix it
+```
+
+The scripter reads the bug report + script source + requirements, makes a targeted fix, re-compiles, and syncs to ChromaScape. Run `./scripts/deploy.sh` again to test.
 
 ## Example: Fly Fishing Script
 

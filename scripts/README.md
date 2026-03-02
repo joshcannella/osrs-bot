@@ -2,6 +2,20 @@
 
 ## Quick Reference
 
+### Deploy (sync + compile + launch)
+```bash
+./scripts/deploy.sh
+```
+Syncs scripts to ChromaScape, compiles, and launches the web UI at `http://localhost:8080`.
+
+Use `--no-launch` to sync and compile without starting the server.
+
+### Sync and compile only
+```bash
+./scripts/sync-and-compile.sh
+```
+Copies scripts from `scriptgen/` to `ChromaScape/`, fixes package names and imports, syncs image resources, and compiles in ChromaScape.
+
 ### Check if scriptgen compiles
 ```bash
 ./scripts/check-scriptgen.sh
