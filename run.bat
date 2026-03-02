@@ -7,8 +7,7 @@ git pull
 git submodule update --init --recursive
 
 cd ChromaScape
-call gradlew.bat clean compileJava
 
 if "%1"=="--launch-browser" start http://localhost:8080
 
-call gradlew.bat bootRun
+call gradlew.bat clean bootRun
