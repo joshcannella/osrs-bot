@@ -12,6 +12,13 @@ cd "$PROJECT_ROOT"
 ./scripts/sync-and-compile.sh
 
 echo ""
+echo "=== Dry-run verification ==="
+cd ChromaScape
+gradle bootRun --dry-run
+cd "$PROJECT_ROOT"
+echo "  ✓ Dry-run passed"
+
+echo ""
 echo "=== Committing and pushing ==="
 git add scriptgen/ \
         .kiro/specs/scripts/ \

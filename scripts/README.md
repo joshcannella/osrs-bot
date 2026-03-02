@@ -2,11 +2,11 @@
 
 ## Quick Reference
 
-### Deploy (sync + compile, ready for Windows pull)
+### Deploy (sync + compile + dry-run + push)
 ```bash
 ./scripts/deploy.sh
 ```
-Syncs scripts to ChromaScape, compiles, and prepares for `git pull` on Windows.
+Syncs scripts to ChromaScape, compiles, runs a dry-run verification, commits, and pushes for `git pull` on Windows.
 
 ### Sync and compile only
 ```bash
@@ -29,15 +29,17 @@ Copies scripts from `scriptgen/` to `ChromaScape/`, syncs image resources, and c
 ## Workflow
 
 1. Generate/edit scripts in `scriptgen/src/main/java/com/scriptgen/scripts/`
-2. Run `./scripts/sync-and-compile.sh` to deploy and compile in ChromaScape
-3. Start ChromaScape and test your script
+2. Run `./scripts/deploy.sh` — this handles everything: sync, compile, dry-run, commit, and push
+3. On Windows, `git pull` and start ChromaScape
 
-**Important**: Always use `sync-and-compile.sh` instead of manually copying files. It automatically:
+**Important**: Always use `deploy.sh` instead of manually copying files. It automatically:
 - Copies scripts from scriptgen to ChromaScape
 - Updates package declarations (com.scriptgen.behavior → com.chromascape.scripts)
 - Updates import statements
 - Syncs image resources
 - Compiles and verifies the code works in ChromaScape
+- Runs `gradle bootRun --dry-run` to verify the full boot task graph
+- Commits and pushes to git
 
 ## Troubleshooting
 

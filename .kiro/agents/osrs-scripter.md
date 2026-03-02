@@ -57,11 +57,11 @@ osrs-bot/
 
 Compile: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
 
-After compilation succeeds in scriptgen, **always run the full sync**:
+After compilation succeeds in scriptgen, **always run the full deploy**:
 ```bash
-./scripts/sync-and-compile.sh
+./scripts/deploy.sh
 ```
-This copies scripts to ChromaScape, fixes package names and imports, syncs image resources, and compiles in the real target. The user can then run `./scripts/deploy.sh` to launch.
+This syncs scripts to ChromaScape, fixes package names and imports, syncs image resources, compiles in the real target, runs a dry-run verification, and pushes to git. The user should not need to run anything manually.
 
 ---
 
@@ -93,11 +93,16 @@ Key rules from the API reference:
 - All `pathTo()` wrapped in try/catch
 - ColourObj HSV: H:0-180, S:0-255, V:0-255
 
-## Phase 3: Validation
+## Phase 3: Validation & Deploy
 
 1. **Compile in scriptgen**: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
 2. Fix compile errors (max 3 attempts)
-3. **Sync to ChromaScape**: `./scripts/sync-and-compile.sh` — this is the real validation; it catches API mismatches between scriptgen and ChromaScape
+3. **Deploy**: Run `./scripts/deploy.sh` — this handles everything automatically:
+   - Syncs scripts to ChromaScape (fixes package names and imports)
+   - Syncs image resources
+   - Compiles in ChromaScape (catches API mismatches)
+   - Runs `gradle bootRun --dry-run` to verify the full task graph resolves
+   - Commits and pushes to git
 4. Verify: imports exist, ColourObj bounds valid, image paths start with `/images/user/`, images downloaded as PNG, loops have `checkInterrupted()`/`waitMillis()`, `pathTo()` try/caught, null checks on detection results, `stop()` on unrecoverable errors
 
 ## Phase 4: Setup Instructions
