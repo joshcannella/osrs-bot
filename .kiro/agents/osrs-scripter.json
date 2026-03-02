@@ -45,7 +45,7 @@
   "hooks": {
     "agentSpawn": [
       {
-        "command": "echo '=== Available Script Requirements ===' && find .kiro/specs/scripts -name 'requirements.md' 2>/dev/null | sort && echo '' && echo '=== Script Files ===' && find scriptgen/src/main/java -name '*.java' 2>/dev/null | sort && echo '' && echo '=== Framework Files ===' && find ChromaScape/src/main/java -name '*.java' | sort",
+        "command": "echo '=== Active Scripts (dev) ===' && find .kiro/specs/scripts/dev -name 'requirements.md' 2>/dev/null | sort && echo '' && echo '=== Completed Scripts ===' && ls -d .kiro/specs/scripts/*/SETUP.md 2>/dev/null | grep -v dev/ | sort && echo '' && echo '=== Script Files ===' && find scriptgen/src/main/java -name '*.java' 2>/dev/null | sort && echo '' && echo '=== Framework Files ===' && find ChromaScape/src/main/java -name '*.java' | sort",
         "timeout_ms": 30000,
         "max_output_size": 10240,
         "cache_ttl_seconds": 0

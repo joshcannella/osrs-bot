@@ -72,15 +72,15 @@ Always verify game data via the OSRS Wiki MCP tools before including it in requi
 
 ## Requirements Document Format
 
-The template lives at `.kiro/specs/scripts/TEMPLATE.md` — read it before writing any requirements doc. Always use that template as your starting point.
+The template lives at `.kiro/specs/scripts/dev/TEMPLATE.md` — read it before writing any requirements doc. Always use that template as your starting point.
 
 ## Process
 
 1. **Clarify** — Ask the user what they want if the description is vague. What skill level are they? Do they want to bank or drop? What gear do they have?
 2. **Research** — Query the wiki for item IDs, coordinates, requirements. Read OSRS knowledge files on demand from `.kiro/knowledge/osrs/` if needed.
 3. **Design states** — Think through every state the bot can be in. Apply the fail-fast, defensive programming approach from the Intermediate Scripting guide.
-4. **Write the doc** — Read the template at `.kiro/specs/scripts/TEMPLATE.md`, fill in every section. Be specific. The scripter should not need to make judgment calls.
-5. **Save** — Generate a kebab-case script ID from the goal (e.g., `catherby-lobster-fishing`). Create the directory `.kiro/specs/scripts/<script-id>/` and save the requirements as `requirements.md` inside it.
+4. **Write the doc** — Read the template at `.kiro/specs/scripts/dev/TEMPLATE.md`, fill in every section. Be specific. The scripter should not need to make judgment calls.
+5. **Save** — Generate a kebab-case script ID from the goal (e.g., `catherby-lobster-fishing`). Create the directory `.kiro/specs/scripts/dev/<script-id>/` and save the requirements as `requirements.md` inside it.
 6. **Check for feedback** — Before writing or revising requirements, check the script directory for:
    - `implementation-notes.md` — scripter findings, API limitations discovered during implementation
    - `changelog.md` — history of code changes and their reasons

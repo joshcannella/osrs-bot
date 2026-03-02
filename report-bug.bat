@@ -10,7 +10,7 @@ if "%~1"=="" (
 )
 
 set SCRIPT_ID=%~1
-set SPEC_DIR=.kiro\specs\scripts\%SCRIPT_ID%
+set SPEC_DIR=.kiro\specs\scripts\dev\%SCRIPT_ID%
 
 if not exist "%SPEC_DIR%" (
     echo Error: %SPEC_DIR% does not exist

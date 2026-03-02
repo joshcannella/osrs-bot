@@ -48,3 +48,9 @@ Copies scripts from `scriptgen/` to `ChromaScape/`, syncs image resources, and c
 **Note**: Both scriptgen and ChromaScape use Gradle. The sync script handles copying and recompiling automatically.
 
 **Missing images**: Ensure images are in `scriptgen/src/main/resources/images/user/`
+
+### Mark a script as complete
+```bash
+./scripts/complete-script.sh <script-id>
+```
+Moves the script from `dev/` to a completed directory with a merged SETUP.md (setup + changelog). Removes the dev directory.

@@ -24,7 +24,7 @@
 
 Alternatively, copy the log file into this directory:
 ```
-cp ChromaScape/logs/chromascape.log .kiro/specs/scripts/<script-id>/runtime.log
+cp ChromaScape/logs/chromascape.log .kiro/specs/scripts/dev/<script-id>/runtime.log
 ```
 
 ## Screenshots (if applicable)

@@ -13,7 +13,7 @@ Your spawn hook automatically lists available requirements docs and existing scr
 
 ## Input: Requirements Documents
 
-Your primary input is a requirements document from `osrs-dev`, found at `.kiro/specs/scripts/<script-id>/requirements.md`. These contain: goal, game context, items, inventory layout, state machine, detection strategy, image templates, transportation, banking, edge cases, RuneLite setup, and stop conditions.
+Your primary input is a requirements document from `osrs-dev`, found at `.kiro/specs/scripts/dev/<script-id>/requirements.md`. These contain: goal, game context, items, inventory layout, state machine, detection strategy, image templates, transportation, banking, edge cases, RuneLite setup, and stop conditions.
 
 **Follow the requirements document precisely.** If no requirements document exists, gather the information yourself using Phase 1 below.
 
@@ -102,7 +102,7 @@ Key rules from the API reference:
 
 ## Phase 4: Setup Instructions
 
-Save setup instructions to `.kiro/specs/scripts/<script-id>/SETUP.md` so they persist across sessions. Also print them in chat. Include:
+Save setup instructions to `.kiro/specs/scripts/dev/<script-id>/SETUP.md` so they persist across sessions. Also print them in chat. Include:
 1. Mandatory RuneLite requirements (scaling, UI mode, brightness, profile, XP bar)
 2. Image templates — which were auto-downloaded, which need manual screenshots
 3. RuneLite plugin configuration (colours, highlights, which objects/NPCs to mark)
@@ -113,14 +113,14 @@ Save setup instructions to `.kiro/specs/scripts/<script-id>/SETUP.md` so they pe
 ## Feedback Loop
 
 When you discover issues during implementation (detection method won't work, API limitation, missing data in requirements):
-1. Write findings to `.kiro/specs/scripts/<script-id>/implementation-notes.md`
+1. Write findings to `.kiro/specs/scripts/dev/<script-id>/implementation-notes.md`
 2. Continue with your best judgment or stop and ask the user
 
 When the user reports a runtime bug:
-1. Read `.kiro/specs/scripts/<script-id>/bug-report.md` (template at `.kiro/specs/scripts/BUG-TEMPLATE.md`)
-2. Check for `.kiro/specs/scripts/<script-id>/runtime.log` — the user may have copied the log file here
+1. Read `.kiro/specs/scripts/dev/<script-id>/bug-report.md` (template at `.kiro/specs/scripts/BUG-TEMPLATE.md`)
+2. Check for `.kiro/specs/scripts/dev/<script-id>/runtime.log` — the user may have copied the log file here
 3. Cross-reference the bug with the script source, requirements doc, and log output
-3. Fix the script, re-validate (compile + sync), and log the fix in `.kiro/specs/scripts/<script-id>/changelog.md` with a dated entry:
+3. Fix the script, re-validate (compile + sync), and log the fix in `.kiro/specs/scripts/dev/<script-id>/changelog.md` with a dated entry:
    ```
    ## YYYY-MM-DD — Fix: [brief description]
    - What changed and why

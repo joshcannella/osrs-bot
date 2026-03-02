@@ -53,7 +53,7 @@ The dev agent will:
 1. Ask clarifying questions if needed (drop or bank? what pickaxe? any prerequisites?)
 2. Research game data — item IDs, tile coordinates, NPC/object details via the OSRS Wiki
 3. Design a state machine with detection strategies, edge cases, and recovery logic
-4. Save the requirements to `.kiro/specs/scripts/al-kharid-iron-mining/requirements.md`
+4. Save the requirements to `.kiro/specs/scripts/dev/al-kharid-iron-mining/requirements.md`
 
 ### Step 3: Generate the Script
 
@@ -66,7 +66,7 @@ Switch to the code generator:
 > "Implement the al-kharid-iron-mining requirements"
 
 The scripter agent will:
-1. Read the requirements doc from `.kiro/specs/scripts/al-kharid-iron-mining/requirements.md`
+1. Read the requirements doc from `.kiro/specs/scripts/dev/al-kharid-iron-mining/requirements.md`
 2. Read the API reference (`.kiro/knowledge/chromascape-wiki/api-reference.md`)
 3. Download item images from the OSRS Wiki
 4. Generate a complete Java script at `scriptgen/src/main/java/com/scriptgen/scripts/`
@@ -90,7 +90,7 @@ Setup instructions are saved to `.kiro/specs/scripts/<id>/SETUP.md` — check th
 When something goes wrong at runtime, create a bug report:
 
 ```
-cp .kiro/specs/scripts/BUG-TEMPLATE.md .kiro/specs/scripts/al-kharid-iron-mining/bug-report.md
+cp .kiro/specs/scripts/BUG-TEMPLATE.md .kiro/specs/scripts/dev/al-kharid-iron-mining/bug-report.md
 # Fill in what happened, expected behavior, terminal output
 git add . && git commit -m "bug report" && git push
 ```
@@ -214,26 +214,29 @@ osrs-bot/
 │   │   ├── osrs/                        # OSRS game knowledge (10 files)
 │   │   └── chromascape-wiki/            # Framework docs + API reference
 │   └── specs/
-│       └── scripts/                     # Requirements docs per script
-│           ├── TEMPLATE.md              # Requirements template
-│           ├── BUG-TEMPLATE.md          # Bug report template
-│           └── <script-id>/             # One directory per script
-│               ├── requirements.md      # From osrs-dev
-│               ├── SETUP.md             # RuneLite/inventory setup checklist
-│               ├── implementation-notes.md  # Scripter findings + API issues
-│               ├── changelog.md             # Dated log of every script change
-│               └── bug-report.md        # From you (runtime issues)
+│       └── scripts/
+│           ├── dev/                     # Active development
+│           │   ├── TEMPLATE.md          # Requirements template
+│           │   ├── BUG-TEMPLATE.md      # Bug report template
+│           │   └── <script-id>/         # One directory per in-progress script
+│           │       ├── requirements.md
+│           │       ├── SETUP.md
+│           │       ├── changelog.md
+│           │       ├── implementation-notes.md
+│           │       ├── bug-report.md
+│           │       └── runtime.log
+│           └── <script-id>/             # Completed scripts
+│               └── SETUP.md             # Merged setup + changelog
 ├── ChromaScape/                         # Framework (read-only submodule)
-├── scriptgen/                           # Generated scripts (your code)
-│   └── src/main/java/com/scriptgen/
-│       ├── behavior/HumanBehavior.java  # Anti-detection patterns
-│       └── scripts/                     # Generated script files
+├── scriptgen/                           # Generated scripts
 ├── mcp-servers/                         # OSRS Wiki + Wise Old Man MCP servers
 ├── scripts/                             # Dev utility scripts
 │   ├── deploy.sh                        # Sync + compile + commit + push
 │   ├── sync-and-compile.sh              # Sync scriptgen → ChromaScape
+│   ├── complete-script.sh               # Move script from dev → completed
 │   └── check-scriptgen.sh              # Compile check only
 ├── test.bat                             # Windows: pull + launch ChromaScape
+├── report-bug.bat                       # Windows: copy log + open bug template + push
 └── docs/                                # User guide + documentation
 ```
 
