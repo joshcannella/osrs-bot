@@ -220,7 +220,8 @@ osrs-bot/
 │           └── <script-id>/             # One directory per script
 │               ├── requirements.md      # From osrs-dev
 │               ├── SETUP.md             # RuneLite/inventory setup checklist
-│               ├── implementation-notes.md  # Changelog + scripter findings
+│               ├── implementation-notes.md  # Scripter findings + API issues
+│               ├── changelog.md             # Dated log of every script change
 │               └── bug-report.md        # From you (runtime issues)
 ├── ChromaScape/                         # Framework (read-only submodule)
 ├── scriptgen/                           # Generated scripts (your code)
