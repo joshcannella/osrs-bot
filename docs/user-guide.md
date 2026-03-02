@@ -338,7 +338,7 @@ Invoke-WebRequest -Uri "https://oldschool.runescape.wiki/images/Iron_ore.png" `
 
 **Important:** RuneLite must be open and logged in before starting ChromaScape. The framework locates the RuneLite window by title ("RuneLite") on startup and attaches KInput to its process.
 
-**Easiest method — double-click `test.bat`** at the repo root. It runs `git pull` then launches ChromaScape.
+**Easiest method — double-click `run.bat`** at the repo root. It runs `git pull` then launches ChromaScape.
 
 Or manually:
 
