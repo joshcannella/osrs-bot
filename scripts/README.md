@@ -2,13 +2,11 @@
 
 ## Quick Reference
 
-### Deploy (sync + compile + launch)
+### Deploy (sync + compile, ready for Windows pull)
 ```bash
 ./scripts/deploy.sh
 ```
-Syncs scripts to ChromaScape, compiles, and launches the web UI at `http://localhost:8080`.
-
-Use `--no-launch` to sync and compile without starting the server.
+Syncs scripts to ChromaScape, compiles, and prepares for `git pull` on Windows.
 
 ### Sync and compile only
 ```bash

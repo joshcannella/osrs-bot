@@ -75,15 +75,24 @@ The scripter agent will:
 
 ### Step 4: Deploy and Test
 
-The scripter syncs everything to ChromaScape automatically. To launch:
+The scripter syncs everything to ChromaScape automatically. To prepare for deployment:
 
 ```bash
 ./scripts/deploy.sh
 ```
 
-This runs `sync-and-compile.sh` (copies scripts, fixes packages, syncs images, compiles in ChromaScape) then starts the web UI at `http://localhost:8080`. Select your script and hit Start.
+This runs `sync-and-compile.sh` (copies scripts, fixes packages, syncs images, compiles in ChromaScape) and commits the result. Then on your Windows machine:
 
-Use `./scripts/deploy.sh --no-launch` to just sync and compile without launching.
+```powershell
+cd ~\projects\osrs-bot
+git pull
+cd ChromaScape
+.\gradlew.bat bootRun
+```
+
+Open `http://localhost:8080`, select your script, and hit Start.
+
+Use `./scripts/sync-and-compile.sh` directly if you just want to compile without the deploy wrapper.
 
 ### Step 5: Debug
 
