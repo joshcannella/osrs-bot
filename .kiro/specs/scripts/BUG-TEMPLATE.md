@@ -19,7 +19,12 @@
 
 ## Terminal output
 ```
-[Paste relevant log lines from the ChromaScape Hub terminal]
+[Paste relevant lines from ChromaScape/logs/chromascape.log]
+```
+
+Alternatively, copy the log file into this directory:
+```
+cp ChromaScape/logs/chromascape.log .kiro/specs/scripts/<script-id>/runtime.log
 ```
 
 ## Screenshots (if applicable)

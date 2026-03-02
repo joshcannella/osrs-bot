@@ -118,7 +118,8 @@ When you discover issues during implementation (detection method won't work, API
 
 When the user reports a runtime bug:
 1. Read `.kiro/specs/scripts/<script-id>/bug-report.md` (template at `.kiro/specs/scripts/BUG-TEMPLATE.md`)
-2. Cross-reference the bug with the script source, requirements doc, and terminal output
+2. Check for `.kiro/specs/scripts/<script-id>/runtime.log` — the user may have copied the log file here
+3. Cross-reference the bug with the script source, requirements doc, and log output
 3. Fix the script, re-validate (compile + sync), and log the fix in `.kiro/specs/scripts/<script-id>/changelog.md` with a dated entry:
    ```
    ## YYYY-MM-DD — Fix: [brief description]

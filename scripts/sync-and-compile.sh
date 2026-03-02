@@ -30,6 +30,9 @@ echo "=== Syncing image resources ==="
 mkdir -p "$CHROMASCAPE_RESOURCES"
 rsync -av "$SCRIPTGEN_RESOURCES/" "$CHROMASCAPE_RESOURCES/"
 
+echo "=== Patching logging ==="
+./scripts/patch-logging.sh
+
 echo "=== Compiling ChromaScape ==="
 cd ChromaScape
 gradle compileJava
