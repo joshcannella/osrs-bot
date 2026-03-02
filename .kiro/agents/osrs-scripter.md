@@ -59,9 +59,9 @@ Compile: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scrip
 
 After compilation succeeds in scriptgen, **always run the full deploy**:
 ```bash
-uv run --project cli osrs-bot deploy
+osrs-bot deploy
 ```
-This syncs scripts to ChromaScape, fixes package names and imports, syncs image resources, compiles in the real target, runs a dry-run verification, and pushes to git. For a single script: `uv run --project cli osrs-bot deploy <script-id>`. The user should not need to run anything manually.
+This syncs scripts to ChromaScape, fixes package names and imports, syncs image resources, compiles in the real target, runs a dry-run verification, and pushes to git. For a single script: `osrs-bot deploy <script-id>`. The user should not need to run anything manually.
 
 ---
 
@@ -97,7 +97,7 @@ Key rules from the API reference:
 
 1. **Compile in scriptgen**: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
 2. Fix compile errors (max 3 attempts)
-3. **Deploy**: Run `uv run --project cli osrs-bot deploy` (or `deploy <script-id>` for targeted) — this handles everything automatically:
+3. **Deploy**: Run `osrs-bot deploy` (or `osrs-bot deploy <script-id>` for targeted) — this handles everything automatically:
    - Syncs scripts to ChromaScape (fixes package names and imports)
    - Syncs image resources
    - Compiles in ChromaScape (catches API mismatches)

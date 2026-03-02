@@ -4,16 +4,21 @@ Manage scripts, deployments, logs, and bugs.
 
 ## Install
 
+One-time setup — makes `osrs-bot` available globally:
+
 ```bash
-cd cli && uv sync
+cd cli
+uv tool install --editable .
 ```
+
+After this, run `osrs-bot` from anywhere. Since it's editable, `git pull` picks up CLI changes automatically.
+
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
 ## Usage
 
-Run from the project root:
-
 ```bash
-uv run --project cli osrs-bot <command>
+osrs-bot <command>
 ```
 
 ### Commands
@@ -36,17 +41,17 @@ uv run --project cli osrs-bot <command>
 
 ```bash
 # Deploy just the restless ghost script
-uv run --project cli osrs-bot deploy restless-ghost
+osrs-bot deploy restless-ghost
 
 # Deploy everything
-uv run --project cli osrs-bot deploy
+osrs-bot deploy
 
 # Check what's in progress
-uv run --project cli osrs-bot status
+osrs-bot status
 
 # Report a bug
-uv run --project cli osrs-bot bug restless-ghost
+osrs-bot bug restless-ghost
 
 # Mark a script as done
-uv run --project cli osrs-bot complete restless-ghost
+osrs-bot complete restless-ghost
 ```
