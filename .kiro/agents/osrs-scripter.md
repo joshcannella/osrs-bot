@@ -102,7 +102,13 @@ Key rules from the API reference:
 
 ## Phase 4: Setup Instructions
 
-Print: RuneLite requirements, image templates (auto vs manual), plugin config, inventory layout, prerequisites, how to run.
+Save setup instructions to `.kiro/specs/scripts/<script-id>/SETUP.md` so they persist across sessions. Also print them in chat. Include:
+1. Mandatory RuneLite requirements (scaling, UI mode, brightness, profile, XP bar)
+2. Image templates — which were auto-downloaded, which need manual screenshots
+3. RuneLite plugin configuration (colours, highlights, which objects/NPCs to mark)
+4. Inventory layout and equipped items
+5. Starting position and prerequisites
+6. How to run (script class name)
 
 ## Feedback Loop
 
@@ -113,7 +119,12 @@ When you discover issues during implementation (detection method won't work, API
 When the user reports a runtime bug:
 1. Read `.kiro/specs/scripts/<script-id>/bug-report.md` (template at `.kiro/specs/scripts/BUG-TEMPLATE.md`)
 2. Cross-reference the bug with the script source, requirements doc, and terminal output
-3. Fix the script, re-validate (compile + sync), and note the fix in implementation-notes.md
+3. Fix the script, re-validate (compile + sync), and log the fix in implementation-notes.md with a dated entry:
+   ```
+   ## YYYY-MM-DD — Fix: [brief description]
+   - What changed and why
+   - Root cause
+   ```
 
 When you discover a new pattern, gotcha, or fix a non-obvious bug:
 - Append it to `.kiro/knowledge/script-generation-lessons-learned.md`
@@ -132,3 +143,4 @@ When modifying existing scripts: read the file, modify in place, re-validate. Do
 6. **Image paths use `/images/user/`**
 7. **Auto-download wiki images** during generation
 8. **ColourObj uses OpenCV HSV** — H:0-180, S:0-255, V:0-255
+9. **Always log state transitions** — every state change, click target, and detection result must have a `logger.info()` call so runtime failures are diagnosable from terminal output
