@@ -1,0 +1,17 @@
+[project]
+name = "osrs-bot"
+version = "0.1.0"
+description = "CLI for managing osrs-bot scripts: deploy, run, logs, bugs, and more."
+readme = "README.md"
+authors = [
+    { name = "joshcannella", email = "joshcannella@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = ["click>=8.1"]
+
+[project.scripts]
+osrs-bot = "osrs_bot:main"
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11.0"]
+build-backend = "uv_build"
