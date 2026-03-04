@@ -136,3 +136,20 @@ find "$CHROMASCAPE_SCRIPTS" -name "*.java" -type f -exec sed -i 's/package com.s
 ```
 
 **Rule**: After any sync script change, verify the compiled `.class` files land in `build/classes/java/main/com/chromascape/scripts/`, not `com/scriptgen/scripts/`.
+
+---
+
+## NPC Access Obstacles (Quest Scripts)
+**Problem**: Script walked directly to the starting NPC's tile and clicked, but the NPC was behind a closed door (e.g., Father Aereck inside Lumbridge Church). The walker reached the door tile, the click did nothing useful, and dialog inputs fired at nothing.
+
+**Solution**: Add an explicit step before the NPC interaction to handle any access obstacle (door, gate, ladder, etc.):
+```java
+case ENTER_BUILDING -> {
+    walkTo(DOOR_TILE, "door");
+    clickGameCenter();
+    waitMillis(HumanBehavior.adjustDelay(1500, 2500));
+    step = Step.TALK_NPC;
+}
+```
+
+**Rule**: When planning quest scripts, always check whether the starting NPC (or any NPC/object) is behind a door, gate, or other obstacle that must be interacted with first. Add a dedicated step for it rather than assuming the walker will path through.
