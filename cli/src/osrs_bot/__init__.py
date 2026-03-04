@@ -123,7 +123,11 @@ def patch_logging():
 
 def compile_chromascape():
     print("Compiling ChromaScape...")
-    result = run_cmd(["gradle", "compileJava"], cwd=CHROMASCAPE, check=False)
+    if platform.system() == "Windows":
+        gradle = str(CHROMASCAPE / "gradlew.bat")
+    else:
+        gradle = "./gradlew"
+    result = run_cmd([gradle, "compileJava"], cwd=CHROMASCAPE, check=False)
     if result.returncode != 0:
         print("✗ Compilation failed", file=sys.stderr)
         sys.exit(1)
@@ -132,7 +136,11 @@ def compile_chromascape():
 
 def dry_run():
     print("Dry-run verification...")
-    result = run_cmd(["gradle", "bootRun", "--dry-run"], cwd=CHROMASCAPE, check=False)
+    if platform.system() == "Windows":
+        gradle = str(CHROMASCAPE / "gradlew.bat")
+    else:
+        gradle = "./gradlew"
+    result = run_cmd([gradle, "bootRun", "--dry-run"], cwd=CHROMASCAPE, check=False)
     if result.returncode != 0:
         print("✗ Dry-run failed", file=sys.stderr)
         sys.exit(1)
@@ -192,8 +200,13 @@ def cmd_run(args):
             os.startfile("http://localhost:8080")
         else:
             subprocess.Popen(["xdg-open", "http://localhost:8080"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    gradle = "gradlew.bat" if platform.system() == "Windows" else "gradle"
-    run_cmd([gradle, "clean", "bootRun"], cwd=CHROMASCAPE)
+    if platform.system() == "Windows":
+        gradle = str(CHROMASCAPE / "gradlew.bat")
+    else:
+        gradle = "./gradlew"
+    # Try clean first, but don't fail if DLLs are locked
+    run_cmd([gradle, "clean"], cwd=CHROMASCAPE, check=False)
+    run_cmd([gradle, "bootRun"], cwd=CHROMASCAPE)
 
 
 def cmd_logs_pull(args):
