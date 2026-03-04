@@ -187,8 +187,12 @@ def cmd_deploy(args):
     patch_logging()
     compile_chromascape()
     dry_run()
-    push_submodule()
-    push_parent()
+    if args.push:
+        push_submodule()
+        push_parent()
+    else:
+        print("\n✓ Deploy complete (local only, use --push to push to GitHub)")
+        return
     print("\n✓ Deploy complete")
 
 
@@ -323,6 +327,7 @@ def main():
 
     p_deploy = sub.add_parser("deploy", help="Sync, compile, verify, and push.")
     p_deploy.add_argument("script_id", nargs="?", help="Deploy a single script by spec ID")
+    p_deploy.add_argument("--push", action="store_true", help="Push changes to GitHub after deploy")
 
     p_run = sub.add_parser("run", help="Pull latest and launch ChromaScape.")
     p_run.add_argument("--browser", action="store_true", help="Open the UI in your default browser")
