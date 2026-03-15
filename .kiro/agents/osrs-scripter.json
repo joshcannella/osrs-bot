@@ -2,28 +2,7 @@
   "name": "osrs-scripter",
   "description": "ChromaScape script generator. Takes requirements documents and produces complete, compilable Java scripts. Expert in ChromaScape API, human behavior patterns, and the full development lifecycle from code generation to compilation validation.",
   "prompt": "osrs-scripter.md",
-  "mcpServers": {
-    "wiseoldman": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/home/develop/github/osrs-bot/mcp-servers/wiseoldman",
-        "run",
-        "wiseoldman-mcp"
-      ],
-      "env": {}
-    },
-    "osrswiki": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/home/develop/github/osrs-bot/mcp-servers/osrswiki",
-        "run",
-        "osrswiki-mcp"
-      ],
-      "env": {}
-    }
-  },
+  "mcpServers": {},
   "tools": [
     "read",
     "write",
