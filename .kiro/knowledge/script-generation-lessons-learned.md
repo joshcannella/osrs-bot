@@ -153,3 +153,28 @@ case ENTER_BUILDING -> {
 ```
 
 **Rule**: When planning quest scripts, always check whether the starting NPC (or any NPC/object) is behind a door, gate, or other obstacle that must be interacted with first. Add a dedicated step for it rather than assuming the walker will path through.
+
+---
+
+## PointSelector OpenCV Crash on Invalid Contours
+**Problem**: `PointSelector.getRandomPointByColourObj()` crashed with `OpenCV Assertion failed: total >= 0 && (depth == CV_32S || depth == CV_32F) in function 'cv::pointPolygonTest'`. This happens when `ColourContours.isPointInContour()` receives a contour `Mat` with invalid depth or empty data — even though `getChromaObjsInColour()` returned a non-empty list.
+
+**Solution**: Bypass `PointSelector` and work with contours directly:
+```java
+List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, COLOUR);
+Point clickLoc = null;
+if (!objs.isEmpty()) {
+    try {
+        clickLoc = ClickDistribution.generateRandomPoint(
+            ColourContours.getChromaObjClosestToCentre(objs).boundingBox());
+    } catch (Exception e) {
+        logger.warn("Failed to generate point from contour: {}", e.getMessage());
+    } finally {
+        for (ChromaObj obj : objs) {
+            obj.release();
+        }
+    }
+}
+```
+
+**Rule**: Don't call `PointSelector.getRandomPointByColourObj()` directly — it can crash on malformed contours. Instead, get contours via `ColourContours`, extract the bounding box, and generate a click point with `ClickDistribution.generateRandomPoint()`. Always release `ChromaObj` Mats in a finally block.
