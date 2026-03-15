@@ -1,0 +1,341 @@
+16:43:48.289 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 17232 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:43:48.295 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:43:48.808 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:43:48.816 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:43:48.817 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:43:48.818 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:43:48.870 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:43:48.871 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 551 ms
+16:43:48.927 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:43:48.927 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:43:48.962 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:43:48.962 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:43:49.009 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:43:49.154 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:43:49.166 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:43:49.174 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.1 seconds (process running for 1.552)
+16:43:50.112 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:43:50.112 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:43:50.113 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+16:43:50.476 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:43:50.497 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:43:58.443 [http-nio-8080-exec-7] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:43:58.445 [http-nio-8080-exec-7] ERROR com.chromascape.web.instance.ScriptControl - Script class not found: com.chromascape.scripts.RestlessGhostScript
+16:54:11.938 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 42164 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:54:11.943 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:54:12.459 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:54:12.467 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:54:12.468 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:54:12.469 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:54:12.518 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:54:12.524 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 559 ms
+16:54:12.578 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:54:12.578 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:54:12.613 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:54:12.613 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:54:12.657 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:54:12.783 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:54:12.795 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:54:12.801 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.078 seconds (process running for 1.52)
+16:54:12.935 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:54:12.935 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:54:12.936 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+16:54:13.289 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:54:13.310 [http-nio-8080-exec-5] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:54:14.212 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:54:24.764 [http-nio-8080-exec-10] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:54:24.765 [http-nio-8080-exec-10] ERROR com.chromascape.web.instance.ScriptControl - Script class not found: com.chromascape.scripts.RestlessGhostScript
+16:56:03.282 [http-nio-8080-exec-10] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+16:56:03.282 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:56:03.284 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:56:21.792 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 41140 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:56:21.797 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:56:22.294 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:56:22.302 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:56:22.303 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:56:22.303 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:56:22.353 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:56:22.354 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 535 ms
+16:56:22.403 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:56:22.403 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:56:22.439 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:56:22.439 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:56:22.478 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:56:22.606 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:56:22.618 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:56:22.623 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.046 seconds (process running for 1.459)
+16:56:22.807 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:56:22.807 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:56:22.808 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+16:56:23.155 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:56:23.181 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+17:00:53.768 [http-nio-8080-exec-1] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+17:00:53.771 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+17:00:53.787 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+17:00:53.787 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+17:00:54.019 [http-nio-8080-exec-3] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+17:00:54.061 [http-nio-8080-exec-10] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+17:00:54.847 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+17:00:54.914 [Thread-2] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+17:10:13.503 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 47552 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+17:10:13.509 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+17:10:14.037 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+17:10:14.044 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:10:14.045 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:10:14.046 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+17:10:14.098 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:10:14.099 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 567 ms
+17:10:14.154 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+17:10:14.154 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+17:10:14.189 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+17:10:14.189 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+17:10:14.233 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+17:10:14.365 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:10:14.378 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+17:10:14.384 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.102 seconds (process running for 1.559)
+17:10:14.564 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:10:14.564 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+17:10:14.564 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+17:10:14.932 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+17:10:14.966 [http-nio-8080-exec-4] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+23:22:56.759 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 32604 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+23:22:56.764 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+23:22:57.255 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+23:22:57.262 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:22:57.264 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+23:22:57.264 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+23:22:57.312 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:22:57.313 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 525 ms
+23:22:57.368 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+23:22:57.368 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+23:22:57.402 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+23:22:57.404 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+23:22:57.445 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+23:22:57.564 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:22:57.575 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+23:22:57.581 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.024 seconds (process running for 1.449)
+23:23:06.177 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:23:06.177 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:23:06.177 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+23:23:06.578 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+23:23:06.610 [http-nio-8080-exec-2] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+23:23:14.203 [http-nio-8080-exec-4] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+23:23:14.206 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+23:23:14.223 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+23:23:14.223 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+23:23:14.438 [http-nio-8080-exec-10] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+23:23:14.472 [http-nio-8080-exec-4] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+23:23:15.403 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+23:23:15.469 [Thread-2] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+23:23:15.712 [Thread-2] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+23:23:16.532 [Thread-2] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+23:23:16.599 [Thread-2] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_AERECK
+23:23:16.859 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3243, 3215
+23:23:18.370 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3243, 3210
+23:23:24.986 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:23:43.299 [Thread-2] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+23:23:43.430 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3246, 3216
+23:23:44.484 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3239, 3210
+23:23:51.102 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:23:51.102 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+23:23:51.443 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3236, 3205
+23:23:59.368 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:23:59.686 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3244, 3192
+23:24:06.954 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:24:07.272 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3231, 3188
+23:24:13.881 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:24:14.099 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3215, 3185
+23:24:19.389 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:24:19.389 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+23:24:19.682 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3206, 3186
+23:24:19.906 [http-nio-8080-exec-9] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+23:24:19.906 [http-nio-8080-exec-9] INFO  com.chromascape.base.BaseScript - Stop requested
+23:24:19.906 [Thread-2] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+23:24:19.906 [Thread-2] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+23:24:19.909 [Thread-2] INFO  com.chromascape.controller.Controller - Shutting down
+23:24:19.910 [Thread-2] INFO  com.chromascape.base.BaseScript - Finished running script.
+23:27:34.132 [http-nio-8080-exec-5] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+23:27:34.132 [Thread-5] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+23:27:34.132 [Thread-5] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+23:27:34.134 [Thread-5] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+23:27:34.146 [Thread-5] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+23:27:34.158 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+23:27:34.159 [http-nio-8080-exec-1] ERROR com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket transport error: java.io.IOException: An established connection was aborted by the software in your host machine
+23:27:34.159 [http-nio-8080-exec-1] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+23:27:34.362 [http-nio-8080-exec-7] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+23:27:34.401 [http-nio-8080-exec-10] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+23:27:34.834 [Thread-5] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+23:27:34.892 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_AERECK
+23:27:35.009 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3243, 3210
+23:27:55.096 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+23:27:55.222 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3238, 3210
+23:27:56.004 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3237, 3202
+23:28:01.949 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+23:28:01.949 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+23:28:02.281 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3242, 3195
+23:28:06.134 [http-nio-8080-exec-5] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+23:28:06.134 [http-nio-8080-exec-5] INFO  com.chromascape.base.BaseScript - Stop requested
+23:28:06.134 [Thread-5] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+23:28:06.134 [Thread-5] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+23:28:06.136 [Thread-5] INFO  com.chromascape.controller.Controller - Shutting down
+23:28:06.137 [Thread-5] INFO  com.chromascape.base.BaseScript - Finished running script.
+23:36:50.131 [http-nio-8080-exec-5] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+23:36:50.132 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+23:37:12.199 [http-nio-8080-exec-5] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+23:37:12.233 [http-nio-8080-exec-2] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+23:37:18.222 [http-nio-8080-exec-10] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+23:37:18.222 [http-nio-8080-exec-1] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+13:20:25.647 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 23040 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+13:20:25.652 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+13:20:26.204 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+13:20:26.213 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+13:20:26.215 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+13:20:26.215 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+13:20:26.272 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+13:20:26.273 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 599 ms
+13:20:26.333 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+13:20:26.333 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+13:20:26.369 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+13:20:26.369 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+13:20:26.411 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+13:20:26.552 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+13:20:26.566 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+13:20:26.572 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.143 seconds (process running for 1.616)
+13:20:26.736 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:20:26.736 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+13:20:26.737 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+13:20:27.107 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+13:20:27.133 [http-nio-8080-exec-5] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+13:20:33.808 [http-nio-8080-exec-3] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+13:20:33.811 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+13:20:33.829 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+13:20:33.829 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+13:20:34.058 [http-nio-8080-exec-1] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+13:20:34.097 [http-nio-8080-exec-5] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+13:20:35.081 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+13:20:36.726 [Thread-2] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+13:20:37.003 [Thread-2] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+13:20:37.819 [Thread-2] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+13:20:38.528 [Thread-2] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_AERECK
+13:20:38.816 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3243, 3210
+13:20:58.938 [Thread-2] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+13:20:59.073 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3237, 3209
+13:21:00.545 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3239, 3200
+13:21:07.166 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:21:07.167 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:21:07.671 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3239, 3199
+13:21:12.984 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:21:12.984 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:21:13.481 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3239, 3198
+13:21:19.449 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:21:19.449 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:21:20.069 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3240, 3198
+13:21:26.703 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:21:26.703 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:21:26.995 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3241, 3188
+13:21:32.966 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:21:32.967 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:21:33.396 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3224, 3186
+13:21:36.893 [http-nio-8080-exec-8] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+13:21:36.894 [http-nio-8080-exec-8] INFO  com.chromascape.base.BaseScript - Stop requested
+13:21:36.894 [Thread-2] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+13:21:36.894 [Thread-2] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+13:21:36.897 [Thread-2] INFO  com.chromascape.controller.Controller - Shutting down
+13:21:36.897 [Thread-2] INFO  com.chromascape.base.BaseScript - Finished running script.
+13:22:30.546 [http-nio-8080-exec-5] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+13:22:30.547 [Thread-5] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+13:22:30.547 [Thread-5] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+13:22:30.549 [Thread-5] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+13:22:30.561 [Thread-5] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+13:22:30.568 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+13:22:30.568 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+13:22:30.569 [VirtualMouse-Input-Consumer] WARN  com.chromascape.web.state.SemanticWebSocketHandler - Failed to send state update: java.io.IOException: Connection reset by peer
+13:22:30.774 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+13:22:30.808 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+13:22:31.278 [Thread-5] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+13:22:31.354 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_AERECK
+13:22:31.487 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3243, 3210
+13:22:51.159 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+13:22:51.302 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3237, 3202
+13:22:52.148 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3243, 3193
+13:23:03.390 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:03.572 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3231, 3189
+13:23:08.209 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:08.209 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:23:08.592 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3229, 3187
+13:23:15.219 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:15.433 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3214, 3185
+13:23:19.410 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:19.410 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:23:19.705 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3202, 3185
+13:23:26.990 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:27.152 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3187, 3181
+13:23:35.747 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:35.747 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:23:35.952 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3172, 3174
+13:23:47.203 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:47.395 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3158, 3174
+13:23:56.660 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:23:56.660 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:23:56.989 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3147, 3175
+13:24:08.231 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:24:27.648 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+13:24:27.792 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3147, 3172
+13:24:28.373 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3147, 3175
+13:24:40.930 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:24:59.819 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+13:24:59.971 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3152, 3172
+13:25:00.829 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3147, 3175
+13:25:08.107 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:25:08.107 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+13:25:08.512 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3147, 3175
+13:25:15.132 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:25:34.678 [Thread-5] INFO  com.chromascape.scripts.RestlessGhostScript - Step: TALK_URHNEY
+13:25:34.828 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3145, 3172
+13:25:35.976 [Thread-5] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3147, 3175
+13:25:40.616 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+13:25:43.634 [http-nio-8080-exec-9] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+13:25:43.634 [http-nio-8080-exec-9] INFO  com.chromascape.base.BaseScript - Stop requested
+13:25:43.634 [Thread-5] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+13:25:43.634 [Thread-5] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+13:25:43.636 [Thread-5] INFO  com.chromascape.controller.Controller - Shutting down
+13:25:43.636 [Thread-5] INFO  com.chromascape.base.BaseScript - Finished running script.
+14:32:51.404 [http-nio-8080-exec-1] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+14:32:51.404 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+13:30:03.545 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 6800 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+13:30:03.550 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+13:30:04.062 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+13:30:04.071 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+13:30:04.073 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+13:30:04.073 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+13:30:04.125 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+13:30:04.125 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 553 ms
+13:30:04.189 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+13:30:04.189 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+13:30:04.228 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+13:30:04.228 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+13:30:04.276 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+13:30:04.412 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+13:30:04.425 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+13:30:04.431 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.087 seconds (process running for 1.54)
+13:30:06.313 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:30:06.313 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+13:30:06.314 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+13:30:06.699 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+13:30:06.736 [http-nio-8080-exec-2] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+13:30:18.714 [http-nio-8080-exec-5] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+13:30:21.929 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+13:30:21.947 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+13:30:21.947 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+13:30:22.156 [http-nio-8080-exec-7] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+13:30:22.186 [http-nio-8080-exec-2] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+13:30:22.357 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+13:30:23.373 [Thread-2] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+13:30:23.692 [Thread-2] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+13:30:24.886 [Thread-2] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+13:30:25.249 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+13:30:25.362 [Thread-2] ERROR com.chromascape.base.BaseScript - Exception in cycle: OpenCV(4.10.0) D:\a\javacpp-presets\javacpp-presets\opencv\cppbuild\windows-x86_64\opencv-4.10.0\modules\imgproc\src\geometry.cpp:105: error: (-215:Assertion failed) total >= 0 && (depth == CV_32S || depth == CV_32F) in function 'cv::pointPolygonTest'
+, [org.bytedeco.opencv.global.opencv_imgproc.pointPolygonTest(Native Method), com.chromascape.utils.core.screen.topology.ColourContours.isPointInContour(ColourContours.java:201), com.chromascape.utils.actions.PointSelector.findPointInColourInternal(PointSelector.java:233), com.chromascape.utils.actions.PointSelector.getRandomPointByColourObj(PointSelector.java:157), com.chromascape.scripts.ChickenKillerScript.findChicken(ChickenKillerScript.java:125), com.chromascape.scripts.ChickenKillerScript.cycle(ChickenKillerScript.java:115), com.chromascape.base.BaseScript.run(BaseScript.java:54), com.chromascape.web.instance.ScriptInstance.lambda$start$0(ScriptInstance.java:62), java.base/java.lang.Thread.run(Thread.java:840)]
+13:30:25.362 [Thread-2] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+13:30:25.367 [Thread-2] INFO  com.chromascape.controller.Controller - Shutting down
+13:30:25.367 [Thread-2] INFO  com.chromascape.base.BaseScript - Finished running script.
