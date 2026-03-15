@@ -280,6 +280,8 @@ Use the built-in colour picker at `http://localhost:8080/colour` while ChromaSca
 
 ## 10. Troubleshooting
 
+### Common Issues
+
 | Problem | Fix |
 |---|---|
 | "Script class not found" | Run `osrs-bot run` (does `clean bootRun`). Verify package is `com.chromascape.scripts` |
@@ -291,6 +293,7 @@ Use the built-in colour picker at `http://localhost:8080/colour` while ChromaSca
 | "Font masks" error | Run `CVTemplates.bat` in ChromaScape directory |
 | Bot doesn't move mouse | Ensure 64-bit MinGW matches 64-bit Java |
 | Bot clicks wrong things | Remove extra Cyan markers that aren't targets |
+| Build fails: "Unable to delete directory" or "KInputCtrl.dll is being used by another process" | Kill all Java processes: `taskkill /F /IM java.exe`, then rebuild |
 
 ---
 
