@@ -339,3 +339,1592 @@
 13:30:25.362 [Thread-2] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
 13:30:25.367 [Thread-2] INFO  com.chromascape.controller.Controller - Shutting down
 13:30:25.367 [Thread-2] INFO  com.chromascape.base.BaseScript - Finished running script.
+14:07:13.840 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 7356 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+14:07:13.846 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+14:07:14.334 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+14:07:14.341 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+14:07:14.343 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+14:07:14.343 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+14:07:14.390 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+14:07:14.391 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 524 ms
+14:07:14.442 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+14:07:14.443 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+14:07:14.478 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+14:07:14.478 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+14:07:14.522 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+14:07:14.646 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+14:07:14.659 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+14:07:14.666 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.031 seconds (process running for 1.455)
+14:09:04.025 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+14:09:04.025 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+14:09:04.026 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+14:09:04.365 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+14:09:04.388 [http-nio-8080-exec-4] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+14:09:11.496 [http-nio-8080-exec-7] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+14:09:12.151 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+14:09:12.169 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+14:09:12.169 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+14:09:12.358 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+14:09:12.400 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+14:09:12.499 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+14:09:12.563 [Thread-2] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+14:09:12.791 [Thread-2] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+14:09:13.281 [Thread-2] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+14:09:13.569 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:09:14.452 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:09:14.755 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:09:27.396 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:09:28.181 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:09:28.289 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:09:28.642 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:09:28.810 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:09:29.143 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:09:29.837 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:09:30.166 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:09:42.808 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:09:44.270 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:09:44.368 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:09:44.724 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:09:44.874 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:09:45.183 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:09:45.535 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:09:45.850 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:09:58.489 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:09:59.233 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+14:13:12.632 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:13:12.731 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:13:13.032 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:13:13.198 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:13:13.499 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:13:14.272 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:13:14.605 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:13:27.250 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:13:28.002 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:13:28.101 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:13:28.432 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:13:28.595 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:13:28.893 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:13:29.550 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:13:29.819 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:13:42.462 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:13:43.402 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:13:43.505 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:13:43.825 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:13:43.994 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:13:44.269 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:13:44.570 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:13:44.832 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:13:57.474 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:13:58.535 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:13:58.645 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:13:59.009 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:13:59.168 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:13:59.511 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:14:00.065 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:14:00.364 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:14:13.243 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:14:14.272 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:14:14.369 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:14:14.665 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:14:14.806 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:14:15.144 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:14:15.768 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:14:16.040 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:14:28.669 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:14:29.702 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:14:29.804 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:14:30.075 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:14:30.218 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:14:30.480 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:14:30.651 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:14:30.973 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:14:43.592 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:14:44.352 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:14:44.451 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:14:44.743 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:14:44.886 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:14:45.205 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:14:45.361 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:14:45.362 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+14:18:22.575 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:18:35.201 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:18:35.849 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:18:35.948 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:18:36.218 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:18:36.359 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:18:36.678 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:18:36.839 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:18:37.121 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:18:49.752 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:18:50.796 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:18:50.900 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:18:51.169 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:18:51.310 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:18:51.598 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:18:51.770 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:18:52.034 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:19:04.669 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:19:06.018 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:19:06.115 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:19:06.413 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:19:06.553 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:19:06.553 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+14:20:45.083 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:20:45.830 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:20:46.096 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:20:58.728 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:20:59.658 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:20:59.757 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:21:00.082 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:21:00.222 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:21:00.559 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:21:00.715 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:21:00.958 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:21:13.594 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:21:14.468 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:21:14.576 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:21:14.876 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:21:15.017 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:21:15.256 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:21:15.395 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:21:15.727 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:21:28.338 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:21:29.652 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:21:29.748 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:21:30.036 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:21:30.175 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:21:30.499 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:21:31.236 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:21:31.578 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:21:44.205 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:21:45.005 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:21:45.104 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:21:45.349 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:21:45.491 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:21:45.793 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:21:46.411 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:21:46.675 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:21:59.298 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:22:00.309 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:22:00.407 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:22:00.684 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:22:00.825 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:22:01.102 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:22:01.247 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:22:01.554 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:22:14.185 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:22:14.895 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:22:14.992 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:22:15.250 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:22:15.392 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:22:15.669 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:22:15.803 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:22:16.066 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:22:28.706 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:22:29.435 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:22:29.532 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:22:29.810 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:22:29.956 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:22:30.208 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:22:30.356 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:22:30.652 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:22:43.307 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:22:44.066 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:22:44.169 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:22:44.451 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:22:44.599 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:22:44.936 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:22:45.323 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:22:45.581 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:22:58.209 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:22:59.077 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:22:59.173 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:22:59.432 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:22:59.575 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:22:59.857 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:23:00.040 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:23:00.269 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:23:12.902 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:23:13.747 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:23:13.854 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:23:14.092 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:23:14.234 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:23:14.524 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:23:14.689 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:23:14.940 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:23:27.555 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:23:28.393 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:23:28.491 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:23:28.776 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:23:28.918 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:23:29.210 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:23:29.373 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:23:29.658 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:23:42.292 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:23:43.038 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:23:43.136 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:23:43.442 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:23:43.585 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:23:43.845 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:23:44.019 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:23:44.317 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:23:56.939 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:23:57.651 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:23:57.757 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:23:58.009 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:23:58.156 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:23:58.475 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:23:58.611 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:23:58.853 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:24:11.510 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:24:12.407 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:24:12.509 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:24:13.238 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:24:13.395 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:24:13.730 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:24:13.798 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - No chicken found, failure 1/10
+14:24:13.798 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Walking back to chicken coop
+14:24:14.121 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3238, 3287
+14:24:14.927 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3236, 3295
+14:24:31.440 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+14:24:36.364 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:24:36.418 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - No chicken found, failure 2/10
+14:24:36.418 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Walking back to chicken coop
+14:24:36.501 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3253, 3276
+14:24:36.815 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3253, 3268
+14:24:41.457 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+14:24:41.457 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+14:24:41.947 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3239, 3278
+14:24:48.560 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+14:24:48.560 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+14:24:48.922 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3238, 3285
+14:24:53.553 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+14:24:53.691 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3235, 3295
+14:24:58.323 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+14:25:02.710 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:25:03.850 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:25:04.118 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:25:16.764 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:25:17.973 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:25:18.081 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:25:18.352 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:25:18.509 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:25:18.509 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+14:30:02.509 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:30:02.876 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:30:03.163 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:30:15.816 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:30:16.578 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:30:16.683 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:30:16.983 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:30:17.125 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:30:17.454 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:30:17.882 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:30:18.129 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:30:30.781 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:30:31.485 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:30:31.584 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:30:31.895 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:30:32.038 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:30:32.335 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:30:32.453 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:30:32.753 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:30:45.376 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:30:46.205 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:30:46.308 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:30:46.613 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:30:46.756 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:30:47.063 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:30:47.210 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:30:47.457 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:31:00.087 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:31:00.775 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:31:00.876 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:31:01.153 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:31:01.302 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:31:01.603 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:31:01.765 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:31:02.027 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:31:14.663 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:31:15.471 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:31:15.570 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:31:15.837 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:31:15.979 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:31:16.273 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:31:16.412 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:31:16.716 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:31:29.329 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:31:30.134 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:31:30.232 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:31:30.507 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:31:30.653 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:31:30.948 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:31:31.070 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:31:31.333 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:31:44.003 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:31:44.935 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:31:45.030 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:31:45.301 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:31:45.441 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:31:45.690 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:31:45.845 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:31:46.169 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:31:58.812 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:31:59.480 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:31:59.579 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:31:59.902 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:32:00.047 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:32:00.311 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:32:00.458 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:32:00.709 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:32:13.339 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:32:14.818 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:32:14.920 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:32:15.231 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:32:15.374 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:32:15.614 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:32:16.038 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:32:16.338 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:32:28.972 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:32:29.633 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:32:29.733 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:32:29.977 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:32:30.123 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:32:30.123 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+14:36:57.523 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:36:57.689 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:36:57.975 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:37:10.614 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:37:11.542 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:37:11.648 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:37:11.968 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:37:12.111 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:37:12.398 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:37:12.583 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:37:12.887 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:37:25.507 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:37:26.151 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:37:26.250 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:37:26.539 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:37:26.682 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:37:26.938 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:37:27.123 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:37:30.775 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:37:43.425 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:37:44.170 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:37:44.271 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:37:44.540 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:37:44.680 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:37:44.934 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:37:46.362 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:37:46.614 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:37:59.252 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:37:59.873 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:37:59.973 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:38:00.267 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:38:00.411 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:38:00.710 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:38:00.853 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:38:01.098 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:38:13.741 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:38:14.576 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:38:14.679 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:38:14.946 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:38:15.088 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:38:15.324 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:38:15.479 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:38:15.769 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:38:28.405 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:38:29.130 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:38:29.232 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:38:29.505 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:38:29.658 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:38:29.978 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:38:30.619 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:38:30.910 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:38:43.538 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:38:44.331 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:38:44.432 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:38:44.662 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:38:44.806 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:38:45.108 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:38:45.257 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:38:45.544 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:38:58.172 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:38:59.177 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:38:59.279 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:38:59.579 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:38:59.726 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:39:00.014 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:39:00.171 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:39:00.467 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:39:13.096 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:39:13.897 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:39:14.005 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:39:14.246 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:39:14.416 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:39:14.681 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:39:15.125 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:39:15.410 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:39:28.055 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:39:28.690 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:39:28.797 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:39:29.137 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:39:29.300 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:39:29.622 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:39:30.312 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:39:30.604 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:39:43.251 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:39:44.007 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:39:44.117 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:39:44.425 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:39:44.622 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:39:44.899 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:39:45.688 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:39:45.991 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:39:58.632 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:39:59.452 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:39:59.553 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:39:59.811 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:39:59.971 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:40:00.298 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:40:01.979 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:40:02.283 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:40:14.932 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:40:15.666 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:40:15.774 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:40:16.073 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:40:16.259 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:40:19.203 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:40:20.653 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:40:20.947 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:40:33.595 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:40:34.386 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:40:34.494 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:40:34.775 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:40:34.938 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:40:35.243 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:40:35.850 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:40:36.144 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:40:48.792 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:40:49.546 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:40:49.655 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:40:49.947 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:40:50.112 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:40:50.374 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:40:50.901 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:40:51.161 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:41:03.808 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:41:04.561 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:41:04.674 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:41:05.003 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:41:05.172 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:41:05.494 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:41:05.965 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:41:06.995 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:41:19.636 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:41:20.334 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:41:20.446 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:41:20.704 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:41:20.867 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:41:21.133 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:41:21.876 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:41:22.111 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:41:34.747 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:41:35.705 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:41:35.816 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:41:36.112 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:41:36.280 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:41:36.585 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:41:37.191 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:41:37.435 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:41:50.078 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:41:51.014 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:41:51.120 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:41:52.006 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:41:52.162 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:41:52.419 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:41:53.115 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:41:53.393 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:42:06.042 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:42:06.953 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:42:07.057 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:42:07.348 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:42:07.510 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:42:07.812 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:42:08.307 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:42:08.625 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:42:21.272 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:42:22.141 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:42:22.247 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:42:22.569 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:42:22.737 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:42:23.088 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:42:23.492 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:42:23.753 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:42:36.383 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:42:37.542 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:42:37.646 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:42:37.966 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:42:38.139 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:42:38.424 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:42:39.048 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:42:39.281 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:42:51.931 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:42:52.814 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:42:52.923 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:42:53.197 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:42:53.374 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:42:53.619 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:42:54.267 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:42:54.554 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:42:59.987 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:43:00.093 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:43:00.434 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:43:00.607 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:43:00.939 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:43:02.289 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:43:02.569 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:43:06.575 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:43:06.682 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:43:06.682 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking extended break (5-15 min)
+14:53:42.232 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:53:42.377 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:53:42.630 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:53:43.171 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:53:43.419 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:53:56.055 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:53:56.972 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:53:57.072 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:53:57.783 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:53:57.923 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:53:57.924 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+14:57:27.205 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:57:28.230 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:57:28.515 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:57:30.256 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:57:30.361 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:57:30.610 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:57:30.775 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:57:31.078 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:57:31.325 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:57:31.597 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:57:33.738 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:57:33.844 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:57:34.179 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:57:34.340 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:57:34.660 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:57:34.827 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:57:35.163 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:57:37.596 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:57:37.707 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:57:37.992 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:57:38.153 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:57:38.481 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:57:38.672 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:57:38.924 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:57:42.017 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:57:42.124 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:57:42.423 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:57:42.590 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:57:42.827 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:57:43.112 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:57:43.396 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:57:56.034 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:57:56.947 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:57:57.050 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:57:57.289 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:57:57.456 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:57:57.733 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:57:58.678 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:57:58.975 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:58:11.597 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+14:58:12.567 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:58:12.673 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:58:12.938 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:58:13.101 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:58:13.377 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:58:13.716 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:58:14.004 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+14:58:27.049 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+14:58:27.156 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+14:58:27.458 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+14:58:27.619 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+14:58:28.391 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+14:58:28.880 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+14:58:28.880 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+15:02:57.532 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:03:10.164 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:03:11.096 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:03:11.197 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:03:11.520 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:03:11.665 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:03:11.927 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:03:12.287 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:03:12.592 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:03:25.212 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:03:25.860 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:03:25.960 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:03:26.214 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:03:26.358 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:03:26.650 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:03:26.813 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:03:27.076 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:03:39.700 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:03:40.399 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:03:40.498 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:03:40.804 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:03:40.957 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:03:41.222 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:03:41.749 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:03:42.054 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:03:54.678 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:03:55.411 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:03:55.510 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:03:55.832 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:03:55.973 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:03:56.272 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:03:57.483 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:03:57.796 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:04:10.429 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:04:11.033 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:04:11.130 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:04:11.413 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:04:11.558 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:04:11.850 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:04:12.004 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:04:12.291 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:04:24.935 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:04:25.626 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:04:25.726 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:04:25.994 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:04:26.139 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:04:26.953 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:04:28.689 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:04:28.927 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:04:41.549 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:04:42.427 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:04:42.525 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:04:42.791 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:04:42.932 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:04:43.162 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:04:43.737 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:04:43.966 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:04:56.615 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:04:57.289 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:04:57.393 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:04:57.709 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:04:57.853 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:04:58.090 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:04:58.242 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:04:58.465 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:05:11.080 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:05:11.487 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking extended break (5-15 min)
+15:12:15.655 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:12:15.766 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:12:21.455 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:12:21.635 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:12:21.979 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:12:22.033 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - No chicken found, failure 1/10
+15:12:22.033 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Walking back to chicken coop
+15:12:22.245 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3238, 3282
+15:12:23.070 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3238, 3291
+15:12:29.021 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+15:12:29.180 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3235, 3295
+15:12:32.496 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+15:12:36.081 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:12:36.844 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:12:37.132 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:12:49.781 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:12:50.727 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:12:50.834 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:12:51.129 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:12:51.290 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:12:51.577 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:12:52.364 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:12:52.645 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:13:05.296 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:13:06.218 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:13:06.320 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:13:07.134 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:13:07.302 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:13:07.624 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:13:08.804 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:13:09.119 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:13:21.761 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:13:22.622 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:13:22.728 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:13:22.966 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:13:23.131 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:13:23.374 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:13:24.175 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:13:24.450 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:13:37.089 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:13:37.767 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:13:37.871 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:13:38.153 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:13:38.309 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:13:38.611 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:13:39.100 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:13:39.372 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:13:52.018 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:13:52.735 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:13:52.840 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:13:53.161 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:13:53.332 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:13:53.635 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:13:54.338 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:13:54.583 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:14:07.238 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:14:08.098 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:14:08.213 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:14:08.447 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:14:08.611 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:14:08.904 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:14:09.633 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:14:09.946 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:14:22.561 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:14:23.464 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:14:23.562 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:14:26.983 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:14:27.127 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:14:27.388 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:14:28.528 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:14:28.794 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:14:41.430 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:14:42.403 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:14:42.500 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:14:42.796 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:14:42.941 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:14:43.253 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:14:43.426 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:14:43.730 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:14:56.350 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:14:57.301 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:14:57.403 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:14:57.705 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:14:57.853 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:14:58.125 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:14:58.288 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:14:58.524 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:15:11.156 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:15:11.895 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:15:11.996 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:15:12.308 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:15:12.452 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:15:12.729 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:15:12.877 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:15:13.137 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:15:25.767 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:15:26.405 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:15:26.519 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:15:26.797 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:15:26.939 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:15:27.266 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:15:27.392 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:15:27.628 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:15:40.269 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:15:41.230 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:15:41.330 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:15:41.615 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:15:41.760 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:15:42.061 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:15:42.239 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:15:42.494 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:15:55.112 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:15:56.077 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:15:56.176 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:15:56.486 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:15:56.639 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:15:56.943 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:15:57.106 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:16:02.658 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:16:15.308 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:16:16.123 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:16:16.224 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:16:16.478 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:16:16.620 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:16:16.872 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:16:17.054 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:16:17.756 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:16:30.397 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:16:31.163 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:16:31.261 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:16:31.521 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:16:31.666 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:16:31.909 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:16:32.557 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:16:32.814 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:16:45.474 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:16:46.215 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:16:46.311 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:16:46.598 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:16:46.746 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:16:46.986 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:16:47.129 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:16:47.399 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:17:00.038 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:17:00.710 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:17:00.813 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:17:01.061 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:17:01.208 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:17:01.470 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:17:01.624 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:17:01.938 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:17:14.569 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:17:20.954 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:17:21.056 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:17:21.366 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:17:21.517 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:17:21.783 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:17:21.952 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:17:22.212 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:17:34.830 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:17:35.567 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:17:35.665 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:17:35.915 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:17:36.053 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:17:36.307 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:17:36.441 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:17:36.441 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+15:19:29.689 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:19:42.309 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:19:43.072 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:19:43.179 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:19:43.425 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:19:43.569 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:19:43.844 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:19:43.975 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:19:44.284 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:19:56.902 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:19:57.845 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:19:57.951 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:19:58.278 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:19:58.421 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:19:58.726 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:19:58.859 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:19:59.146 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:20:11.780 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:20:12.775 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:20:12.873 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:20:13.178 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:20:13.320 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:20:13.616 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:20:13.798 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:20:14.061 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:20:26.693 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:20:27.615 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:20:27.714 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:20:27.933 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:20:28.083 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:20:28.393 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:20:28.577 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:20:28.862 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:20:41.491 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:20:42.440 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:20:42.537 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:20:42.761 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:20:42.905 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:20:43.178 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:20:43.300 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:20:43.575 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:20:56.206 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:20:56.925 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:20:57.023 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:21:04.650 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:21:04.798 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:21:05.041 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:21:05.191 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:21:05.973 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:21:18.606 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:21:19.333 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:21:19.434 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:21:19.684 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:21:19.828 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:21:20.095 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:21:20.700 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:21:20.947 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:21:33.565 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:21:34.300 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:21:34.399 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:21:34.696 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:21:34.838 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:21:35.089 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:21:35.255 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:21:35.565 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:21:48.203 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:21:49.197 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:21:49.295 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:21:49.522 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:21:49.668 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:21:49.947 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:21:50.072 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:21:50.399 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:22:03.027 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:22:03.820 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:22:03.919 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:22:04.188 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:22:04.330 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:22:04.580 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:22:04.751 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:22:05.030 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:22:17.656 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:22:18.265 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:22:18.366 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:22:18.628 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:22:18.775 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:22:19.065 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:22:19.215 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:22:19.446 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:22:32.079 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:22:33.065 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:22:33.167 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:22:33.415 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:22:33.562 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:22:33.819 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:22:34.002 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:22:34.246 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:22:46.878 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:22:47.641 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:22:47.742 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:22:48.010 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:22:48.157 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:22:48.396 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:22:48.567 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:22:48.834 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:23:01.472 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:23:02.175 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:23:02.285 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:23:02.511 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:23:02.666 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:23:02.951 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:23:03.089 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:23:03.347 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:23:15.975 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:23:16.807 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:23:16.905 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:23:17.151 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:23:17.292 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:23:17.599 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:23:17.798 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:23:18.107 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:23:30.741 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:23:31.430 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:23:31.529 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:23:31.817 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:23:31.960 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:23:32.233 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:23:32.386 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:23:32.670 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:23:45.307 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:23:46.230 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:23:46.328 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:23:46.660 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:23:46.806 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:23:47.107 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:23:47.237 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:23:47.562 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:24:00.195 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:24:01.027 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:24:01.129 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:24:01.422 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:24:01.565 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:24:01.801 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:24:01.942 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:24:02.208 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:24:14.843 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:24:15.598 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:24:15.698 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:24:15.960 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:24:16.102 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:24:16.393 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:24:16.552 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:24:16.801 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:24:29.445 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:24:30.272 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:24:30.383 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:24:30.725 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:24:30.881 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:24:31.209 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:24:32.038 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:24:32.326 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:24:44.958 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:24:45.854 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:24:45.960 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:24:46.252 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:24:46.422 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:24:46.732 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:24:46.874 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:24:47.206 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:24:59.837 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:25:07.669 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:25:07.774 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:25:10.624 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:25:10.784 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:25:11.080 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:25:11.360 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:25:11.668 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:25:24.310 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:25:25.298 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:25:25.411 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:25:25.731 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:25:25.895 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:25:26.193 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:25:26.584 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:25:26.584 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+15:29:47.158 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:29:59.795 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:30:00.772 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:30:00.874 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:30:01.168 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:30:01.310 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:30:01.546 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:30:02.144 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:30:02.421 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:30:15.067 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:30:15.714 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:30:15.812 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:30:16.117 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:30:16.262 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:30:16.571 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:30:16.726 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:30:16.946 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:30:29.581 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:30:30.424 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:30:30.524 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:30:30.848 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:30:30.993 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:30:31.229 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:30:32.319 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:30:32.567 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:30:45.206 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:30:46.112 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:30:46.212 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:30:46.526 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:30:46.670 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:30:46.919 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:30:47.104 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:30:48.010 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:31:00.638 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:31:01.431 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:31:01.533 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:31:01.872 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:31:02.022 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:31:02.327 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:31:03.041 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:31:03.301 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:31:15.941 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:31:16.842 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:31:16.944 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:31:16.944 [Thread-2] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+15:35:00.276 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:35:00.421 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:35:00.715 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:35:00.864 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:35:01.149 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:35:13.791 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:35:14.715 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:35:14.813 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:35:15.150 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:35:15.295 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:35:15.539 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:35:15.979 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:35:22.795 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:35:35.429 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:35:36.356 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:35:36.466 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:35:36.709 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:35:36.854 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:35:37.181 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:35:37.330 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:35:37.633 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:35:50.269 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:35:51.098 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:35:51.201 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:35:51.469 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:35:51.613 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:35:51.931 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:35:52.100 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:35:52.410 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:36:05.049 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:36:05.750 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:36:05.849 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:36:06.139 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:36:06.284 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:36:06.589 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:36:06.762 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:36:07.070 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:36:19.715 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:36:20.571 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:36:20.670 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:36:20.987 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:36:21.130 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:36:21.889 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:36:22.414 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:36:22.715 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:36:35.350 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:36:36.182 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:36:36.287 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:36:36.579 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:36:36.724 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:36:37.041 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:36:37.171 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:36:37.493 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:36:50.115 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:36:50.845 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:36:50.946 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:36:51.241 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:36:51.385 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:36:51.693 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:36:51.867 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:36:52.204 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:37:04.840 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:37:05.581 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:37:05.679 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:37:05.918 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:37:06.065 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:37:06.357 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:37:06.496 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:37:06.793 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:37:19.491 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:37:20.341 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:37:20.449 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:37:20.728 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:37:20.901 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:37:21.206 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:37:21.258 [Thread-2] WARN  com.chromascape.scripts.ChickenKillerScript - No chicken found, failure 1/10
+15:37:21.258 [Thread-2] INFO  com.chromascape.scripts.ChickenKillerScript - Walking back to chicken coop
+15:37:21.455 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Synchronously clicking once at 3290, 3311
+15:37:22.598 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3288, 3319
+15:37:29.222 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+15:37:29.449 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3277, 3330
+15:37:33.434 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+15:37:33.434 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+15:37:33.648 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3265, 3325
+15:37:39.607 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+15:37:39.607 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+15:37:40.029 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3253, 3314
+15:37:47.314 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...
+15:37:47.314 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...
+15:37:47.513 [Thread-2] INFO  com.chromascape.utils.domain.walker.Walker - Precomputing next click at 3239, 3299
+15:37:51.577 [http-nio-8080-exec-2] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+15:37:51.577 [http-nio-8080-exec-2] INFO  com.chromascape.base.BaseScript - Stop requested
+15:37:51.577 [Thread-2] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+15:37:51.577 [Thread-2] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+15:37:51.580 [Thread-2] INFO  com.chromascape.controller.Controller - Shutting down
+15:37:51.580 [Thread-2] INFO  com.chromascape.base.BaseScript - Finished running script.
+15:38:16.792 [http-nio-8080-exec-7] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+15:38:16.794 [Thread-5] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+15:38:16.794 [Thread-5] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+15:38:16.795 [Thread-5] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+15:38:16.803 [Thread-5] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+15:38:16.819 [http-nio-8080-exec-1] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+15:38:16.819 [http-nio-8080-exec-10] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+15:38:17.020 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+15:38:17.057 [http-nio-8080-exec-5] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+15:38:17.228 [Thread-5] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+15:38:17.583 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:38:18.444 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:38:19.225 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:38:31.874 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:38:32.746 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:38:32.851 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:38:33.196 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:38:33.372 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:38:33.625 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:38:33.931 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:38:34.245 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:38:46.886 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:38:47.835 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:38:47.967 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:38:48.306 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:38:48.471 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:38:48.788 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:38:49.864 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:38:50.220 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:39:02.865 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:39:03.753 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:39:03.858 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:39:04.217 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:39:04.382 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:39:04.702 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:39:05.138 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:39:05.470 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:39:18.113 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:39:18.941 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:39:19.047 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:39:19.340 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:39:19.506 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:39:19.807 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:39:20.372 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:39:20.647 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:39:33.294 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:39:34.156 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:39:34.257 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:39:34.527 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:39:34.695 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:39:35.004 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:39:35.911 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:39:36.214 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:39:48.855 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:39:49.874 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:39:49.974 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:39:50.273 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:39:50.440 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:39:50.773 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:39:51.285 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:39:51.617 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:40:04.285 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:40:05.054 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:40:05.159 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:40:05.533 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:40:05.699 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:40:06.053 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:40:06.355 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:40:06.650 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:40:19.297 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:40:20.277 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:40:20.382 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:40:20.682 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:40:20.845 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:40:21.191 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:40:21.525 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:40:21.833 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:40:34.495 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:40:42.297 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:40:42.400 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:40:42.714 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:40:42.886 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:40:43.204 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:40:43.488 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:40:43.852 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:40:56.497 [Thread-5] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+15:40:57.500 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_FEATHERS
+15:40:57.611 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No feathers on ground, skipping
+15:40:57.934 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT_BONES
+15:40:58.116 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - No bones on ground, skipping
+15:40:58.412 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+15:40:58.807 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+15:40:59.165 [Thread-5] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+15:41:05.168 [http-nio-8080-exec-1] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+15:41:05.168 [http-nio-8080-exec-1] INFO  com.chromascape.base.BaseScript - Stop requested
+15:41:05.169 [Thread-5] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+15:41:05.169 [Thread-5] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+15:41:05.170 [Thread-5] INFO  com.chromascape.controller.Controller - Shutting down
+15:41:05.170 [Thread-5] INFO  com.chromascape.base.BaseScript - Finished running script.
+16:01:02.010 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 25400 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:01:02.015 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:01:02.498 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:01:02.505 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:01:02.507 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:01:02.507 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:01:02.551 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:01:02.551 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 515 ms
+16:01:02.607 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:01:02.607 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:01:02.643 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:01:02.643 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:01:02.683 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:01:02.803 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:01:02.815 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:01:02.822 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.009 seconds (process running for 1.428)
+16:01:02.853 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:01:02.853 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:01:02.854 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+16:01:04.266 [http-nio-8080-exec-3] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:01:05.896 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:02:21.434 [http-nio-8080-exec-3] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:02:22.213 [Thread-3] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+16:02:22.229 [http-nio-8080-exec-8] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+16:02:22.229 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:02:22.407 [http-nio-8080-exec-4] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:02:22.427 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:02:22.591 [Thread-3] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+16:02:22.654 [Thread-3] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+16:02:22.879 [Thread-3] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+16:02:23.414 [Thread-3] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+16:02:23.760 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:26.152 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:28.207 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:30.226 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:32.697 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:34.963 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:37.181 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:39.805 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:41.935 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:44.572 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:46.768 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:49.201 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:02:51.477 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:02:52.241 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:02:52.548 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:02:54.411 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:02:54.817 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:02:55.455 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:02:55.757 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:03:03.180 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:03:03.290 [Thread-3] INFO  com.chromascape.scripts.HumanBehavior - Taking short break (1-5 min)
+16:03:20.610 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:03:20.610 [http-nio-8080-exec-8] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+16:03:20.782 [http-nio-8080-exec-3] INFO  com.chromascape.web.image.ModifyImage - Serving original image (fallback). Cache empty? true, Original > Processed? false (Orig: 0, Proc: 0)
+16:03:20.793 [http-nio-8080-exec-3] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.nio.file.NoSuchFileException: output\original.png
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85) ~[?:?]
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103) ~[?:?]
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108) ~[?:?]
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:236) ~[?:?]
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:380) ~[?:?]
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:432) ~[?:?]
+	at java.base/java.nio.file.Files.readAllBytes(Files.java:3288) ~[?:?]
+	at org.apache.commons.io.FileUtils.readFileToByteArray(FileUtils.java:2580) ~[commons-io-2.14.0.jar:2.14.0]
+	at com.chromascape.web.image.ModifyImage.getModifiedImageBytes(ModifyImage.java:136) ~[main/:?]
+	at com.chromascape.web.image.ImageController.modifiedImage(ImageController.java:69) ~[main/:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.42.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.8.jar:6.2.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.42.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.8.jar:6.2.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) [tomcat-embed-core-10.1.42.jar:10.1.42]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+16:03:33.282 [http-nio-8080-exec-1] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:03:33.321 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:03:49.764 [http-nio-8080-exec-9] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+16:03:49.765 [http-nio-8080-exec-9] INFO  com.chromascape.base.BaseScript - Stop requested
+16:03:49.765 [Thread-3] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+16:03:49.765 [Thread-3] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+16:03:49.767 [Thread-3] INFO  com.chromascape.controller.Controller - Shutting down
+16:03:49.767 [Thread-3] INFO  com.chromascape.base.BaseScript - Finished running script.
+16:03:51.325 [http-nio-8080-exec-2] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:03:51.325 [Thread-7] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+16:03:51.325 [Thread-7] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+16:03:51.327 [Thread-7] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+16:03:51.335 [Thread-7] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+16:03:51.343 [http-nio-8080-exec-5] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+16:03:51.343 [http-nio-8080-exec-1] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:03:51.530 [http-nio-8080-exec-6] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:03:51.567 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:03:51.704 [Thread-7] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+16:03:52.092 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:03:52.335 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:03:52.673 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:04:05.304 [Thread-7] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+16:04:06.472 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:04:06.963 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:04:07.521 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:04:07.861 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:04:20.486 [Thread-7] WARN  com.chromascape.scripts.ChickenKillerScript - Idle timeout — chicken may have been stolen or we missed
+16:04:21.419 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:04:21.910 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:04:22.509 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:04:22.833 [Thread-7] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:04:34.768 [http-nio-8080-exec-8] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+16:04:34.769 [http-nio-8080-exec-8] INFO  com.chromascape.base.BaseScript - Stop requested
+16:04:34.769 [Thread-7] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+16:04:34.769 [Thread-7] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+16:04:34.771 [Thread-7] INFO  com.chromascape.controller.Controller - Shutting down
+16:04:34.771 [Thread-7] INFO  com.chromascape.base.BaseScript - Finished running script.
+16:08:22.937 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 33368 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:08:22.942 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:08:23.459 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:08:23.467 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:08:23.469 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:08:23.469 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:08:23.520 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:08:23.521 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 557 ms
+16:08:23.572 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:08:23.572 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:08:23.610 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:08:23.610 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:08:23.655 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:08:23.783 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:08:23.797 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:08:23.803 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.069 seconds (process running for 1.497)
+16:08:23.960 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:08:23.960 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:08:23.961 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+16:08:24.011 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:08:34.429 [http-nio-8080-exec-3] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:08:34.529 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:08:34.565 [http-nio-8080-exec-4] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:09:55.680 [http-nio-8080-exec-4] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:09:56.306 [Thread-3] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+16:09:56.319 [http-nio-8080-exec-6] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:09:56.319 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+16:09:56.403 [http-nio-8080-exec-8] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:09:56.449 [http-nio-8080-exec-7] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:09:56.748 [Thread-3] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+16:09:56.816 [Thread-3] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+16:09:57.087 [Thread-3] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+16:09:57.616 [Thread-3] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+16:09:57.915 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:09:58.688 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:09:59.028 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:10:12.185 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:10:12.562 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:10:12.933 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:10:13.255 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:10:26.213 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:10:26.617 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:10:27.348 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:10:27.597 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:10:40.729 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:10:41.176 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:10:41.709 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:10:41.992 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:10:54.950 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:10:55.348 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIND_CHICKEN
+16:10:56.091 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken
+16:10:56.368 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: WAIT_FOR_KILL
+16:11:09.026 [http-nio-8080-exec-7] INFO  com.chromascape.web.instance.ScriptControl - Received stop request
+16:11:09.026 [http-nio-8080-exec-7] INFO  com.chromascape.base.BaseScript - Stop requested
+16:11:09.026 [Thread-3] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped
+16:11:09.026 [Thread-3] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+16:11:09.028 [Thread-3] INFO  com.chromascape.controller.Controller - Shutting down
+16:11:09.028 [Thread-3] INFO  com.chromascape.base.BaseScript - Finished running script.
+16:16:51.283 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 30432 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:16:51.288 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:16:51.817 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:16:51.826 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:16:51.827 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:16:51.827 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:16:51.876 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:16:51.877 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 564 ms
+16:16:51.934 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:16:51.935 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:16:51.974 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:16:51.974 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:16:52.017 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:16:52.151 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:16:52.158 [main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+16:16:52.165 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+16:16:52.177 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+16:33:25.123 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 32644 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:33:25.127 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:33:25.601 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:33:25.609 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:33:25.610 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:33:25.610 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:33:25.657 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:33:25.658 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 511 ms
+16:33:25.707 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:33:25.707 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:33:25.739 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:33:25.739 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:33:25.776 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:33:25.890 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:33:25.902 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:33:25.907 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 0.976 seconds (process running for 1.376)
+16:33:26.859 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:33:26.859 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:33:26.859 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+16:33:29.789 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:34:41.282 [http-nio-8080-exec-3] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:34:41.830 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+16:34:41.966 [http-nio-8080-exec-10] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:34:42.083 [http-nio-8080-exec-7] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:34:42.189 [http-nio-8080-exec-5] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:34:42.212 [Thread-2] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+16:37:59.983 [main] INFO  com.chromascape.web.ChromaScapeApplication - Starting ChromaScapeApplication using Java 17.0.18 with PID 31280 (C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\build\classes\java\main started by Owner in C:\Users\Owner\Develop\github\osrs-bot\ChromaScape)
+16:37:59.989 [main] INFO  com.chromascape.web.ChromaScapeApplication - No active profile set, falling back to 1 default profile: "default"
+16:38:00.508 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+16:38:00.515 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+16:38:00.516 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+16:38:00.517 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+16:38:00.569 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+16:38:00.570 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 559 ms
+16:38:00.628 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION RUNNING
+16:38:00.628 [main] INFO  com.chromascape.web.config.StartupConfiguration - Initializing infrastructure...
+16:38:00.664 [main] INFO  com.chromascape.utils.core.runtime.profile.ProfileManager - ChromaScape RuneLite profile already loaded
+16:38:00.665 [main] INFO  com.chromascape.web.config.StartupConfiguration - CHROMASCAPE STARTUP CONFIGURATION COMPLETED
+16:38:00.709 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping - Adding welcome page template: index
+16:38:00.838 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+16:38:00.851 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+16:38:00.857 [main] INFO  com.chromascape.web.ChromaScapeApplication - Started ChromaScapeApplication in 1.082 seconds (process running for 1.527)
+16:38:01.464 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:38:01.464 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+16:38:01.465 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+16:38:02.635 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:38:12.451 [http-nio-8080-exec-5] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:38:12.670 [http-nio-8080-exec-5] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:38:12.885 [http-nio-8080-exec-9] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:38:19.753 [http-nio-8080-exec-1] INFO  com.chromascape.web.instance.ScriptControl - Config valid: attempting to run script
+16:38:20.392 [Thread-3] INFO  com.chromascape.controller.Controller - Setting up Font masks...
+16:38:20.406 [http-nio-8080-exec-2] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client disconnected
+16:38:20.406 [http-nio-8080-exec-8] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client disconnected
+16:38:20.596 [http-nio-8080-exec-9] INFO  com.chromascape.web.logs.LogWebSocketHandler - WebSocket client connected
+16:38:20.619 [http-nio-8080-exec-6] INFO  com.chromascape.web.viewport.ViewportWebSocketHandler - Viewport WebSocket client connected
+16:38:20.737 [Thread-3] INFO  com.chromascape.controller.Controller - Setting up Remote Input Library...
+16:38:20.787 [Thread-3] INFO  com.chromascape.controller.Controller - Initialising mouse and keyboard utils...
+16:38:21.023 [Thread-3] INFO  com.chromascape.controller.Controller - Pre-loading and instantiating zones...
+16:38:21.542 [Thread-3] INFO  com.chromascape.controller.Controller - Controller State: RUNNING
+16:38:21.840 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: BURY_BONES
+16:38:44.429 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIGHT
+16:38:45.496 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken, waiting for kill...
+16:38:47.536 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:38:51.234 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIGHT
+16:38:51.729 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken, waiting for kill...
+16:38:53.251 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: LOOT
+16:38:56.949 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - State: FIGHT
+16:38:57.450 [Thread-3] INFO  com.chromascape.scripts.ChickenKillerScript - Attacked chicken, waiting for kill...
+16:39:06.938 [Thread-3] ERROR com.chromascape.base.BaseScript - Exception in cycle: For input string: "", [java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67), java.base/java.lang.Integer.parseInt(Integer.java:678), java.base/java.lang.Integer.parseInt(Integer.java:786), com.chromascape.utils.actions.Minimap.getXp(Minimap.java:89), com.chromascape.scripts.ChickenKillerScript.waitUntilXpChange(ChickenKillerScript.java:196), com.chromascape.scripts.ChickenKillerScript.fight(ChickenKillerScript.java:148), com.chromascape.scripts.ChickenKillerScript.cycle(ChickenKillerScript.java:105), com.chromascape.base.BaseScript.run(BaseScript.java:54), com.chromascape.web.instance.ScriptInstance.lambda$start$0(ScriptInstance.java:62), java.base/java.lang.Thread.run(Thread.java:840)]
+16:39:06.938 [Thread-3] INFO  com.chromascape.base.BaseScript - Stopping and cleaning up.
+16:39:06.942 [Thread-3] INFO  com.chromascape.controller.Controller - Shutting down
+16:39:06.942 [Thread-3] INFO  com.chromascape.base.BaseScript - Finished running script.

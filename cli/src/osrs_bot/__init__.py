@@ -207,8 +207,7 @@ def cmd_run(args):
         gradle = str(CHROMASCAPE / "gradlew.bat")
     else:
         gradle = "./gradlew"
-    # Try clean first, but don't fail if DLLs are locked
-    run_cmd([gradle, "clean"], cwd=CHROMASCAPE, check=False)
+    # Skip clean to avoid DLL locking issues when RuneLite is running
     run_cmd([gradle, "bootRun"], cwd=CHROMASCAPE)
 
 
