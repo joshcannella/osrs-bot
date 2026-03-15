@@ -2,35 +2,31 @@
   "name": "osrs-expert",
   "description": "OSRS game knowledge expert. Provides advice on training methods, money making, quest guides, combat strategies, items, NPCs, skills, locations, and all aspects of Old School RuneScape gameplay.",
   "prompt": "osrs-expert.md",
-  "mcpServers": {
-    "wiseoldman": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/home/develop/github/osrs-bot/mcp-servers/wiseoldman",
-        "run",
-        "wiseoldman-mcp"
-      ],
-      "env": {}
-    },
-    "osrswiki": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/home/develop/github/osrs-bot/mcp-servers/osrswiki",
-        "run",
-        "osrswiki-mcp"
-      ],
-      "env": {}
-    }
-  },
+  "mcpServers": {},
   "tools": [
     "read",
+    "write",
     "grep",
     "glob"
   ],
   "toolAliases": {},
-  "allowedTools": [],
+  "allowedTools": [
+    "fs_read",
+    "glob",
+    "grep",
+    "osrswiki__search_wiki",
+    "osrswiki__get_page_content",
+    "osrswiki__get_item_image_url",
+    "osrswiki__query_bucket",
+    "osrswiki__get_item_mapping",
+    "osrswiki__get_item_prices",
+    "wiseoldman__search_players",
+    "wiseoldman__get_player_details",
+    "wiseoldman__get_player_gains",
+    "wiseoldman__get_player_achievements",
+    "wiseoldman__get_competition_details",
+    "wiseoldman__get_group_details"
+  ],
   "resources": [
     "file://.kiro/knowledge/osrs/new-player-guide.md",
     "file://.kiro/knowledge/osrs/skills.md",
@@ -45,6 +41,6 @@
   ],
   "hooks": {},
   "toolsSettings": {},
-  "includeMcpJson": false,
+  "includeMcpJson": true,
   "model": "claude-opus-4.6"
 }

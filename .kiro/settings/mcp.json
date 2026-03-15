@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "osrswiki": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/develop/github/osrs-bot/mcp-servers/osrswiki",
+        "run",
+        "osrswiki-mcp"
+      ],
+      "env": {}
+    },
+    "wiseoldman": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/home/develop/github/osrs-bot/mcp-servers/wiseoldman",
+        "run",
+        "wiseoldman-mcp"
+      ],
+      "env": {}
+    }
+  }
+}
