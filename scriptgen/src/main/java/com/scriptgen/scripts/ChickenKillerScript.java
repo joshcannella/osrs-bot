@@ -162,16 +162,6 @@ public class ChickenKillerScript extends BaseScript {
       controller().mouse().moveTo(lootLoc, "medium");
       controller().mouse().leftClick();
 
-      // Brief pause then check if we accidentally clicked a chicken instead of loot
-      waitMillis(HumanBehavior.adjustDelay(600, 800));
-      if (isColourVisible(CHICKEN_COLOUR) && isColourVisible(LOOT_COLOUR)) {
-        // Loot still on ground + chicken highlighted = we misclicked a chicken
-        // Let the fight finish then retry loot
-        logger.info("Misclicked chicken while looting, waiting for combat to end.");
-        Idler.waitUntilIdle(this, 15);
-        continue;
-      }
-
       // Wait for player to walk to item and pick it up
       Idler.waitUntilIdle(this, 10);
 
