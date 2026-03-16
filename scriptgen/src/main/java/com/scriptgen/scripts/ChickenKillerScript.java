@@ -4,7 +4,6 @@ import com.chromascape.api.DiscordNotification;
 import com.chromascape.base.BaseScript;
 import com.chromascape.utils.actions.Minimap;
 import com.chromascape.utils.actions.MovingObject;
-import com.chromascape.utils.actions.Idler;
 import com.chromascape.utils.core.input.distribution.ClickDistribution;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import com.chromascape.utils.core.screen.topology.ChromaObj;
@@ -16,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bytedeco.opencv.opencv_core.Scalar;
@@ -53,7 +51,6 @@ public class ChickenKillerScript extends BaseScript {
   private static final int KILL_TIMEOUT_SECONDS = 15;
   private static final int CHICKEN_XP = 12; // 3 HP × 4 XP per damage
   private static final int MAX_COMBAT_FAILURES = 10;
-  private static final int MAX_LOOT_ATTEMPTS = 2;
   private int combatFailures = 0;
 
   // === Attack Style Rotation ===
@@ -127,7 +124,12 @@ public class ChickenKillerScript extends BaseScript {
         if (delta >= CHICKEN_XP && delta < 100) {
           logger.info("Kill confirmed via XP (+{})", delta);
           waitMillis(HumanBehavior.adjustDelay(600, 900));
-          lootFeathers();
+          // Loot feather — click same spot where chicken died
+          if (isColourVisible(LOOT_COLOUR)) {
+            controller().mouse().leftClick();
+            logger.info("Clicked for feather loot.");
+            waitMillis(HumanBehavior.adjustDelay(300, 500));
+          }
           checkStyleRotation();
           return;
         }
@@ -140,67 +142,7 @@ public class ChickenKillerScript extends BaseScript {
     logger.info("Kill timeout — retrying");
   }
 
-  /**
-   * Attempts to loot feathers after a kill. Clicks loot colour up to MAX_LOOT_ATTEMPTS times,
-   * verifying feather pickup via inventory template match. Bails quickly if nothing is picked up.
-   */
-  private void lootFeathers() {
-    for (int attempt = 0; attempt < MAX_LOOT_ATTEMPTS; attempt++) {
-      // Single scan: get contours, count, and click point
-      BufferedImage gameView = controller().zones().getGameView();
-      List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, LOOT_COLOUR);
-      if (objs.isEmpty()) {
-        logger.info("No loot visible, skipping.");
-        return;
-      }
-
-      int pilesBefore = objs.size();
-      Point lootLoc;
-      try {
-        ChromaObj smallest = objs.get(0);
-        for (ChromaObj obj : objs) {
-          if (obj.boundingBox().width * obj.boundingBox().height
-              < smallest.boundingBox().width * smallest.boundingBox().height) {
-            smallest = obj;
-          }
-        }
-        Rectangle box = smallest.boundingBox();
-        if (box.width > 60 || box.height > 60) {
-          int halfW = box.width / 2;
-          int halfH = box.height / 2;
-          int qx = ThreadLocalRandom.current().nextBoolean() ? box.x : box.x + halfW;
-          int qy = ThreadLocalRandom.current().nextBoolean() ? box.y : box.y + halfH;
-          box = new Rectangle(qx, qy, halfW, halfH);
-        }
-        lootLoc = ClickDistribution.generateRandomPoint(box, 20.0);
-      } catch (Exception e) {
-        logger.warn("Failed to generate loot point: {}", e.getMessage());
-        return;
-      } finally {
-        for (ChromaObj obj : objs) {
-          obj.release();
-        }
-      }
-
-      logger.info("Loot attempt {}/{} — {} pile(s), clicking {}", 
-          attempt + 1, MAX_LOOT_ATTEMPTS, pilesBefore, lootLoc);
-      controller().mouse().moveTo(lootLoc, "medium");
-      controller().mouse().leftClick();
-      waitMillis(HumanBehavior.adjustDelay(300, 500));
-    }
-  }
-
   // === Colour Utilities ===
-
-  private int countColourContours(ColourObj colour) {
-    BufferedImage gameView = controller().zones().getGameView();
-    List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, colour);
-    int count = objs.size();
-    for (ChromaObj obj : objs) {
-      obj.release();
-    }
-    return count;
-  }
 
   private boolean isColourVisible(ColourObj colour) {
     BufferedImage gameView = controller().zones().getGameView();
