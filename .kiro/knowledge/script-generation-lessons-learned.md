@@ -178,3 +178,101 @@ if (!objs.isEmpty()) {
 ```
 
 **Rule**: Don't call `PointSelector.getRandomPointByColourObj()` directly — it can crash on malformed contours. Instead, get contours via `ColourContours`, extract the bounding box, and generate a click point with `ClickDistribution.generateRandomPoint()`. Always release `ChromaObj` Mats in a finally block.
+
+---
+
+## XP-Based Kill Detection: Don't Use Single Hit
+**Problem**: Using `Minimap.getXp()` to detect kills by waiting for *any* XP change caused the bot to think the target was dead after the first hit. XP is granted per hit, not on the killing blow, so the bot moved to looting while the NPC was still alive.
+
+**Solution**: Calculate the total XP a kill is worth and wait for that full amount. For chickens: 3 HP × 4 XP per damage = 12 XP total.
+```java
+private static final int CHICKEN_XP = 12;
+// After attacking:
+while (LocalDateTime.now().isBefore(deadline)) {
+    int currentXp = Minimap.getXp(this);
+    if (currentXp - previousXp >= CHICKEN_XP) {
+        // Kill confirmed
+        break;
+    }
+    waitMillis(300);
+}
+```
+
+**Rule**: When using XP to confirm kills, always wait for the full XP amount (NPC HP × 4), not just any XP change. Snapshot XP before attacking and compare the delta.
+
+---
+
+## Minimap OCR Reads Garbage Text
+**Problem**: `Minimap.getXp()` threw `NumberFormatException: For input string: Chicken` because the OCR read NPC name overlays or right-click menu text instead of the XP number. This happens when UI elements overlap the XP display area.
+
+**Solution**: Always wrap `Minimap.getXp()` in try-catch and abort/retry the cycle on failure rather than proceeding with a bad value:
+```java
+int previousXp;
+try {
+    previousXp = Minimap.getXp(this);
+} catch (Exception e) {
+    logger.warn("Could not read XP, retrying next cycle");
+    return;
+}
+```
+
+**Rule**: Never trust OCR reads unconditionally. If the XP snapshot fails, skip the entire action rather than fighting with `previousXp = -1` (which would cause instant false-positive kill confirmation since `currentXp - (-1)` is always large).
+
+---
+
+## Loot Colour Detection vs Template Matching
+**Problem**: Template matching inventory sprites against the game view never worked for ground item detection because ground items render completely differently than inventory icons (different scale, angle, lighting, stacking).
+
+**Solution**: Use RuneLite's Ground Items plugin to highlight loot in a distinct colour (e.g., purple), then detect that colour with `ColourContours`. This is the same pattern used by the agility script for marks of grace.
+
+**Rule**: For ground item detection, prefer colour-based detection via RuneLite plugin highlights over template matching. Use the Colour Picker utility to get exact HSV values from the highlight.
+
+---
+
+## Adjacent Loot Tiles Merge Into One Contour
+**Problem**: When multiple loot piles are on adjacent tiles, their colour highlights merge into one large contour. `getChromaObjClosestToCentre()` returns this merged blob, and clicking its center lands between tiles where there's no actual item.
+
+**Solution**: Select the smallest contour instead of the closest-to-center, as it's most likely a single tile's highlight:
+```java
+ChromaObj smallest = objs.get(0);
+for (ChromaObj obj : objs) {
+    if (obj.boundingBox().width * obj.boundingBox().height
+        < smallest.boundingBox().width * smallest.boundingBox().height) {
+        smallest = obj;
+    }
+}
+return ClickDistribution.generateRandomPoint(smallest.boundingBox(), 15.0);
+```
+
+**Rule**: When looting with colour detection, target the smallest contour to avoid merged adjacent tiles. Use tightness parameter (15.0) to cluster clicks toward the center. Re-scan after each pickup since contour shapes change as items are collected.
+
+---
+
+## Loot Frequency Optimization
+**Problem**: Looting after every kill wastes time when kills are fast (e.g., chickens die in a few seconds). The bot spent more time walking to loot than fighting.
+
+**Solution**: Track kills and only loot every N kills. Ground items persist for 60 seconds, so batching is safe:
+```java
+private static final int LOOT_EVERY_N_KILLS = 5;
+private int killsSinceLoot = 0;
+// After kill confirmed:
+killsSinceLoot++;
+if (killsSinceLoot >= LOOT_EVERY_N_KILLS) {
+    state = State.LOOT;
+    killsSinceLoot = 0;
+}
+```
+
+**Rule**: For fast-kill NPCs, batch looting every N kills instead of after every kill. Ensure N × kill time stays under the 60-second ground item despawn timer.
+
+---
+
+## Post-Kill Delay for Death Animation
+**Problem**: After confirming a kill via XP, the bot immediately clicked the next NPC. The previous NPC's death animation was still playing, causing "I'm already under attack" messages or misclicks.
+
+**Solution**: Add a short delay (600-900ms) after kill confirmation to let the death animation complete:
+```java
+waitMillis(HumanBehavior.adjustDelay(600, 900));
+```
+
+**Rule**: After confirming a kill, wait 600-900ms before the next action. This covers the death animation and loot spawn delay without being noticeably slow.
