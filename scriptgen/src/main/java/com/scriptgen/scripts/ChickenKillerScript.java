@@ -211,11 +211,11 @@ public class ChickenKillerScript extends BaseScript {
       logger.info("Walking back to chicken coop");
       controller().walker().pathTo(COOP_CENTER, false);
       waitMillis(HumanBehavior.adjustDelay(3000, 5000));
-    } catch (IOException e) {
-      logger.error("Walker error: {}", e.getMessage());
     } catch (InterruptedException e) {
       logger.error("Walker interrupted");
       stop();
+    } catch (Exception e) {
+      logger.warn("Walker error: {}", e.getMessage());
     }
   }
 
