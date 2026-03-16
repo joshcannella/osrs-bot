@@ -4,6 +4,7 @@ import com.chromascape.api.DiscordNotification;
 import com.chromascape.base.BaseScript;
 import com.chromascape.utils.actions.Minimap;
 import com.chromascape.utils.actions.MovingObject;
+import com.chromascape.utils.actions.Idler;
 import com.chromascape.utils.core.input.distribution.ClickDistribution;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import com.chromascape.utils.core.screen.topology.ChromaObj;
@@ -160,7 +161,9 @@ public class ChickenKillerScript extends BaseScript {
 
       controller().mouse().moveTo(lootLoc, "medium");
       controller().mouse().leftClick();
-      waitMillis(HumanBehavior.adjustDelay(800, 1200));
+
+      // Wait for player to walk to item and pick it up
+      Idler.waitUntilIdle(this, 10);
 
       // If we now have feathers (or already had them — stack grew), we're done
       if (hasItem(FEATHER_IMAGE)) {
