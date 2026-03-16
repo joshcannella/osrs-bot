@@ -19,7 +19,8 @@
     "file://.kiro/knowledge/chromascape-wiki/Colour-picker.md",
     "file://.kiro/knowledge/chromascape-wiki/Discord-Notifier.md",
     "file://.kiro/knowledge/chromascape-wiki/ZoneManager-&-SubZoneMapper.md",
-    "file://.kiro/knowledge/script-generation-lessons-learned.md"
+    "file://.kiro/knowledge/script-generation-lessons-learned.md",
+    "file://.kiro/knowledge/extending-chromascape.md"
   ],
   "hooks": {
     "agentSpawn": [

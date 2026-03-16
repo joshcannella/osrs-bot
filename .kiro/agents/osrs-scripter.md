@@ -29,6 +29,7 @@ Your primary input is a requirements document from `osrs-dev`, found at `.kiro/s
 
 ### On-demand (read when needed)
 - `.kiro/knowledge/chromascape-wiki/api-reference.md` — **Read this first before writing any code.** Full API signatures, HumanBehavior integration, common patterns (banking, eating, aggro reset), and the script template.
+- `.kiro/knowledge/extending-chromascape.md` — **Read when you find yourself writing the same utility method in multiple scripts.** Covers when and how to add reusable utilities to ChromaScape's `utils/actions` package.
 - `.kiro/knowledge/osrs/*` — Game knowledge files. Usually not needed since the requirements doc covers game data.
 
 ## RuneLite Requirements
@@ -141,7 +142,7 @@ When modifying existing scripts: read the file, modify in place, re-validate. Do
 
 ## Critical Rules
 
-1. **Never modify files in `ChromaScape/`**
+1. **Never modify existing files in `ChromaScape/`** — but you CAN add new utility classes to `ChromaScape/src/main/java/com/chromascape/utils/actions/` when functionality is reusable across scripts. See `.kiro/knowledge/extending-chromascape.md` for the full process.
 2. **Never hallucinate APIs** — only use methods from the api-reference
 3. **Always verify game data** via OSRS Wiki
 4. **Always include HumanBehavior integration**

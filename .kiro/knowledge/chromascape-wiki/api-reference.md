@@ -136,6 +136,11 @@ static int getXp(BaseScript script)       // Requires permanent XP bar
 static boolean waitUntilIdle(BaseScript base, int timeoutSeconds)
 ```
 
+## LevelUpDismisser (com.chromascape.utils.actions.LevelUpDismisser)
+```java
+static boolean dismissIfPresent(BaseScript base)    // OCR chatbox, press space if level-up detected
+```
+
 ## ItemDropper (com.chromascape.utils.actions.ItemDropper)
 ```java
 static void dropAll(BaseScript baseScript)
@@ -182,6 +187,7 @@ if (HumanBehavior.shouldTakeExtendedBreak()) { HumanBehavior.performBreak(this, 
 if (HumanBehavior.shouldTakeBreak()) { HumanBehavior.performBreak(this, false); return; }
 if (HumanBehavior.shouldFidgetCamera()) { HumanBehavior.performCameraFidget(this); }
 if (HumanBehavior.shouldIdleDrift()) { HumanBehavior.performIdleDrift(this); }
+LevelUpDismisser.dismissIfPresent(this);  // Dismiss level-up dialogs before main logic
 ```
 
 ### Before clicks:
