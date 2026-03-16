@@ -54,9 +54,9 @@ osrs-bot/
             └── (your generated scripts go here)
 ```
 
-Compile: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
+Compile & deploy: `./scripts/sync-and-compile.sh` — compiles scripts first, then syncs to ChromaScape and compiles there.
 
-After compilation succeeds in scriptgen, **always run the full deploy**:
+After compilation succeeds, **always run the full deploy**:
 ```bash
 osrs-bot deploy
 ```
@@ -94,7 +94,7 @@ Key rules from the API reference:
 
 ## Phase 3: Validation & Deploy
 
-1. **Compile in scriptgen**: `export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17 && cd scriptgen && gradle compileJava`
+1. **Compile & sync**: `./scripts/sync-and-compile.sh` — compiles scripts, syncs to ChromaScape, compiles ChromaScape
 2. Fix compile errors (max 3 attempts)
 3. **Deploy**: Run `osrs-bot deploy` (or `osrs-bot deploy <script-id>` for targeted) — this handles everything automatically:
    - Syncs scripts to ChromaScape (fixes package names and imports)

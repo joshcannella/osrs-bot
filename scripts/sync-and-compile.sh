@@ -1,5 +1,5 @@
 #!/bin/bash
-# Sync scriptgen scripts to ChromaScape and compile
+# Compile scripts, sync to ChromaScape, and compile ChromaScape
 
 set -e
 
@@ -8,7 +8,11 @@ CHROMASCAPE_SCRIPTS="ChromaScape/src/main/java/com/chromascape/scripts"
 SCRIPTGEN_RESOURCES="scriptgen/src/main/resources/images/user"
 CHROMASCAPE_RESOURCES="ChromaScape/src/main/resources/images/user"
 
-echo "=== Syncing scripts from scriptgen to ChromaScape ==="
+echo "=== Compiling scripts ==="
+export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17
+(cd scriptgen && gradle compileJava)
+
+echo "=== Syncing scripts to ChromaScape ==="
 
 # Copy all scripts
 rsync -av "$SCRIPTGEN_SCRIPTS/" "$CHROMASCAPE_SCRIPTS/"
