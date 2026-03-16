@@ -186,8 +186,7 @@ public class ChickenKillerScript extends BaseScript {
           attempt + 1, MAX_LOOT_ATTEMPTS, pilesBefore, lootLoc);
       controller().mouse().moveTo(lootLoc, "medium");
       controller().mouse().leftClick();
-
-      Idler.waitUntilIdle(this, 10);
+      waitMillis(HumanBehavior.adjustDelay(1200, 1800));
 
       int pilesAfter = countColourContours(LOOT_COLOUR);
       if (pilesAfter < pilesBefore) {
