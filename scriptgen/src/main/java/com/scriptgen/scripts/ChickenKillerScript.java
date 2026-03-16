@@ -130,7 +130,7 @@ public class ChickenKillerScript extends BaseScript {
             controller().mouse().leftClick();
             logger.info("Clicked feather loot at {}", lootLoc);
           }
-          waitMillis(HumanBehavior.adjustDelay(100, 300));
+          waitMillis(HumanBehavior.adjustDelay(300, 500));
           checkStyleRotation();
           return;
         }
