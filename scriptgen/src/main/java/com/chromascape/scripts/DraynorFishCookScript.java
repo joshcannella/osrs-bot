@@ -9,6 +9,7 @@ import com.chromascape.utils.actions.ItemDropper;
 import com.chromascape.utils.actions.custom.KeyPress;
 import com.chromascape.utils.actions.custom.Logout;
 import com.chromascape.utils.actions.custom.Walk;
+import com.chromascape.utils.actions.PointSelector;
 import com.chromascape.utils.core.input.distribution.ClickDistribution;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import com.chromascape.utils.core.screen.topology.TemplateMatching;
@@ -71,6 +72,7 @@ public class DraynorFishCookScript extends BaseScript {
   private static final String LOGS = "/images/user/Logs.png";
   private static final String TINDERBOX = "/images/user/Tinderbox.png";
   private static final String NET = "/images/user/Small_fishing_net.png";
+  private static final String FIRE = "/images/user/Fire.png";
 
   // === Item groups for matching ===
   private static final String[] RAW_FISH = {RAW_SHRIMP, RAW_ANCHOVY};
@@ -81,8 +83,6 @@ public class DraynorFishCookScript extends BaseScript {
       new ColourObj("cyan", new Scalar(90, 254, 254, 0), new Scalar(91, 255, 255, 0));
   private static final ColourObj TREE_COLOUR =
       new ColourObj("green", new Scalar(59, 254, 254, 0), new Scalar(60, 255, 255, 0));
-  private static final ColourObj FIRE_COLOUR =
-      new ColourObj("red", new Scalar(0, 254, 254, 0), new Scalar(1, 255, 255, 0));
 
   // === Walker Tiles (Draynor Village) ===
   private static final Point FISHING_TILE = new Point(3087, 3228);
@@ -95,6 +95,7 @@ public class DraynorFishCookScript extends BaseScript {
 
   // === Constants ===
   private static final double INV_THRESHOLD = 0.07;
+  private static final double FIRE_THRESHOLD = 0.15;
   private static final int TARGET_RAW = COOKING_ENABLED ? 26 : 27; // reserve slots for tools
   private static final int FIRE_TIMEOUT_SECONDS = 10;
   private static final int MAX_STUCK_CYCLES = 10;
@@ -143,7 +144,7 @@ public class DraynorFishCookScript extends BaseScript {
     }
 
     // Determine state — check fire visibility once and reuse
-    boolean fireVisible = COOKING_ENABLED && ColourClick.isVisible(this, FIRE_COLOUR);
+    boolean fireVisible = COOKING_ENABLED && isFireVisible();
 
     if (hasCooked && rawCount == 0) {
       state = State.DROP;
@@ -292,7 +293,7 @@ public class DraynorFishCookScript extends BaseScript {
       return;
     }
 
-    if (ColourClick.isVisible(this, FIRE_COLOUR)) {
+    if (isFireVisible()) {
       stuckCounter = 0;
       return;
     }
@@ -304,15 +305,14 @@ public class DraynorFishCookScript extends BaseScript {
 
     // Wait for fire to appear
     LocalDateTime deadline = LocalDateTime.now().plusSeconds(FIRE_TIMEOUT_SECONDS);
-    while (!ColourClick.isVisible(this, FIRE_COLOUR) && LocalDateTime.now().isBefore(deadline)) {
+    while (!isFireVisible() && LocalDateTime.now().isBefore(deadline)) {
       checkInterrupted();
       waitMillis(500);
     }
 
-    if (ColourClick.isVisible(this, FIRE_COLOUR)) {
+    if (isFireVisible()) {
       stuckCounter = 0;
     } else {
-      // "Can't light fire here" — walk a tile away and retry next cycle
       logger.warn("Fire failed, relocating.");
       if (!Walk.to(this, FIRE_RELOCATE_TILE, "fire relocate")) stuckCounter++;
     }
@@ -327,7 +327,7 @@ public class DraynorFishCookScript extends BaseScript {
       return;
     }
 
-    if (!ColourClick.isVisible(this, FIRE_COLOUR)) {
+    if (!isFireVisible()) {
       logger.info("Fire not visible, need to re-light.");
       stuckCounter++;
       return;
@@ -341,7 +341,7 @@ public class DraynorFishCookScript extends BaseScript {
     }
     HumanBehavior.sleep(200, 400);
 
-    Point fireLoc = ColourClick.getClickPoint(this, FIRE_COLOUR);
+    Point fireLoc = findFireInGameView();
     if (fireLoc == null) {
       logger.warn("Could not get fire click point.");
       stuckCounter++;
@@ -408,6 +408,17 @@ public class DraynorFishCookScript extends BaseScript {
         return;
       }
     }
+  }
+
+  /** Checks if a fire is visible in the game view via template matching. */
+  private boolean isFireVisible() {
+    return findFireInGameView() != null;
+  }
+
+  /** Returns a click point for the fire in the game view, or null if not found. */
+  private Point findFireInGameView() {
+    BufferedImage gameView = controller().zones().getGameView();
+    return PointSelector.getRandomPointInImage(FIRE, gameView, FIRE_THRESHOLD);
   }
 
   /** Returns true if the slot image matches any of the given templates. */
