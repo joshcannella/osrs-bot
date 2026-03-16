@@ -107,7 +107,6 @@ public class DraynorFishCookScript extends BaseScript {
 
   // === Cached inventory scan results (refreshed each cycle) ===
   private int rawCount;
-  private int cookedCount;
   private boolean hasLogs;
   private boolean hasTinderbox;
   private boolean hasNet;
@@ -142,25 +141,25 @@ public class DraynorFishCookScript extends BaseScript {
       return;
     }
 
-    // Determine state — check fire visibility once and reuse
-    boolean fireVisible = COOKING_ENABLED && isFireVisible();
+    // Determine state — only override if not already set to DROP by cook()
+    if (state != State.DROP) {
+      boolean fireVisible = COOKING_ENABLED && isFireVisible();
 
-    if (cookedCount > 0 && rawCount == 0) {
-      state = State.DROP;
-    } else if (COOKING_ENABLED && rawCount >= TARGET_RAW && !hasLogs && !fireVisible) {
-      state = State.CHOP;
-    } else if (COOKING_ENABLED && rawCount >= TARGET_RAW && hasLogs && !fireVisible) {
-      state = State.LIGHT_FIRE;
-    } else if (COOKING_ENABLED && rawCount >= TARGET_RAW && fireVisible) {
-      state = State.COOK;
-    } else if (!COOKING_ENABLED && rawCount >= TARGET_RAW) {
-      state = State.DROP;
-    } else {
-      state = State.FISH;
+      if (COOKING_ENABLED && rawCount >= TARGET_RAW && !hasLogs && !fireVisible) {
+        state = State.CHOP;
+      } else if (COOKING_ENABLED && rawCount >= TARGET_RAW && hasLogs && !fireVisible) {
+        state = State.LIGHT_FIRE;
+      } else if (COOKING_ENABLED && rawCount >= TARGET_RAW && fireVisible) {
+        state = State.COOK;
+      } else if (!COOKING_ENABLED && rawCount >= TARGET_RAW) {
+        state = State.DROP;
+      } else {
+        state = State.FISH;
+      }
     }
 
-    logger.info("State: {} | Raw: {} | Logs: {} | Cooked: {} | Stuck: {}",
-        state, rawCount, hasLogs, cookedCount, stuckCounter);
+    logger.info("State: {} | Raw: {} | Logs: {} | Stuck: {}",
+        state, rawCount, hasLogs, stuckCounter);
 
     switch (state) {
       case FISH -> fish();
@@ -176,7 +175,6 @@ public class DraynorFishCookScript extends BaseScript {
   /** Scans all 28 slots once and caches results for the entire cycle. */
   private void scanInventory() {
     rawCount = 0;
-    cookedCount = 0;
     hasLogs = false;
     hasTinderbox = false;
     hasNet = false;
@@ -188,8 +186,6 @@ public class DraynorFishCookScript extends BaseScript {
       if (TemplateMatching.match(RAW_SHRIMP, slotImg, INV_THRESHOLD).success()
           || TemplateMatching.match(RAW_ANCHOVY, slotImg, INV_THRESHOLD).success()) {
         rawCount++;
-      } else if (matchesAny(slotImg, COOKED_FISH)) {
-        cookedCount++;
       } else if (!hasLogs && TemplateMatching.match(LOGS, slotImg, INV_THRESHOLD).success()) {
         hasLogs = true;
       } else if (!hasTinderbox && TemplateMatching.match(TINDERBOX, slotImg, INV_THRESHOLD).success()) {
@@ -339,6 +335,7 @@ public class DraynorFishCookScript extends BaseScript {
     // Wait for full cook — Idler handles the blocking
     Idler.waitUntilIdle(this, 90);
     stuckCounter = 0;
+    state = State.DROP;
   }
 
   // ======================== DROP ========================
@@ -369,6 +366,7 @@ public class DraynorFishCookScript extends BaseScript {
     }
 
     stuckCounter = 0;
+    state = State.FISH;
     logger.info("Dropped all fish.");
   }
 
