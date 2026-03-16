@@ -136,6 +136,28 @@ static int getXp(BaseScript script)       // Requires permanent XP bar
 static boolean waitUntilIdle(BaseScript base, int timeoutSeconds)
 ```
 
+## Inventory (com.chromascape.utils.actions.Inventory)
+```java
+static boolean hasItem(BaseScript base, String templatePath, double threshold)
+static int countItem(BaseScript base, String templatePath, double threshold)
+static int findItemSlot(BaseScript base, String templatePath, double threshold)
+static boolean clickItem(BaseScript base, String templatePath, double threshold, String speed)
+static boolean isFull(BaseScript base, String[] knownItems, double threshold)
+```
+
+## KeyPress (com.chromascape.utils.actions.KeyPress)
+```java
+static void space(BaseScript base)
+static void escape(BaseScript base)
+static void enter(BaseScript base)
+static void character(BaseScript base, char key)
+```
+
+## Logout (com.chromascape.utils.actions.Logout)
+```java
+static void perform(BaseScript base)
+```
+
 ## LevelUpDismisser (com.chromascape.utils.actions.LevelUpDismisser)
 ```java
 static boolean dismissIfPresent(BaseScript base)    // OCR chatbox, press space if level-up detected

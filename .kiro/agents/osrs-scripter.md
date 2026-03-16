@@ -144,6 +144,7 @@ When modifying existing scripts: read the file, modify in place, re-validate. Do
 
 1. **Never modify existing files in `ChromaScape/`** — but you CAN add new utility classes to `ChromaScape/src/main/java/com/chromascape/utils/actions/` when functionality is reusable across scripts. See `.kiro/knowledge/extending-chromascape.md` for the full process.
 2. **Never hallucinate APIs** — only use methods from the api-reference
+3. **Never write a private method that duplicates a shared utility** — check the API reference before writing any helper method. If `Inventory`, `KeyPress`, `Logout`, `LevelUpDismisser`, or any other utility already does what you need, use it. If you need something generic that doesn't exist yet, create the utility in ChromaScape first. The spawn hook lists duplicated private methods — if your method signature appears there, extract it.
 3. **Always verify game data** via OSRS Wiki
 4. **Always include HumanBehavior integration**
 5. **Always validate compilation**
