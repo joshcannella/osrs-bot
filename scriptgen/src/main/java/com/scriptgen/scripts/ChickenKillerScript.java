@@ -124,11 +124,15 @@ public class ChickenKillerScript extends BaseScript {
         if (delta >= CHICKEN_XP && delta < 100) {
           logger.info("Kill confirmed via XP (+{})", delta);
           waitMillis(HumanBehavior.adjustDelay(600, 900));
-          // Loot feather — click same spot where chicken died
+          // Loot feather — find closest loot contour and click it
           if (isColourVisible(LOOT_COLOUR)) {
-            controller().mouse().leftClick();
-            logger.info("Clicked for feather loot.");
-            waitMillis(HumanBehavior.adjustDelay(300, 500));
+            Point lootLoc = findNearestLoot();
+            if (lootLoc != null) {
+              controller().mouse().moveTo(lootLoc, "fast");
+              controller().mouse().leftClick();
+              logger.info("Clicked feather loot at {}", lootLoc);
+              waitMillis(HumanBehavior.adjustDelay(300, 500));
+            }
           }
           checkStyleRotation();
           return;
@@ -143,6 +147,25 @@ public class ChickenKillerScript extends BaseScript {
   }
 
   // === Colour Utilities ===
+
+  private Point findNearestLoot() {
+    BufferedImage gameView = controller().zones().getGameView();
+    List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, LOOT_COLOUR);
+    if (objs.isEmpty()) {
+      return null;
+    }
+    try {
+      ChromaObj nearest = ColourContours.getChromaObjClosestToCentre(objs);
+      return ClickDistribution.generateRandomPoint(nearest.boundingBox(), 15.0);
+    } catch (Exception e) {
+      logger.warn("Failed to generate loot point: {}", e.getMessage());
+      return null;
+    } finally {
+      for (ChromaObj obj : objs) {
+        obj.release();
+      }
+    }
+  }
 
   private boolean isColourVisible(ColourObj colour) {
     BufferedImage gameView = controller().zones().getGameView();
