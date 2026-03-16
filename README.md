@@ -8,13 +8,16 @@ An AI-powered workflow for generating Old School RuneScape automation scripts us
 # 1. Install the CLI (one-time)
 cd cli && uv tool install --editable .
 
-# 2. Check what's available
+# 2. Enable pre-commit hook (one-time)
+git config core.hooksPath scripts/hooks
+
+# 3. Check what's available
 osrs-bot status
 
-# 3. Deploy scripts to ChromaScape
+# 4. Deploy scripts to ChromaScape
 osrs-bot deploy
 
-# 4. On Windows — pull and launch
+# 5. On Windows — pull and launch
 osrs-bot run --browser
 ```
 
