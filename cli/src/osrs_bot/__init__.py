@@ -68,11 +68,7 @@ def id_to_class(script_id: str) -> str:
 
 def dry_run():
     print("Dry-run verification...")
-    if platform.system() == "Windows":
-        gradle = str(CHROMASCAPE / "gradlew.bat")
-    else:
-        gradle = "./gradlew"
-    result = run_cmd([gradle, "bootRun", "--dry-run"], cwd=CHROMASCAPE, check=False)
+    result = run_cmd(["gradle", "bootRun", "--dry-run"], cwd=CHROMASCAPE, check=False)
     if result.returncode != 0:
         print("✗ Dry-run failed", file=sys.stderr)
         sys.exit(1)
@@ -138,12 +134,7 @@ def cmd_run(args):
             os.startfile("http://localhost:8080")
         else:
             subprocess.Popen(["xdg-open", "http://localhost:8080"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    if platform.system() == "Windows":
-        gradle = str(CHROMASCAPE / "gradlew.bat")
-    else:
-        gradle = "./gradlew"
-    # Skip clean to avoid DLL locking issues when RuneLite is running
-    run_cmd([gradle, "bootRun"], cwd=CHROMASCAPE)
+    run_cmd(["gradle", "bootRun"], cwd=CHROMASCAPE)
 
 
 def cmd_logs_pull(args):
