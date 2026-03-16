@@ -128,8 +128,9 @@ public class ChickenKillerScript extends BaseScript {
     while (LocalDateTime.now().isBefore(deadline)) {
       try {
         int currentXp = Minimap.getXp(this);
-        if (currentXp - previousXp >= CHICKEN_XP) {
-          logger.info("Kill confirmed via XP (+{})", currentXp - previousXp);
+        int delta = currentXp - previousXp;
+        if (delta >= CHICKEN_XP && delta < 100) {
+          logger.info("Kill confirmed via XP (+{})", delta);
           waitMillis(HumanBehavior.adjustDelay(600, 900));
           lootFeathers();
           checkStyleRotation();
