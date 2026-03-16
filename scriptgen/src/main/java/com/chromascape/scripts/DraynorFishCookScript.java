@@ -65,9 +65,16 @@ public class DraynorFishCookScript extends BaseScript {
   private static final String RAW_SHRIMP = "/images/user/Raw_shrimps.png";
   private static final String COOKED_SHRIMP = "/images/user/Shrimps.png";
   private static final String BURNT_SHRIMP = "/images/user/Burnt_shrimp.png";
+  private static final String RAW_ANCHOVY = "/images/user/Raw_anchovies.png";
+  private static final String COOKED_ANCHOVY = "/images/user/Anchovies.png";
+  private static final String BURNT_ANCHOVY = "/images/user/Burnt_anchovies.png";
   private static final String LOGS = "/images/user/Logs.png";
   private static final String TINDERBOX = "/images/user/Tinderbox.png";
   private static final String NET = "/images/user/Small_fishing_net.png";
+
+  // === Item groups for matching ===
+  private static final String[] RAW_FISH = {RAW_SHRIMP, RAW_ANCHOVY};
+  private static final String[] COOKED_FISH = {COOKED_SHRIMP, COOKED_ANCHOVY, BURNT_SHRIMP, BURNT_ANCHOVY};
 
   // === Colour Definitions ===
   private static final ColourObj FISHING_SPOT_COLOUR =
@@ -75,7 +82,7 @@ public class DraynorFishCookScript extends BaseScript {
   private static final ColourObj TREE_COLOUR =
       new ColourObj("green", new Scalar(59, 254, 254, 0), new Scalar(60, 255, 255, 0));
   private static final ColourObj FIRE_COLOUR =
-      new ColourObj("orange", new Scalar(15, 254, 254, 0), new Scalar(16, 255, 255, 0));
+      new ColourObj("red", new Scalar(0, 254, 254, 0), new Scalar(1, 255, 255, 0));
 
   // === Walker Tiles (Draynor Village) ===
   private static final Point FISHING_TILE = new Point(3087, 3228);
@@ -186,13 +193,11 @@ public class DraynorFishCookScript extends BaseScript {
       Rectangle slot = controller().zones().getInventorySlots().get(i);
       BufferedImage slotImg = ScreenManager.captureZone(slot);
 
-      if (TemplateMatching.match(RAW_SHRIMP, slotImg, INV_THRESHOLD).success()) {
+      if (TemplateMatching.match(RAW_SHRIMP, slotImg, INV_THRESHOLD).success()
+          || TemplateMatching.match(RAW_ANCHOVY, slotImg, INV_THRESHOLD).success()) {
         rawCount++;
         occupiedSlots++;
-      } else if (!hasCooked && TemplateMatching.match(COOKED_SHRIMP, slotImg, INV_THRESHOLD).success()) {
-        hasCooked = true;
-        occupiedSlots++;
-      } else if (!hasCooked && TemplateMatching.match(BURNT_SHRIMP, slotImg, INV_THRESHOLD).success()) {
+      } else if (!hasCooked && matchesAny(slotImg, COOKED_FISH)) {
         hasCooked = true;
         occupiedSlots++;
       } else if (!hasLogs && TemplateMatching.match(LOGS, slotImg, INV_THRESHOLD).success()) {
@@ -233,7 +238,8 @@ public class DraynorFishCookScript extends BaseScript {
     int rawBefore = rawCount;
     Idler.waitUntilIdle(this, 120);
 
-    if (Inventory.countItem(this, RAW_SHRIMP, INV_THRESHOLD) > rawBefore) {
+    if (Inventory.countItem(this, RAW_SHRIMP, INV_THRESHOLD)
+        + Inventory.countItem(this, RAW_ANCHOVY, INV_THRESHOLD) > rawBefore) {
       stuckCounter = 0;
     } else {
       stuckCounter++;
@@ -315,7 +321,8 @@ public class DraynorFishCookScript extends BaseScript {
   // ======================== COOK ========================
 
   private void cook() {
-    if (!Inventory.hasItem(this, RAW_SHRIMP, INV_THRESHOLD)) {
+    if (!Inventory.hasItem(this, RAW_SHRIMP, INV_THRESHOLD)
+        && !Inventory.hasItem(this, RAW_ANCHOVY, INV_THRESHOLD)) {
       stuckCounter = 0;
       return;
     }
@@ -326,8 +333,12 @@ public class DraynorFishCookScript extends BaseScript {
       return;
     }
 
-    // Use raw shrimp on fire
-    Inventory.clickItem(this, RAW_SHRIMP, INV_THRESHOLD, "medium");
+    // Use raw fish on fire — click whichever type is present
+    if (Inventory.hasItem(this, RAW_SHRIMP, INV_THRESHOLD)) {
+      Inventory.clickItem(this, RAW_SHRIMP, INV_THRESHOLD, "medium");
+    } else {
+      Inventory.clickItem(this, RAW_ANCHOVY, INV_THRESHOLD, "medium");
+    }
     HumanBehavior.sleep(200, 400);
 
     Point fireLoc = ColourClick.getClickPoint(this, FIRE_COLOUR);
@@ -351,22 +362,30 @@ public class DraynorFishCookScript extends BaseScript {
   // ======================== DROP ========================
 
   private void drop() {
-    int tinderboxSlot = Inventory.findItemSlot(this, TINDERBOX, INV_THRESHOLD);
-    int netSlot = Inventory.findItemSlot(this, NET, INV_THRESHOLD);
+    String[] droppable = {COOKED_SHRIMP, BURNT_SHRIMP, COOKED_ANCHOVY, BURNT_ANCHOVY, RAW_SHRIMP, RAW_ANCHOVY, LOGS};
 
-    int[] exclude;
-    if (tinderboxSlot >= 0 && netSlot >= 0) {
-      exclude = new int[]{tinderboxSlot, netSlot};
-    } else if (tinderboxSlot >= 0) {
-      exclude = new int[]{tinderboxSlot};
-    } else if (netSlot >= 0) {
-      exclude = new int[]{netSlot};
-    } else {
-      exclude = new int[0];
+    controller().keyboard().sendModifierKey(401, "shift");
+    waitRandomMillis(100, 250);
+
+    try {
+      for (int i = 0; i < 28; i++) {
+        Rectangle slot = controller().zones().getInventorySlots().get(i);
+        BufferedImage slotImg = ScreenManager.captureZone(slot);
+        for (String item : droppable) {
+          if (TemplateMatching.match(item, slotImg, INV_THRESHOLD).success()) {
+            Point clickLoc = ClickDistribution.generateRandomPoint(slot);
+            controller().mouse().moveTo(clickLoc, "fast");
+            controller().mouse().leftClick();
+            waitRandomMillis(40, 90);
+            break;
+          }
+        }
+      }
+    } finally {
+      waitRandomMillis(100, 200);
+      controller().keyboard().sendModifierKey(402, "shift");
     }
 
-    ItemDropper.dropAll(this, ItemDropper.DropPattern.ZIGZAG, exclude);
-    HumanBehavior.sleep(300, 500);
     stuckCounter = 0;
     logger.info("Dropped all fish.");
   }
@@ -378,8 +397,7 @@ public class DraynorFishCookScript extends BaseScript {
     for (int i = 0; i < 28; i++) {
       Rectangle slot = controller().zones().getInventorySlots().get(i);
       BufferedImage slotImg = ScreenManager.captureZone(slot);
-      if (TemplateMatching.match(COOKED_SHRIMP, slotImg, INV_THRESHOLD).success()
-          || TemplateMatching.match(BURNT_SHRIMP, slotImg, INV_THRESHOLD).success()) {
+      if (matchesAny(slotImg, COOKED_FISH)) {
         controller().keyboard().sendModifierKey(401, "shift");
         waitRandomMillis(80, 150);
         Point clickLoc = ClickDistribution.generateRandomPoint(slot);
@@ -390,6 +408,14 @@ public class DraynorFishCookScript extends BaseScript {
         return;
       }
     }
+  }
+
+  /** Returns true if the slot image matches any of the given templates. */
+  private boolean matchesAny(BufferedImage slotImg, String[] templates) {
+    for (String t : templates) {
+      if (TemplateMatching.match(t, slotImg, INV_THRESHOLD).success()) return true;
+    }
+    return false;
   }
 
 }

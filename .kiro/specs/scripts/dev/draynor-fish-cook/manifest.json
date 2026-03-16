@@ -2,5 +2,5 @@
   "id": "draynor-fish-cook",
   "status": "dev",
   "script_class": "DraynorFishCookScript",
-  "images": ["Raw_shrimps.png", "Shrimps.png", "Burnt_shrimp.png", "Logs.png", "Tinderbox.png", "Small_fishing_net.png"]
+  "images": ["Raw_shrimps.png", "Shrimps.png", "Burnt_shrimp.png", "Raw_anchovies.png", "Anchovies.png", "Burnt_anchovies.png", "Logs.png", "Tinderbox.png", "Small_fishing_net.png"]
 }

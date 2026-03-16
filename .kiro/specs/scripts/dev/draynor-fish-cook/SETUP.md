@@ -16,7 +16,7 @@
 
 ### Object Markers
 - Tag **1-3 regular trees** near the Draynor shore in **Green** — HSV ~59-60, 254-255, 254-255
-- Tag **lit fires** in **Orange** — HSV ~15-16, 254-255, 254-255
+- Tag **lit fires** in **Red** — HSV ~0-1, 254-255, 254-255
 - Tagging multiple trees provides fallback if one is chopped by another player
 
 ### Idle Notifier
@@ -31,6 +31,9 @@ All auto-downloaded from the OSRS Wiki — no manual screenshots needed:
 - `Raw_shrimps.png` ✓
 - `Shrimps.png` (cooked) ✓
 - `Burnt_shrimp.png` ✓
+- `Raw_anchovies.png` ✓
+- `Anchovies.png` (cooked) ✓
+- `Burnt_anchovies.png` ✓
 - `Logs.png` ✓
 - `Tinderbox.png` ✓
 - `Small_fishing_net.png` ✓
