@@ -39,14 +39,14 @@ Do NOT create utilities for script-specific logic (quest dialog trees, specific 
 
 ## Where to Put It
 
-`ChromaScape/src/main/java/com/chromascape/utils/actions/`
+`ChromaScape/src/main/java/com/chromascape/utils/actions/custom/`
 
 This is where `Idler`, `Inventory`, `ItemDropper`, `KeyPress`, `LevelUpDismisser`, `Logout`, `Minimap`, `MouseOver`, `MovingObject`, and `PointSelector` live.
 
 ## How to Write It
 
 ```java
-package com.chromascape.utils.actions;
+package com.chromascape.utils.actions.custom;
 
 import com.chromascape.base.BaseScript;
 
@@ -73,7 +73,7 @@ Rules:
 
 ## How to Deploy
 
-1. Create the file in `ChromaScape/src/main/java/com/chromascape/utils/actions/`
+1. Create the file in `ChromaScape/src/main/java/com/chromascape/utils/actions/custom/`
 2. Compile: `cd ChromaScape && gradle compileJava`
 3. Update scripts in scriptgen to import and use the new utility
 4. Run `./scripts/sync-and-compile.sh`

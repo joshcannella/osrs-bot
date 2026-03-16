@@ -136,26 +136,26 @@ static int getXp(BaseScript script)       // Requires permanent XP bar
 static boolean waitUntilIdle(BaseScript base, int timeoutSeconds)
 ```
 
-## Walk (com.chromascape.utils.actions.Walk)
+## Walk (com.chromascape.utils.actions.custom.Walk)
 ```java
 static boolean to(BaseScript base, Point tile, String label)       // Returns false on path error
 static void toOrStop(BaseScript base, Point tile, String label)    // Stops script on any failure
 ```
 
-## ColourClick (com.chromascape.utils.actions.ColourClick)
+## ColourClick (com.chromascape.utils.actions.custom.ColourClick)
 ```java
 static boolean isVisible(BaseScript base, ColourObj colour)        // Is colour object on screen?
 static Point getClickPoint(BaseScript base, ColourObj colour)      // Safe click point (null if not found)
 ```
 
-## Bank (com.chromascape.utils.actions.Bank)
+## Bank (com.chromascape.utils.actions.custom.Bank)
 ```java
 static void open(BaseScript base, String colour)                   // Click highlighted bank booth
 static void depositAll(BaseScript base)                            // Right-click slot 0 → Deposit-All
 static void close(BaseScript base)                                 // Press Escape
 ```
 
-## HumanBehavior (com.chromascape.utils.actions.HumanBehavior)
+## HumanBehavior (com.chromascape.utils.actions.custom.HumanBehavior)
 ```java
 static boolean runPreCycleChecks(BaseScript base)   // All pre-cycle checks in one call
 static long adjustDelay(long baseMin, long baseMax)  // Tempo + fatigue adjusted delay
@@ -166,7 +166,7 @@ static void performMisclick(BaseScript script, Point intended)
 static void performHesitation()
 ```
 
-## Inventory (com.chromascape.utils.actions.Inventory)
+## Inventory (com.chromascape.utils.actions.custom.Inventory)
 ```java
 static boolean hasItem(BaseScript base, String templatePath, double threshold)
 static int countItem(BaseScript base, String templatePath, double threshold)
@@ -175,7 +175,7 @@ static boolean clickItem(BaseScript base, String templatePath, double threshold,
 static boolean isFull(BaseScript base, String[] knownItems, double threshold)
 ```
 
-## KeyPress (com.chromascape.utils.actions.KeyPress)
+## KeyPress (com.chromascape.utils.actions.custom.KeyPress)
 ```java
 static void space(BaseScript base)
 static void escape(BaseScript base)
@@ -183,12 +183,12 @@ static void enter(BaseScript base)
 static void character(BaseScript base, char key)
 ```
 
-## Logout (com.chromascape.utils.actions.Logout)
+## Logout (com.chromascape.utils.actions.custom.Logout)
 ```java
 static void perform(BaseScript base)
 ```
 
-## LevelUpDismisser (com.chromascape.utils.actions.LevelUpDismisser)
+## LevelUpDismisser (com.chromascape.utils.actions.custom.LevelUpDismisser)
 ```java
 static boolean dismissIfPresent(BaseScript base)    // OCR chatbox, press space if level-up detected
 ```
@@ -230,7 +230,7 @@ static void send(String message)
 
 ## HumanBehavior Integration
 
-Import: `com.chromascape.utils.actions.HumanBehavior`
+Import: `com.chromascape.utils.actions.custom.HumanBehavior`
 
 ### Top of cycle():
 ```java

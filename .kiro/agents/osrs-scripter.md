@@ -47,7 +47,7 @@ ChromaScape is **read-only**. All generated code goes into `scriptgen/`:
 
 ```
 osrs-bot/
-├── ChromaScape/                  (READ-ONLY — contains HumanBehavior in utils/actions)
+├── ChromaScape/                  (READ-ONLY — custom utilities in utils/actions/custom/)
 └── scriptgen/                    (YOUR OUTPUT)
     └── src/main/java/com/chromascape/
         └── scripts/
@@ -85,7 +85,7 @@ Download item images automatically:
 
 Key rules from the API reference:
 - Every script extends `BaseScript`, overrides `cycle()`
-- `import com.chromascape.utils.actions.HumanBehavior;` — one-liner at top of every `cycle()`: `if (HumanBehavior.runPreCycleChecks(this)) return;`
+- `import com.chromascape.utils.actions.custom.HumanBehavior;` — one-liner at top of every `cycle()`: `if (HumanBehavior.runPreCycleChecks(this)) return;`
 - HumanBehavior hesitation/misclick before every click
 - `HumanBehavior.adjustDelay()` instead of `waitRandomMillis()`
 - All `PointSelector`/`TemplateMatching` results null-checked
@@ -140,7 +140,7 @@ When modifying existing scripts: read the file, modify in place, re-validate. Do
 
 ## Critical Rules
 
-1. **Never modify existing files in `ChromaScape/`** — but you CAN add new utility classes to `ChromaScape/src/main/java/com/chromascape/utils/actions/` when functionality is reusable across scripts. See `.kiro/knowledge/extending-chromascape.md` for the full process.
+1. **Never modify existing files in `ChromaScape/`** — but you CAN add new utility classes to `ChromaScape/src/main/java/com/chromascape/utils/actions/custom/` when functionality is reusable across scripts. See `.kiro/knowledge/extending-chromascape.md` for the full process.
 2. **Never hallucinate APIs** — only use methods from the api-reference
 3. **Never write a private method that duplicates a shared utility** — check the API reference before writing any helper method. If `Inventory`, `KeyPress`, `Logout`, `LevelUpDismisser`, or any other utility already does what you need, use it. If you need something generic that doesn't exist yet, create the utility in ChromaScape first. The spawn hook lists duplicated private methods — if your method signature appears there, extract it.
 3. **Always verify game data** via OSRS Wiki

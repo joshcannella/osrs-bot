@@ -126,6 +126,16 @@ def lint():
     print("✓ No duplicate private methods")
     return 0
 
+def delta():
+    """Show files in ChromaScape that differ from upstream."""
+    result = run_cmd(
+        ["git", "diff", "--stat", "upstream/main..HEAD"],
+        cwd=CHROMASCAPE, check=False,
+    )
+    if result.returncode != 0:
+        print("Run 'osrs-bot upstream' first to fetch upstream.", file=sys.stderr)
+        sys.exit(1)
+
 
 # === Commands ===
 
@@ -134,6 +144,9 @@ def cmd_build(args):
 
 def cmd_lint(args):
     sys.exit(lint())
+
+def cmd_delta(args):
+    delta()
 
 
 def cmd_deploy(args):
@@ -274,6 +287,7 @@ def main():
 
     sub.add_parser("build", help="Compile scripts, sync to ChromaScape, and compile.")
     sub.add_parser("lint", help="Warn about private methods duplicated across scripts.")
+    sub.add_parser("delta", help="Show ChromaScape files that differ from upstream.")
 
     p_deploy = sub.add_parser("deploy", help="Build, verify, and push.")
     p_deploy.add_argument("script_id", nargs="?", help="Deploy a single script by spec ID")
@@ -303,6 +317,7 @@ def main():
     commands = {
         "build": cmd_build,
         "lint": cmd_lint,
+        "delta": cmd_delta,
         "deploy": cmd_deploy,
         "run": cmd_run,
         "logs": lambda a: cmd_logs_pull(a) if a.logs_command == "pull" else cmd_logs_tail(a) if a.logs_command == "tail" else p_logs.print_help(),
