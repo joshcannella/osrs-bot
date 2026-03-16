@@ -136,6 +136,25 @@ static int getXp(BaseScript script)       // Requires permanent XP bar
 static boolean waitUntilIdle(BaseScript base, int timeoutSeconds)
 ```
 
+## Walk (com.chromascape.utils.actions.Walk)
+```java
+static boolean to(BaseScript base, Point tile, String label)       // Returns false on path error
+static void toOrStop(BaseScript base, Point tile, String label)    // Stops script on any failure
+```
+
+## ColourClick (com.chromascape.utils.actions.ColourClick)
+```java
+static boolean isVisible(BaseScript base, ColourObj colour)        // Is colour object on screen?
+static Point getClickPoint(BaseScript base, ColourObj colour)      // Safe click point (null if not found)
+```
+
+## Bank (com.chromascape.utils.actions.Bank)
+```java
+static void open(BaseScript base, String colour)                   // Click highlighted bank booth
+static void depositAll(BaseScript base)                            // Right-click slot 0 → Deposit-All
+static void close(BaseScript base)                                 // Press Escape
+```
+
 ## HumanBehavior (com.chromascape.utils.actions.HumanBehavior)
 ```java
 static boolean runPreCycleChecks(BaseScript base)   // All pre-cycle checks in one call
