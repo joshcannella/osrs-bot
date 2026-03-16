@@ -123,15 +123,14 @@ public class ChickenKillerScript extends BaseScript {
         int delta = currentXp - previousXp;
         if (delta >= CHICKEN_XP && delta < 100) {
           logger.info("Kill confirmed via XP (+{})", delta);
-          waitMillis(HumanBehavior.adjustDelay(600, 900));
           // Loot feather — find closest loot contour and click it
           Point lootLoc = findNearestLoot();
           if (lootLoc != null) {
             controller().mouse().moveTo(lootLoc, "fast");
             controller().mouse().leftClick();
             logger.info("Clicked feather loot at {}", lootLoc);
-            waitMillis(HumanBehavior.adjustDelay(300, 500));
           }
+          waitMillis(HumanBehavior.adjustDelay(300, 500));
           checkStyleRotation();
           return;
         }
