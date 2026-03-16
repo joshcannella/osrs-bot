@@ -9,8 +9,6 @@ import com.chromascape.utils.core.input.distribution.ClickDistribution;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import com.chromascape.utils.core.screen.topology.ChromaObj;
 import com.chromascape.utils.core.screen.topology.ColourContours;
-import com.chromascape.utils.core.screen.topology.TemplateMatching;
-import com.chromascape.utils.core.screen.window.ScreenManager;
 import com.scriptgen.behavior.HumanBehavior;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -42,16 +40,11 @@ public class ChickenKillerScript extends BaseScript {
 
   private static final Logger logger = LogManager.getLogger(ChickenKillerScript.class);
 
-  // === Image Templates ===
-  private static final String FEATHER_IMAGE = "/images/user/Feather.png";
-
   // === Colour Definitions ===
   private static final ColourObj CHICKEN_COLOUR =
       new ColourObj("cyan", new Scalar(90, 254, 254, 0), new Scalar(91, 255, 255, 0));
   private static final ColourObj LOOT_COLOUR =
       new ColourObj("purple", new Scalar(139, 200, 200, 0), new Scalar(141, 255, 255, 0));
-
-  private static final double INVENTORY_THRESHOLD = 0.07;
 
   // === Walker ===
   private static final Point COOP_CENTER = new Point(3235, 3295);
@@ -151,12 +144,14 @@ public class ChickenKillerScript extends BaseScript {
    * verifying feather pickup via inventory template match. Bails quickly if nothing is picked up.
    */
   private void lootFeathers() {
-    boolean hadFeathers = hasItem(FEATHER_IMAGE);
-
     for (int attempt = 0; attempt < MAX_LOOT_ATTEMPTS; attempt++) {
+      if (!isColourVisible(LOOT_COLOUR)) {
+        return; // nothing visible, done
+      }
+
       Point lootLoc = findGroundItemByColour(LOOT_COLOUR);
       if (lootLoc == null) {
-        return; // nothing visible, done
+        return;
       }
 
       controller().mouse().moveTo(lootLoc, "medium");
@@ -165,8 +160,8 @@ public class ChickenKillerScript extends BaseScript {
       // Wait for player to walk to item and pick it up
       Idler.waitUntilIdle(this, 10);
 
-      // If we now have feathers (or already had them — stack grew), we're done
-      if (hasItem(FEATHER_IMAGE)) {
+      // If loot colour is gone from ground, pickup succeeded
+      if (!isColourVisible(LOOT_COLOUR)) {
         logger.info("Feathers looted.");
         return;
       }
@@ -221,19 +216,6 @@ public class ChickenKillerScript extends BaseScript {
         obj.release();
       }
     }
-  }
-
-  // === Inventory Utilities ===
-
-  private boolean hasItem(String templatePath) {
-    for (int i = 0; i < 28; i++) {
-      Rectangle slot = controller().zones().getInventorySlots().get(i);
-      BufferedImage slotImg = ScreenManager.captureZone(slot);
-      if (TemplateMatching.match(templatePath, slotImg, INVENTORY_THRESHOLD).success()) {
-        return true;
-      }
-    }
-    return false;
   }
 
   // === Recovery ===
