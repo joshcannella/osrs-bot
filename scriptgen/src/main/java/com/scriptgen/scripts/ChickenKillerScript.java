@@ -87,6 +87,9 @@ public class ChickenKillerScript extends BaseScript {
     fight();
   }
 
+  private static final int MAX_ENGAGE_ATTEMPTS = 3;
+  private static final int ENGAGE_TIMEOUT_MS = 2000;
+
   private void fight() {
     if (!isColourVisible(CHICKEN_COLOUR)) {
       logger.warn("No chicken found, failure {}/{}", combatFailures + 1, MAX_COMBAT_FAILURES);
@@ -110,23 +113,47 @@ public class ChickenKillerScript extends BaseScript {
     }
     logger.info("XP snapshot: {}", previousXp);
 
-    if (!MovingObject.clickMovingObjectByColourObjUntilRedClick(CHICKEN_COLOUR, this)) {
-      logger.warn("Failed to red-click chicken");
-      combatFailures++;
-      return;
+    // Try clicking chickens until one is actually engaged (first XP hit)
+    for (int attempt = 0; attempt < MAX_ENGAGE_ATTEMPTS; attempt++) {
+      if (!MovingObject.clickMovingObjectByColourObjUntilRedClick(CHICKEN_COLOUR, this)) {
+        logger.warn("Failed to red-click chicken (attempt {})", attempt + 1);
+        continue;
+      }
+
+      // Wait up to 2s for first XP gain to confirm combat engagement
+      if (waitForFirstHit(previousXp)) {
+        logger.info("In combat, waiting for kill...");
+        combatFailures = 0;
+        waitForKill(previousXp);
+        return;
+      }
+      logger.warn("Chicken unreachable (attempt {}), trying another", attempt + 1);
     }
 
-    combatFailures = 0;
-    logger.info("Attacked chicken, waiting for kill...");
+    logger.warn("Could not engage any chicken after {} attempts", MAX_ENGAGE_ATTEMPTS);
+    combatFailures++;
+  }
 
+  private boolean waitForFirstHit(int previousXp) {
+    LocalDateTime deadline = LocalDateTime.now().plusNanos(ENGAGE_TIMEOUT_MS * 1_000_000L);
+    while (LocalDateTime.now().isBefore(deadline)) {
+      try {
+        if (Minimap.getXp(this) > previousXp) {
+          return true;
+        }
+      } catch (Exception ignored) {}
+      waitMillis(200);
+    }
+    return false;
+  }
+
+  private void waitForKill(int previousXp) {
     LocalDateTime deadline = LocalDateTime.now().plusSeconds(KILL_TIMEOUT_SECONDS);
     while (LocalDateTime.now().isBefore(deadline)) {
       try {
-        int currentXp = Minimap.getXp(this);
-        int delta = currentXp - previousXp;
+        int delta = Minimap.getXp(this) - previousXp;
         if (delta >= CHICKEN_XP && delta < 100) {
           logger.info("Kill confirmed via XP (+{})", delta);
-          // Wait for death animation and loot to spawn
           waitMillis(HumanBehavior.adjustDelay(600, 900));
           if (LOOT_FEATHERS) {
             Point lootLoc = findNearestLoot();
@@ -140,12 +167,9 @@ public class ChickenKillerScript extends BaseScript {
           checkStyleRotation();
           return;
         }
-      } catch (Exception e) {
-        // OCR misread — keep polling
-      }
+      } catch (Exception ignored) {}
       waitMillis(300);
     }
-
     logger.info("Kill timeout — retrying");
   }
 
