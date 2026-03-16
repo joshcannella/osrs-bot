@@ -125,14 +125,12 @@ public class ChickenKillerScript extends BaseScript {
           logger.info("Kill confirmed via XP (+{})", delta);
           waitMillis(HumanBehavior.adjustDelay(600, 900));
           // Loot feather — find closest loot contour and click it
-          if (isColourVisible(LOOT_COLOUR)) {
-            Point lootLoc = findNearestLoot();
-            if (lootLoc != null) {
-              controller().mouse().moveTo(lootLoc, "fast");
-              controller().mouse().leftClick();
-              logger.info("Clicked feather loot at {}", lootLoc);
-              waitMillis(HumanBehavior.adjustDelay(300, 500));
-            }
+          Point lootLoc = findNearestLoot();
+          if (lootLoc != null) {
+            controller().mouse().moveTo(lootLoc, "fast");
+            controller().mouse().leftClick();
+            logger.info("Clicked feather loot at {}", lootLoc);
+            waitMillis(HumanBehavior.adjustDelay(300, 500));
           }
           checkStyleRotation();
           return;
