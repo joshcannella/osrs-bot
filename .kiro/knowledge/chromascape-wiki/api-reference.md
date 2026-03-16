@@ -136,6 +136,17 @@ static int getXp(BaseScript script)       // Requires permanent XP bar
 static boolean waitUntilIdle(BaseScript base, int timeoutSeconds)
 ```
 
+## HumanBehavior (com.chromascape.utils.actions.HumanBehavior)
+```java
+static boolean runPreCycleChecks(BaseScript base)   // All pre-cycle checks in one call
+static long adjustDelay(long baseMin, long baseMax)  // Tempo + fatigue adjusted delay
+static boolean shouldMisclick()
+static boolean shouldHesitate()
+static boolean shouldSlowApproach()
+static void performMisclick(BaseScript script, Point intended)
+static void performHesitation()
+```
+
 ## Inventory (com.chromascape.utils.actions.Inventory)
 ```java
 static boolean hasItem(BaseScript base, String templatePath, double threshold)
@@ -200,17 +211,13 @@ static void send(String message)
 
 ## HumanBehavior Integration
 
-Import: `com.scriptgen.behavior.HumanBehavior`
+Import: `com.chromascape.utils.actions.HumanBehavior`
 
 ### Top of cycle():
 ```java
-HumanBehavior.updateTempoDrift();
-if (HumanBehavior.shouldTakeExtendedBreak()) { HumanBehavior.performBreak(this, true); return; }
-if (HumanBehavior.shouldTakeBreak()) { HumanBehavior.performBreak(this, false); return; }
-if (HumanBehavior.shouldFidgetCamera()) { HumanBehavior.performCameraFidget(this); }
-if (HumanBehavior.shouldIdleDrift()) { HumanBehavior.performIdleDrift(this); }
-LevelUpDismisser.dismissIfPresent(this);  // Dismiss level-up dialogs before main logic
+if (HumanBehavior.runPreCycleChecks(this)) return;
 ```
+This single call handles: tempo drift, extended breaks, short breaks, camera fidgets, idle drifts, and level-up dismissal. Returns true if the cycle should be skipped (a break was taken).
 
 ### Before clicks:
 ```java
@@ -340,7 +347,8 @@ public class [Name]Script extends BaseScript {
 
     @Override
     protected void cycle() {
-        // 1. HumanBehavior top-of-cycle checks
+        // 1. Pre-cycle checks (breaks, fidgets, level-up dismissal)
+        if (HumanBehavior.runPreCycleChecks(this)) return;
         // 2. State machine logic
         // 3. Idle/wait with adjusted delays
     }
