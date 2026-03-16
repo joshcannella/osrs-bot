@@ -65,6 +65,9 @@ public final class HumanBehavior {
   private static final long SESSION_START = System.currentTimeMillis();
   private static double tempoMultiplier;
   private static long nextTempoDriftTime;
+  /** Minimum session warmup (ms) before breaks can trigger — randomized 20-30 min. */
+  private static final long BREAK_WARMUP_MS =
+      ThreadLocalRandom.current().nextLong(20L * 60 * 1000, 30L * 60 * 1000 + 1);
   private static long lastExtendedBreakTime = SESSION_START;
 
   static {
@@ -129,6 +132,7 @@ public final class HumanBehavior {
    * @return true with probability {@link #BREAK_RATE}
    */
   public static boolean shouldTakeBreak() {
+    if (System.currentTimeMillis() - SESSION_START < BREAK_WARMUP_MS) return false;
     return roll(BREAK_RATE);
   }
 
@@ -138,6 +142,7 @@ public final class HumanBehavior {
    * @return true with probability {@link #EXTENDED_BREAK_RATE}
    */
   public static boolean shouldTakeExtendedBreak() {
+    if (System.currentTimeMillis() - SESSION_START < BREAK_WARMUP_MS) return false;
     return roll(EXTENDED_BREAK_RATE);
   }
 
