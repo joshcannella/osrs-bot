@@ -48,6 +48,7 @@ public class ChickenKillerScript extends BaseScript {
   private static final boolean LOOT_FEATHERS = false;
 
   // === Walker ===
+  private static final Point COOP_GATE = new Point(3237, 3295);
   private static final Point COOP_CENTER = new Point(3235, 3295);
 
   // === Timeouts ===
@@ -208,14 +209,25 @@ public class ChickenKillerScript extends BaseScript {
 
   private void recoverToCoop() {
     try {
-      logger.info("Walking back to chicken coop");
+      // Walk to gate, click it to open if closed, then walk inside
+      logger.info("Walking to coop gate");
+      controller().walker().pathTo(COOP_GATE, false);
+      waitMillis(HumanBehavior.adjustDelay(1000, 1500));
+      // Click center to interact with gate
+      BufferedImage gameView = controller().zones().getGameView();
+      Point center = new Point(gameView.getWidth() / 2, gameView.getHeight() / 2);
+      controller().mouse().moveTo(center, "medium");
+      controller().mouse().leftClick();
+      waitMillis(HumanBehavior.adjustDelay(1500, 2500));
+      // Walk inside the coop
+      logger.info("Walking into coop");
       controller().walker().pathTo(COOP_CENTER, false);
-      waitMillis(HumanBehavior.adjustDelay(3000, 5000));
+      waitMillis(HumanBehavior.adjustDelay(2000, 3000));
     } catch (InterruptedException e) {
       logger.error("Walker interrupted");
       stop();
     } catch (Exception e) {
-      logger.warn("Walker error: {}", e.getMessage());
+      logger.warn("Recovery error: {}", e.getMessage());
     }
   }
 
