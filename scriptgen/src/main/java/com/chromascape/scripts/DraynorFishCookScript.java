@@ -107,11 +107,10 @@ public class DraynorFishCookScript extends BaseScript {
 
   // === Cached inventory scan results (refreshed each cycle) ===
   private int rawCount;
-  private boolean hasCooked;
+  private int cookedCount;
   private boolean hasLogs;
   private boolean hasTinderbox;
   private boolean hasNet;
-  private int occupiedSlots;
 
   @Override
   protected void cycle() {
@@ -146,10 +145,7 @@ public class DraynorFishCookScript extends BaseScript {
     // Determine state — check fire visibility once and reuse
     boolean fireVisible = COOKING_ENABLED && isFireVisible();
 
-    if (hasCooked && rawCount == 0) {
-      state = State.DROP;
-    } else if (hasCooked && rawCount > 0) {
-      // Mixed inventory (fire died mid-cook or leftover) — drop cooked first
+    if (cookedCount > 0 && rawCount == 0) {
       state = State.DROP;
     } else if (COOKING_ENABLED && rawCount >= TARGET_RAW && !hasLogs && !fireVisible) {
       state = State.CHOP;
@@ -159,16 +155,12 @@ public class DraynorFishCookScript extends BaseScript {
       state = State.COOK;
     } else if (!COOKING_ENABLED && rawCount >= TARGET_RAW) {
       state = State.DROP;
-    } else if (occupiedSlots >= 28) {
-      // Inventory full but doesn't match any expected state — drop everything except tools
-      logger.warn("Inventory full with unexpected items, dropping.");
-      state = State.DROP;
     } else {
       state = State.FISH;
     }
 
     logger.info("State: {} | Raw: {} | Logs: {} | Cooked: {} | Stuck: {}",
-        state, rawCount, hasLogs, hasCooked, stuckCounter);
+        state, rawCount, hasLogs, cookedCount, stuckCounter);
 
     switch (state) {
       case FISH -> fish();
@@ -184,11 +176,10 @@ public class DraynorFishCookScript extends BaseScript {
   /** Scans all 28 slots once and caches results for the entire cycle. */
   private void scanInventory() {
     rawCount = 0;
-    hasCooked = false;
+    cookedCount = 0;
     hasLogs = false;
     hasTinderbox = false;
     hasNet = false;
-    occupiedSlots = 0;
 
     for (int i = 0; i < 28; i++) {
       Rectangle slot = controller().zones().getInventorySlots().get(i);
@@ -197,23 +188,14 @@ public class DraynorFishCookScript extends BaseScript {
       if (TemplateMatching.match(RAW_SHRIMP, slotImg, INV_THRESHOLD).success()
           || TemplateMatching.match(RAW_ANCHOVY, slotImg, INV_THRESHOLD).success()) {
         rawCount++;
-        occupiedSlots++;
-      } else if (!hasCooked && matchesAny(slotImg, COOKED_FISH)) {
-        hasCooked = true;
-        occupiedSlots++;
+      } else if (matchesAny(slotImg, COOKED_FISH)) {
+        cookedCount++;
       } else if (!hasLogs && TemplateMatching.match(LOGS, slotImg, INV_THRESHOLD).success()) {
         hasLogs = true;
-        occupiedSlots++;
       } else if (!hasTinderbox && TemplateMatching.match(TINDERBOX, slotImg, INV_THRESHOLD).success()) {
         hasTinderbox = true;
-        occupiedSlots++;
       } else if (!hasNet && TemplateMatching.match(NET, slotImg, INV_THRESHOLD).success()) {
         hasNet = true;
-        occupiedSlots++;
-      } else {
-        // Check if slot is non-empty (any match at all means occupied)
-        // For occupied count, we already counted known items above.
-        // Unknown items won't be counted perfectly, but the known items cover the normal case.
       }
     }
   }
