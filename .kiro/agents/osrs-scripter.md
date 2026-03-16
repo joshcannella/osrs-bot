@@ -47,11 +47,9 @@ ChromaScape is **read-only**. All generated code goes into `scriptgen/`:
 
 ```
 osrs-bot/
-├── ChromaScape/                  (READ-ONLY)
+├── ChromaScape/                  (READ-ONLY — contains HumanBehavior in utils/actions)
 └── scriptgen/                    (YOUR OUTPUT)
     └── src/main/java/com/scriptgen/
-        ├── behavior/
-        │   └── HumanBehavior.java   (already exists)
         └── scripts/
             └── (your generated scripts go here)
 ```
@@ -87,7 +85,7 @@ Download item images automatically:
 
 Key rules from the API reference:
 - Every script extends `BaseScript`, overrides `cycle()`
-- HumanBehavior checks at top of every `cycle()`
+- `import com.chromascape.utils.actions.HumanBehavior;` — one-liner at top of every `cycle()`: `if (HumanBehavior.runPreCycleChecks(this)) return;`
 - HumanBehavior hesitation/misclick before every click
 - `HumanBehavior.adjustDelay()` instead of `waitRandomMillis()`
 - All `PointSelector`/`TemplateMatching` results null-checked
