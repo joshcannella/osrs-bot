@@ -186,20 +186,8 @@ public class ChickenKillerScript extends BaseScript {
           attempt + 1, MAX_LOOT_ATTEMPTS, pilesBefore, lootLoc);
       controller().mouse().moveTo(lootLoc, "medium");
       controller().mouse().leftClick();
-
-      // Poll until contour count drops or timeout
-      LocalDateTime deadline = LocalDateTime.now().plusSeconds(4);
-      while (LocalDateTime.now().isBefore(deadline)) {
-        waitMillis(300);
-        if (countColourContours(LOOT_COLOUR) < pilesBefore) {
-          logger.info("Feathers looted. Piles: {} → fewer", pilesBefore);
-          return;
-        }
-      }
-      logger.warn("Loot click didn't reduce piles after timeout");
+      waitMillis(HumanBehavior.adjustDelay(300, 500));
     }
-
-    logger.info("Loot attempts exhausted, moving on.");
   }
 
   // === Colour Utilities ===
