@@ -145,8 +145,9 @@ public class ChickenKillerScript extends BaseScript {
    */
   private void lootFeathers() {
     for (int attempt = 0; attempt < MAX_LOOT_ATTEMPTS; attempt++) {
-      if (!isColourVisible(LOOT_COLOUR)) {
-        return; // nothing visible, done
+      int pilesBefore = countColourContours(LOOT_COLOUR);
+      if (pilesBefore == 0) {
+        return;
       }
 
       Point lootLoc = findGroundItemByColour(LOOT_COLOUR);
@@ -160,8 +161,8 @@ public class ChickenKillerScript extends BaseScript {
       // Wait for player to walk to item and pick it up
       Idler.waitUntilIdle(this, 10);
 
-      // If loot colour is gone from ground, pickup succeeded
-      if (!isColourVisible(LOOT_COLOUR)) {
+      // If contour count dropped, we picked something up
+      if (countColourContours(LOOT_COLOUR) < pilesBefore) {
         logger.info("Feathers looted.");
         return;
       }
@@ -171,6 +172,16 @@ public class ChickenKillerScript extends BaseScript {
   }
 
   // === Colour Utilities ===
+
+  private int countColourContours(ColourObj colour) {
+    BufferedImage gameView = controller().zones().getGameView();
+    List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, colour);
+    int count = objs.size();
+    for (ChromaObj obj : objs) {
+      obj.release();
+    }
+    return count;
+  }
 
   private boolean isColourVisible(ColourObj colour) {
     BufferedImage gameView = controller().zones().getGameView();
