@@ -54,7 +54,7 @@ osrs-bot/
             └── (your generated scripts go here)
 ```
 
-Compile & deploy: `./scripts/sync-and-compile.sh` — compiles scripts first, then syncs to ChromaScape and compiles there.
+Compile & deploy: `osrs-bot build` — compiles scripts, syncs to ChromaScape, and compiles ChromaScape.
 
 After compilation succeeds, **always run the full deploy**:
 ```bash
@@ -94,7 +94,7 @@ Key rules from the API reference:
 
 ## Phase 3: Validation & Deploy
 
-1. **Compile & sync**: `./scripts/sync-and-compile.sh` — compiles scripts, syncs to ChromaScape, compiles ChromaScape
+1. **Compile & sync**: `osrs-bot build` — compiles scripts, syncs to ChromaScape, compiles ChromaScape
 2. Fix compile errors (max 3 attempts)
 3. **Deploy**: Run `osrs-bot deploy` (or `osrs-bot deploy <script-id>` for targeted) — this handles everything automatically:
    - Syncs scripts to ChromaScape (fixes package names and imports)

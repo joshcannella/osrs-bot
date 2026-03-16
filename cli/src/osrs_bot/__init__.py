@@ -22,7 +22,6 @@ def get_root() -> Path:
 
 ROOT = get_root()
 SCRIPTGEN_SCRIPTS = ROOT / "scriptgen/src/main/java/com/scriptgen/scripts"
-SCRIPTGEN_BEHAVIOR = ROOT / "scriptgen/src/main/java/com/scriptgen/behavior"
 SCRIPTGEN_RESOURCES = ROOT / "scriptgen/src/main/resources/images/user"
 CHROMASCAPE = ROOT / "ChromaScape"
 CHROMASCAPE_SCRIPTS = CHROMASCAPE / "src/main/java/com/chromascape/scripts"
@@ -67,73 +66,6 @@ def id_to_class(script_id: str) -> str:
     return "".join(w.capitalize() for w in script_id.split("-")) + "Script"
 
 
-def sync_script(script_class: str, images: list[str] | None = None) -> bool:
-    src = SCRIPTGEN_SCRIPTS / f"{script_class}.java"
-    dst = CHROMASCAPE_SCRIPTS / f"{script_class}.java"
-    if not src.exists():
-        print(f"  ✗ {src} not found", file=sys.stderr)
-        return False
-    CHROMASCAPE_SCRIPTS.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(src, dst)
-    text = dst.read_text()
-    text = text.replace("package com.scriptgen.scripts;", "package com.chromascape.scripts;")
-    text = text.replace("import com.scriptgen.behavior.HumanBehavior;", "import com.chromascape.scripts.HumanBehavior;")
-    dst.write_text(text)
-    print(f"  ✓ {script_class}.java")
-    if images:
-        CHROMASCAPE_RESOURCES.mkdir(parents=True, exist_ok=True)
-        for img in images:
-            img_src = SCRIPTGEN_RESOURCES / img
-            if img_src.exists():
-                shutil.copy2(img_src, CHROMASCAPE_RESOURCES / img)
-                print(f"  ✓ {img}")
-    return True
-
-
-def sync_human_behavior():
-    src = SCRIPTGEN_BEHAVIOR / "HumanBehavior.java"
-    if not src.exists():
-        return
-    dst = CHROMASCAPE_SCRIPTS / "HumanBehavior.java"
-    CHROMASCAPE_SCRIPTS.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(src, dst)
-    text = dst.read_text()
-    text = text.replace("package com.scriptgen.behavior;", "package com.chromascape.scripts;")
-    dst.write_text(text)
-    print("  ✓ HumanBehavior.java")
-
-
-def sync_all():
-    print("Syncing all scripts...")
-    sync_human_behavior()
-    for f in sorted(SCRIPTGEN_SCRIPTS.glob("*.java")):
-        sync_script(f.stem)
-    if SCRIPTGEN_RESOURCES.exists():
-        CHROMASCAPE_RESOURCES.mkdir(parents=True, exist_ok=True)
-        for img in sorted(SCRIPTGEN_RESOURCES.glob("*")):
-            shutil.copy2(img, CHROMASCAPE_RESOURCES / img.name)
-        print(f"  ✓ {len(list(SCRIPTGEN_RESOURCES.glob('*')))} images synced")
-
-
-def patch_logging():
-    script = ROOT / "scripts/patch-logging.sh"
-    if script.exists():
-        run_cmd(["bash", str(script)])
-
-
-def compile_chromascape():
-    print("Compiling ChromaScape...")
-    if platform.system() == "Windows":
-        gradle = str(CHROMASCAPE / "gradlew.bat")
-    else:
-        gradle = "./gradlew"
-    result = run_cmd([gradle, "compileJava"], cwd=CHROMASCAPE, check=False)
-    if result.returncode != 0:
-        print("✗ Compilation failed", file=sys.stderr)
-        sys.exit(1)
-    print("  ✓ Compiled")
-
-
 def dry_run():
     print("Dry-run verification...")
     if platform.system() == "Windows":
@@ -171,21 +103,24 @@ def push_parent():
     print("  ✓ Pushed")
 
 
+def build():
+    """Compile scripts, sync to ChromaScape, and compile ChromaScape."""
+    result = run_cmd(["bash", str(ROOT / "scripts/sync-and-compile.sh")], check=False)
+    if result.returncode != 0:
+        print("✗ Build failed", file=sys.stderr)
+        sys.exit(1)
+
+
 # === Commands ===
+
+def cmd_build(args):
+    build()
+
 
 def cmd_deploy(args):
     if args.script_id:
         print(f"Deploying: {args.script_id}")
-        manifest = get_manifest(args.script_id)
-        script_class = manifest["script_class"] if manifest else id_to_class(args.script_id)
-        images = manifest.get("images", []) if manifest else []
-        sync_human_behavior()
-        if not sync_script(script_class, images):
-            sys.exit(1)
-    else:
-        sync_all()
-    patch_logging()
-    compile_chromascape()
+    build()
     dry_run()
     if args.dry_run:
         print("\n✓ Deploy complete (dry-run, no changes pushed)")
@@ -323,7 +258,9 @@ def main():
     parser = argparse.ArgumentParser(prog="osrs-bot", description="Manage scripts, deployments, logs, and bugs.")
     sub = parser.add_subparsers(dest="command")
 
-    p_deploy = sub.add_parser("deploy", help="Sync, compile, verify, and push.")
+    sub.add_parser("build", help="Compile scripts, sync to ChromaScape, and compile.")
+
+    p_deploy = sub.add_parser("deploy", help="Build, verify, and push.")
     p_deploy.add_argument("script_id", nargs="?", help="Deploy a single script by spec ID")
     p_deploy.add_argument("--dry-run", action="store_true", help="Test deploy locally without pushing to GitHub")
 
@@ -349,6 +286,7 @@ def main():
     args = parser.parse_args()
 
     commands = {
+        "build": cmd_build,
         "deploy": cmd_deploy,
         "run": cmd_run,
         "logs": lambda a: cmd_logs_pull(a) if a.logs_command == "pull" else cmd_logs_tail(a) if a.logs_command == "tail" else p_logs.print_help(),
