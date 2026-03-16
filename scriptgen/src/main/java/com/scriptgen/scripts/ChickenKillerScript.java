@@ -146,19 +146,43 @@ public class ChickenKillerScript extends BaseScript {
    */
   private void lootFeathers() {
     for (int attempt = 0; attempt < MAX_LOOT_ATTEMPTS; attempt++) {
-      int pilesBefore = countColourContours(LOOT_COLOUR);
-      if (pilesBefore == 0) {
+      // Single scan: get contours, count, and click point
+      BufferedImage gameView = controller().zones().getGameView();
+      List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, LOOT_COLOUR);
+      if (objs.isEmpty()) {
         logger.info("No loot visible, skipping.");
         return;
       }
 
-      Point lootLoc = findGroundItemByColour(LOOT_COLOUR);
-      if (lootLoc == null) {
-        logger.warn("Loot colour visible but no click point generated.");
+      int pilesBefore = objs.size();
+      Point lootLoc;
+      try {
+        ChromaObj smallest = objs.get(0);
+        for (ChromaObj obj : objs) {
+          if (obj.boundingBox().width * obj.boundingBox().height
+              < smallest.boundingBox().width * smallest.boundingBox().height) {
+            smallest = obj;
+          }
+        }
+        Rectangle box = smallest.boundingBox();
+        if (box.width > 60 || box.height > 60) {
+          int halfW = box.width / 2;
+          int halfH = box.height / 2;
+          int qx = ThreadLocalRandom.current().nextBoolean() ? box.x : box.x + halfW;
+          int qy = ThreadLocalRandom.current().nextBoolean() ? box.y : box.y + halfH;
+          box = new Rectangle(qx, qy, halfW, halfH);
+        }
+        lootLoc = ClickDistribution.generateRandomPoint(box, 20.0);
+      } catch (Exception e) {
+        logger.warn("Failed to generate loot point: {}", e.getMessage());
         return;
+      } finally {
+        for (ChromaObj obj : objs) {
+          obj.release();
+        }
       }
 
-      logger.info("Loot attempt {}/{} — {} pile(s) visible, clicking {}", 
+      logger.info("Loot attempt {}/{} — {} pile(s), clicking {}", 
           attempt + 1, MAX_LOOT_ATTEMPTS, pilesBefore, lootLoc);
       controller().mouse().moveTo(lootLoc, "medium");
       controller().mouse().leftClick();
@@ -196,42 +220,6 @@ public class ChickenKillerScript extends BaseScript {
       obj.release();
     }
     return found;
-  }
-
-  private Point findGroundItemByColour(ColourObj colour) {
-    BufferedImage gameView = controller().zones().getGameView();
-    List<ChromaObj> objs = ColourContours.getChromaObjsInColour(gameView, colour);
-    if (objs.isEmpty()) {
-      return null;
-    }
-    try {
-      ChromaObj smallest = objs.get(0);
-      for (ChromaObj obj : objs) {
-        if (obj.boundingBox().width * obj.boundingBox().height
-            < smallest.boundingBox().width * smallest.boundingBox().height) {
-          smallest = obj;
-        }
-      }
-      Rectangle box = smallest.boundingBox();
-
-      // If the contour is too large, it's likely merged tiles — pick a random quadrant
-      if (box.width > 60 || box.height > 60) {
-        int halfW = box.width / 2;
-        int halfH = box.height / 2;
-        int qx = ThreadLocalRandom.current().nextBoolean() ? box.x : box.x + halfW;
-        int qy = ThreadLocalRandom.current().nextBoolean() ? box.y : box.y + halfH;
-        box = new Rectangle(qx, qy, halfW, halfH);
-      }
-
-      return ClickDistribution.generateRandomPoint(box, 20.0);
-    } catch (Exception e) {
-      logger.warn("Failed to generate loot point: {}", e.getMessage());
-      return null;
-    } finally {
-      for (ChromaObj obj : objs) {
-        obj.release();
-      }
-    }
   }
 
   // === Recovery ===
