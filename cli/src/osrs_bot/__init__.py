@@ -107,10 +107,33 @@ def build():
         sys.exit(1)
 
 
+def lint():
+    """Warn about private methods duplicated across scripts."""
+    import re, collections
+    scripts_dir = ROOT / "scriptgen/src/main/java/com/scriptgen/scripts"
+    sig_re = re.compile(r"private\s+\w+\s+(\w+)\(")
+    # map method name -> set of filenames
+    methods: dict[str, set[str]] = collections.defaultdict(set)
+    for f in scripts_dir.glob("*.java"):
+        for m in sig_re.findall(f.read_text()):
+            methods[m].add(f.stem)
+    dupes = {m: files for m, files in methods.items() if len(files) > 1}
+    if dupes:
+        print(f"⚠ {len(dupes)} duplicate private method(s) found:")
+        for m, files in sorted(dupes.items()):
+            print(f"  {m}() — {', '.join(sorted(files))}")
+        return 1
+    print("✓ No duplicate private methods")
+    return 0
+
+
 # === Commands ===
 
 def cmd_build(args):
     build()
+
+def cmd_lint(args):
+    sys.exit(lint())
 
 
 def cmd_deploy(args):
@@ -250,6 +273,7 @@ def main():
     sub = parser.add_subparsers(dest="command")
 
     sub.add_parser("build", help="Compile scripts, sync to ChromaScape, and compile.")
+    sub.add_parser("lint", help="Warn about private methods duplicated across scripts.")
 
     p_deploy = sub.add_parser("deploy", help="Build, verify, and push.")
     p_deploy.add_argument("script_id", nargs="?", help="Deploy a single script by spec ID")
@@ -278,6 +302,7 @@ def main():
 
     commands = {
         "build": cmd_build,
+        "lint": cmd_lint,
         "deploy": cmd_deploy,
         "run": cmd_run,
         "logs": lambda a: cmd_logs_pull(a) if a.logs_command == "pull" else cmd_logs_tail(a) if a.logs_command == "tail" else p_logs.print_help(),

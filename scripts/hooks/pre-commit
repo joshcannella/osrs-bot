@@ -9,6 +9,7 @@ echo "pre-commit: running osrs-bot build..."
 
 if command -v osrs-bot &>/dev/null; then
   osrs-bot build
+  osrs-bot lint || true
 else
   # Fallback if CLI not installed
   ./scripts/sync-and-compile.sh
