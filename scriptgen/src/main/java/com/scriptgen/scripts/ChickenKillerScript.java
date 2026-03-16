@@ -44,6 +44,9 @@ public class ChickenKillerScript extends BaseScript {
   private static final ColourObj LOOT_COLOUR =
       new ColourObj("purple", new Scalar(139, 200, 200, 0), new Scalar(141, 255, 255, 0));
 
+  // === Configuration ===
+  private static final boolean LOOT_FEATHERS = true;
+
   // === Walker ===
   private static final Point COOP_CENTER = new Point(3235, 3295);
 
@@ -125,13 +128,14 @@ public class ChickenKillerScript extends BaseScript {
           logger.info("Kill confirmed via XP (+{})", delta);
           // Wait for death animation and loot to spawn
           waitMillis(HumanBehavior.adjustDelay(600, 900));
-          // Loot feather — find closest loot contour and click it
-          Point lootLoc = findNearestLoot();
-          if (lootLoc != null) {
-            controller().mouse().moveTo(lootLoc, "fast");
-            controller().mouse().leftClick();
-            logger.info("Clicked feather loot at {}", lootLoc);
-            waitMillis(HumanBehavior.adjustDelay(300, 500));
+          if (LOOT_FEATHERS) {
+            Point lootLoc = findNearestLoot();
+            if (lootLoc != null) {
+              controller().mouse().moveTo(lootLoc, "fast");
+              controller().mouse().leftClick();
+              logger.info("Clicked feather loot at {}", lootLoc);
+              waitMillis(HumanBehavior.adjustDelay(300, 500));
+            }
           }
           checkStyleRotation();
           return;
