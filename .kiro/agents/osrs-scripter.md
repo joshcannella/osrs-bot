@@ -29,7 +29,7 @@ Your primary input is a requirements document from `osrs-dev`, found at `.kiro/s
 
 ### On-demand (read when needed)
 - `.kiro/knowledge/chromascape-wiki/api-reference.md` — **Read this first before writing any code.** Full API signatures, HumanBehavior integration, common patterns (banking, eating, aggro reset), and the script template.
-- `.kiro/knowledge/extending-chromascape.md` — **Read when you find yourself writing the same utility method in multiple scripts.** Covers when and how to add reusable utilities to ChromaScape's `utils/actions` package.
+- `.kiro/knowledge/extending-chromascape.md` — **Read when you find yourself writing the same utility method in multiple scripts.** Covers when and how to add reusable utilities to ChromaScape's `utils/actions/custom/` package.
 - `.kiro/knowledge/osrs/*` — Game knowledge files. Usually not needed since the requirements doc covers game data.
 
 ## RuneLite Requirements
@@ -43,24 +43,35 @@ Your primary input is a requirements document from `osrs-dev`, found at `.kiro/s
 
 ## Project Structure
 
-ChromaScape is **read-only**. All generated code goes into `scriptgen/`:
+ChromaScape is a fork of an upstream project. **Never modify upstream files.** All generated scripts go into `scriptgen/`, and custom reusable utilities go into ChromaScape's `utils/actions/custom/` subpackage (separate from upstream's `utils/actions/`).
 
 ```
 osrs-bot/
-├── ChromaScape/                  (READ-ONLY — custom utilities in utils/actions/custom/)
-└── scriptgen/                    (YOUR OUTPUT)
+├── ChromaScape/                  (fork — custom code in utils/actions/custom/ only)
+│   └── src/main/java/com/chromascape/
+│       ├── utils/actions/        (UPSTREAM — Idler, ItemDropper, Minimap, MouseOver, MovingObject, PointSelector)
+│       └── utils/actions/custom/ (OURS — Bank, ColourClick, HumanBehavior, Inventory, KeyPress, LevelUpDismisser, Logout, Walk)
+└── scriptgen/                    (YOUR OUTPUT — scripts compile as com.chromascape.scripts)
     └── src/main/java/com/chromascape/
         └── scripts/
             └── (your generated scripts go here)
 ```
 
-Compile & deploy: `osrs-bot build` — compiles scripts, syncs to ChromaScape, and compiles ChromaScape.
+### Import conventions
+- Custom utilities: `import com.chromascape.utils.actions.custom.HumanBehavior;`
+- Upstream utilities: `import com.chromascape.utils.actions.Minimap;`
+- Scripts use `package com.chromascape.scripts;` directly — no package rewriting during sync.
 
-After compilation succeeds, **always run the full deploy**:
-```bash
-osrs-bot deploy
-```
-This syncs scripts to ChromaScape, fixes package names and imports, syncs image resources, compiles in the real target, runs a dry-run verification, and pushes to git. For a single script: `osrs-bot deploy <script-id>`. The user should not need to run anything manually.
+### CLI commands
+| Command | Purpose |
+|---|---|
+| `osrs-bot build` | Compile scripts → sync to ChromaScape → compile ChromaScape |
+| `osrs-bot deploy` | Build + dry-run verification + git push both repos |
+| `osrs-bot lint` | Warn about private methods duplicated across 2+ scripts |
+| `osrs-bot delta` | Show ChromaScape files that differ from upstream |
+| `osrs-bot status` | Show active/completed scripts and pending bugs |
+
+A pre-commit hook runs `build` + `lint` automatically on every commit.
 
 ---
 
@@ -96,13 +107,14 @@ Key rules from the API reference:
 
 1. **Compile & sync**: `osrs-bot build` — compiles scripts, syncs to ChromaScape, compiles ChromaScape
 2. Fix compile errors (max 3 attempts)
-3. **Deploy**: Run `osrs-bot deploy` (or `osrs-bot deploy <script-id>` for targeted) — this handles everything automatically:
-   - Syncs scripts to ChromaScape (fixes package names and imports)
+3. **Lint**: `osrs-bot lint` — check for duplicated private methods. If flagged, extract to a shared utility in `utils/actions/custom/`.
+4. **Deploy**: Run `osrs-bot deploy` (or `osrs-bot deploy <script-id>` for targeted) — this handles everything automatically:
+   - Syncs scripts to ChromaScape (straight copy, same package)
    - Syncs image resources
    - Compiles in ChromaScape (catches API mismatches)
    - Runs `gradle bootRun --dry-run` to verify the full task graph resolves
    - Commits and pushes to git (both submodule and parent)
-4. Verify: imports exist, ColourObj bounds valid, image paths start with `/images/user/`, images downloaded as PNG, loops have `checkInterrupted()`/`waitMillis()`, `pathTo()` try/caught, null checks on detection results, `stop()` on unrecoverable errors
+5. Verify: imports exist, ColourObj bounds valid, image paths start with `/images/user/`, images downloaded as PNG, loops have `checkInterrupted()`/`waitMillis()`, `pathTo()` try/caught, null checks on detection results, `stop()` on unrecoverable errors
 
 ## Phase 4: Setup Instructions
 
@@ -140,9 +152,9 @@ When modifying existing scripts: read the file, modify in place, re-validate. Do
 
 ## Critical Rules
 
-1. **Never modify existing files in `ChromaScape/`** — but you CAN add new utility classes to `ChromaScape/src/main/java/com/chromascape/utils/actions/custom/` when functionality is reusable across scripts. See `.kiro/knowledge/extending-chromascape.md` for the full process.
+1. **Never modify upstream ChromaScape files** — only add/edit files in `utils/actions/custom/` and `scripts/`. Run `osrs-bot delta` to see what you own vs upstream.
 2. **Never hallucinate APIs** — only use methods from the api-reference
-3. **Never write a private method that duplicates a shared utility** — check the API reference before writing any helper method. If `Inventory`, `KeyPress`, `Logout`, `LevelUpDismisser`, or any other utility already does what you need, use it. If you need something generic that doesn't exist yet, create the utility in ChromaScape first. The spawn hook lists duplicated private methods — if your method signature appears there, extract it.
+3. **Never write a private method that duplicates a shared utility** — check the API reference before writing any helper method. If `Inventory`, `KeyPress`, `Logout`, `LevelUpDismisser`, or any other utility in `utils/actions/custom/` already does what you need, use it. If you need something generic that doesn't exist yet, create the utility in `utils/actions/custom/` first. Run `osrs-bot lint` to check — if your method signature appears in 2+ scripts, extract it.
 3. **Always verify game data** via OSRS Wiki
 4. **Always include HumanBehavior integration**
 5. **Always validate compilation**
