@@ -45,7 +45,7 @@ public class ChickenKillerScript extends BaseScript {
       new ColourObj("purple", new Scalar(139, 200, 200, 0), new Scalar(141, 255, 255, 0));
 
   // === Configuration ===
-  private static final boolean LOOT_FEATHERS = true;
+  private static final boolean LOOT_FEATHERS = false;
 
   // === Walker ===
   private static final Point COOP_CENTER = new Point(3235, 3295);
