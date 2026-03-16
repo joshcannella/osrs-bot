@@ -105,9 +105,10 @@ public class ChickenKillerScript extends BaseScript {
     try {
       previousXp = Minimap.getXp(this);
     } catch (Exception e) {
-      logger.warn("Could not read XP, retrying next cycle");
+      logger.warn("XP read failed: {}", e.getMessage());
       return;
     }
+    logger.info("XP snapshot: {}", previousXp);
 
     if (!MovingObject.clickMovingObjectByColourObjUntilRedClick(CHICKEN_COLOUR, this)) {
       logger.warn("Failed to red-click chicken");
@@ -147,25 +148,29 @@ public class ChickenKillerScript extends BaseScript {
     for (int attempt = 0; attempt < MAX_LOOT_ATTEMPTS; attempt++) {
       int pilesBefore = countColourContours(LOOT_COLOUR);
       if (pilesBefore == 0) {
+        logger.info("No loot visible, skipping.");
         return;
       }
 
       Point lootLoc = findGroundItemByColour(LOOT_COLOUR);
       if (lootLoc == null) {
+        logger.warn("Loot colour visible but no click point generated.");
         return;
       }
 
+      logger.info("Loot attempt {}/{} — {} pile(s) visible, clicking {}", 
+          attempt + 1, MAX_LOOT_ATTEMPTS, pilesBefore, lootLoc);
       controller().mouse().moveTo(lootLoc, "medium");
       controller().mouse().leftClick();
 
-      // Wait for player to walk to item and pick it up
       Idler.waitUntilIdle(this, 10);
 
-      // If contour count dropped, we picked something up
-      if (countColourContours(LOOT_COLOUR) < pilesBefore) {
-        logger.info("Feathers looted.");
+      int pilesAfter = countColourContours(LOOT_COLOUR);
+      if (pilesAfter < pilesBefore) {
+        logger.info("Feathers looted. Piles: {} → {}", pilesBefore, pilesAfter);
         return;
       }
+      logger.warn("Loot click didn't reduce piles ({} → {})", pilesBefore, pilesAfter);
     }
 
     logger.info("Loot attempts exhausted, moving on.");
