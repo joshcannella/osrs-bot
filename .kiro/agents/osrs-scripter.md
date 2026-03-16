@@ -49,7 +49,7 @@ ChromaScape is **read-only**. All generated code goes into `scriptgen/`:
 osrs-bot/
 ├── ChromaScape/                  (READ-ONLY — contains HumanBehavior in utils/actions)
 └── scriptgen/                    (YOUR OUTPUT)
-    └── src/main/java/com/scriptgen/
+    └── src/main/java/com/chromascape/
         └── scripts/
             └── (your generated scripts go here)
 ```

@@ -110,7 +110,7 @@ def build():
 def lint():
     """Warn about private methods duplicated across scripts."""
     import re, collections
-    scripts_dir = ROOT / "scriptgen/src/main/java/com/scriptgen/scripts"
+    scripts_dir = ROOT / "scriptgen/src/main/java/com/chromascape/scripts"
     sig_re = re.compile(r"private\s+\w+\s+(\w+)\(")
     # map method name -> set of filenames
     methods: dict[str, set[str]] = collections.defaultdict(set)

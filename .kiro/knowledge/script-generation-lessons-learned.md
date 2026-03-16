@@ -115,27 +115,17 @@ if (itemLoc == null) {
 
 **Solution**: Always test compilation in the target environment:
 ```bash
-./scripts/sync-and-compile.sh
+osrs-bot build
 ```
 
-**Rule**: Use the sync script to copy from scriptgen → ChromaScape. It handles:
-- Package name changes (com.scriptgen.behavior → com.chromascape.scripts)
-- Import statement updates
-- Compilation verification in ChromaScape
+**Rule**: Use `osrs-bot build` to compile scripts and sync to ChromaScape. Scripts now use `package com.chromascape.scripts` directly — no package rewriting needed. The sync is a straight rsync copy.
 
 Check the ChromaScape API when using framework classes - don't assume method names match between projects.
 
 ---
 
-## Package Declaration Rewrite in Sync Script
-**Problem**: Scripts synced to ChromaScape retained `package com.scriptgen.scripts;` instead of `package com.chromascape.scripts;`. The source files appeared in the correct directory and the UI listed them, but `Class.forName()` failed at runtime because the compiled `.class` files were under the wrong package.
-
-**Solution**: The `sync-and-compile.sh` script must rewrite package declarations in addition to import statements:
-```bash
-find "$CHROMASCAPE_SCRIPTS" -name "*.java" -type f -exec sed -i 's/package com.scriptgen.scripts;/package com.chromascape.scripts;/g' {} \;
-```
-
-**Rule**: After any sync script change, verify the compiled `.class` files land in `build/classes/java/main/com/chromascape/scripts/`, not `com/scriptgen/scripts/`.
+## ~~Package Declaration Rewrite in Sync Script~~ (Obsolete)
+Scripts now use `package com.chromascape.scripts` directly in scriptgen — no rewriting needed. The sync is a straight rsync copy.
 
 ---
 

@@ -333,7 +333,7 @@ private void resetAggro() {
 
 ### Script Template
 ```java
-package com.scriptgen.scripts;
+package com.chromascape.scripts;
 
 import com.chromascape.base.BaseScript;
 import com.chromascape.utils.actions.*;
@@ -341,7 +341,6 @@ import com.chromascape.utils.core.input.distribution.ClickDistribution;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import com.chromascape.utils.core.screen.topology.*;
 import com.chromascape.utils.core.screen.window.ScreenManager;
-import com.scriptgen.behavior.HumanBehavior;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;

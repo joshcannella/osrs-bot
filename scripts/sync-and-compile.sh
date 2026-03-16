@@ -3,7 +3,7 @@
 
 set -e
 
-SCRIPTGEN_SCRIPTS="scriptgen/src/main/java/com/scriptgen/scripts"
+SCRIPTGEN_SCRIPTS="scriptgen/src/main/java/com/chromascape/scripts"
 CHROMASCAPE_SCRIPTS="ChromaScape/src/main/java/com/chromascape/scripts"
 SCRIPTGEN_RESOURCES="scriptgen/src/main/resources/images/user"
 CHROMASCAPE_RESOURCES="ChromaScape/src/main/resources/images/user"
@@ -13,13 +13,7 @@ export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17
 (cd scriptgen && gradle compileJava)
 
 echo "=== Syncing scripts to ChromaScape ==="
-
-# Copy all scripts
 rsync -av "$SCRIPTGEN_SCRIPTS/" "$CHROMASCAPE_SCRIPTS/"
-
-# Update package declarations and imports in script files
-echo "  ✓ Updating imports..."
-find "$CHROMASCAPE_SCRIPTS" -name "*.java" -type f -exec sed -i 's/package com.scriptgen.scripts;/package com.chromascape.scripts;/g' {} \;
 
 echo "=== Syncing image resources ==="
 mkdir -p "$CHROMASCAPE_RESOURCES"
