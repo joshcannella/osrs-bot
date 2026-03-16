@@ -211,9 +211,9 @@ public final class HumanBehavior {
       max = 15L * 60 * 1000;
       logger.info("Taking extended break (5-15 min)");
     } else {
-      min = 1L * 60 * 1000;
-      max = 5L * 60 * 1000;
-      logger.info("Taking short break (1-5 min)");
+      min = 30L * 1000;
+      max = 2L * 60 * 1000;
+      logger.info("Taking short break (30s-2 min)");
     }
     BaseScript.waitRandomMillis(min, max);
     if (extended) {
