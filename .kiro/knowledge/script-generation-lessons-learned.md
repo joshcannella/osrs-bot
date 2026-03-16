@@ -276,3 +276,45 @@ waitMillis(HumanBehavior.adjustDelay(600, 900));
 ```
 
 **Rule**: After confirming a kill, wait 600-900ms before the next action. This covers the death animation and loot spawn delay without being noticeably slow.
+
+---
+
+## Use Idler.waitUntilIdle() for Action Completion Detection
+**Problem**: Scripts polled inventory contents or XP every second in tight loops to detect when an action finished (e.g., fishing, cooking, chopping). This was expensive (many template matches per poll), unreliable (couldn't distinguish "still acting" from "brief pause between actions"), and missed edge cases like chat popups.
+
+**Solution**: Use `Idler.waitUntilIdle()` which reads the RuneLite Idle Notifier plugin's red chatbox message via OCR. It blocks until the player goes idle or the timeout is reached:
+```java
+// After clicking a fishing spot:
+if (Idler.waitUntilIdle(this, 120)) {
+    logger.info("Player went idle.");
+}
+// Then check WHY — inventory full? Spot moved? Ran out of bait?
+```
+
+**Rule**: Always prefer `Idler.waitUntilIdle()` over manual polling loops when waiting for an action to complete (fishing, cooking, chopping, smelting, etc.). After it returns, check the reason for idling (inventory state, chat popups, colour visibility) to decide the next action. This requires the RuneLite Idle Notifier plugin to be enabled.
+
+---
+
+## Stuck Detection and Logout
+**Problem**: Scripts got stuck in states where no progress was being made (e.g., fishing spot gone, fire died, tree chopped by someone else) and ran indefinitely doing nothing useful, risking detection.
+
+**Solution**: Track consecutive failed cycles. If the bot fails to make progress N times in a row, log out and stop:
+```java
+private static final int MAX_STUCK_CYCLES = 10;
+private int stuckCounter = 0;
+
+// After any successful action:
+stuckCounter = 0;
+
+// After any failed/no-progress cycle:
+stuckCounter++;
+if (stuckCounter >= MAX_STUCK_CYCLES) {
+    logger.error("Stuck for {} cycles, logging out.", MAX_STUCK_CYCLES);
+    DiscordNotification.send("Script stuck, logging out.");
+    pressLogout();
+    stop();
+    return;
+}
+```
+
+**Rule**: Every script must implement stuck detection. Track a counter that increments when a cycle makes no progress and resets on success. After a threshold (e.g., 10 cycles), send a Discord notification, log out, and stop. Never let a script run indefinitely without progress.
