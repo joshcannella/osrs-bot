@@ -101,7 +101,11 @@ def push_parent():
 
 def build():
     """Compile scripts, sync to ChromaScape, and compile ChromaScape."""
-    result = run_cmd(["bash", str(ROOT / "scripts/sync-and-compile.sh")], check=False)
+    if platform.system() == "Windows":
+        script = str(ROOT / "scripts/sync-and-compile.ps1")
+        result = run_cmd(["powershell", "-ExecutionPolicy", "Bypass", "-File", script], check=False)
+    else:
+        result = run_cmd(["bash", str(ROOT / "scripts/sync-and-compile.sh")], check=False)
     if result.returncode != 0:
         print("✗ Build failed", file=sys.stderr)
         sys.exit(1)
@@ -170,7 +174,12 @@ def cmd_run(args):
             os.startfile("http://localhost:8080")
         else:
             subprocess.Popen(["xdg-open", "http://localhost:8080"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    run_cmd(["gradle", "bootRun"], cwd=CHROMASCAPE)
+    if platform.system() == "Windows":
+        gradle = str(CHROMASCAPE / "gradlew.bat")
+    else:
+        gradle = "./gradlew"
+    # Skip clean to avoid DLL locking issues when RuneLite is running
+    run_cmd([gradle, "bootRun"], cwd=CHROMASCAPE)
 
 
 def cmd_logs_pull(args):

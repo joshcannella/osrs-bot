@@ -2,8 +2,8 @@
 
 $ErrorActionPreference = "Stop"
 
-$ScriptgenScripts = "scriptgen\src\main\java\com\scriptgen\scripts"
-$ScriptgenBehavior = "scriptgen\src\main\java\com\scriptgen\behavior"
+$ScriptgenScripts = "scriptgen\src\main\java\com\chromascape\scripts"
+$ScriptgenBehavior = "scriptgen\src\main\java\com\chromascape\behavior"
 $ChromascapeScripts = "ChromaScape\src\main\java\com\chromascape\scripts"
 $ScriptgenResources = "scriptgen\src\main\resources\images\user"
 $ChromascapeResources = "ChromaScape\src\main\resources\images\user"
@@ -17,7 +17,7 @@ Copy-Item "$ScriptgenScripts\*.java" "$ChromascapeScripts\" -Force
 if (Test-Path "$ScriptgenBehavior\HumanBehavior.java") {
     Copy-Item "$ScriptgenBehavior\HumanBehavior.java" "$ChromascapeScripts\" -Force
     $file = "$ChromascapeScripts\HumanBehavior.java"
-    (Get-Content $file) -replace 'package com\.scriptgen\.behavior;', 'package com.chromascape.scripts;' | Set-Content $file
+    (Get-Content $file) -replace 'package com\.chromascape\.behavior;', 'package com.chromascape.scripts;' | Set-Content $file
     Write-Host "  > Copied and updated HumanBehavior.java"
 }
 
@@ -25,8 +25,8 @@ if (Test-Path "$ScriptgenBehavior\HumanBehavior.java") {
 Write-Host "  > Updating imports..."
 Get-ChildItem "$ChromascapeScripts\*.java" | ForEach-Object {
     $content = Get-Content $_.FullName -Raw
-    $content = $content -replace 'package com\.scriptgen\.scripts;', 'package com.chromascape.scripts;'
-    $content = $content -replace 'import com\.scriptgen\.behavior\.HumanBehavior;', 'import com.chromascape.scripts.HumanBehavior;'
+    $content = $content -replace 'package com\.chromascape\.scripts;', 'package com.chromascape.scripts;'
+    $content = $content -replace 'import com\.chromascape\.behavior\.HumanBehavior;', 'import com.chromascape.scripts.HumanBehavior;'
     Set-Content $_.FullName $content
 }
 
