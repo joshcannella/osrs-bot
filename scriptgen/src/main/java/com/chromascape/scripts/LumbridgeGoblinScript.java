@@ -201,7 +201,7 @@ public class LumbridgeGoblinScript extends BaseScript {
     // Eat before blocking on Idler
     if (shouldEat()) eatFood();
 
-    // Block until Idle Notifier fires (player stops combat) or timeout
+    // Block until Idle Notifier or game "no longer in combat" message
     boolean wentIdle = Idler.waitUntilIdle(this, KILL_TIMEOUT_SECONDS);
     inCombat = false;
 
@@ -211,7 +211,7 @@ public class LumbridgeGoblinScript extends BaseScript {
         logger.warn("Died — respawned at Lumbridge");
         recoverToGoblins();
       } else {
-        logger.info("Kill confirmed (idle notifier)");
+        logger.info("Kill confirmed (idle/combat message)");
       }
     } else {
       logger.info("Kill timeout — retrying");
