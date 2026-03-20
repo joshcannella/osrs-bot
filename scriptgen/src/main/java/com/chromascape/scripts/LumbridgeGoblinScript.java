@@ -63,9 +63,14 @@ public class LumbridgeGoblinScript extends BaseScript {
   private static final int MAX_STUCK_CYCLES = 10;
   private int stuckCounter = 0;
   private boolean inCombat = false;
+  private boolean seeded = false;
 
   @Override
   protected void cycle() {
+    if (!seeded) {
+      Idler.seedLastMessage(this);
+      seeded = true;
+    }
     if (HumanBehavior.runPreCycleChecks(this)) return;
 
     // Check if we just left combat via idle detection
