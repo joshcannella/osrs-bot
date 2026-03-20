@@ -124,16 +124,37 @@ public class AlKharidCookingScript extends BaseScript {
   // === Banking ===
 
   private void bank() {
-    // Always walk to bank first
+    // Already have raw shrimp — no need to bank
+    if (Inventory.hasItem(this, RAW_SHRIMP, THRESHOLD)) {
+      stuckCounter = 0;
+      return;
+    }
+
+    // Walk to bank
     if (!Walk.to(this, BANK_TILE, "bank")) { stuckCounter++; return; }
 
     Bank.open(this, "Cyan");
 
-    // Deposit cooked and burnt shrimp (left-click deposits all with bank qty set to All)
-    Inventory.clickItem(this, COOKED_SHRIMP, THRESHOLD, "medium");
-    HumanBehavior.sleep(300, 500);
-    Inventory.clickItem(this, BURNT_SHRIMP, THRESHOLD, "medium");
-    HumanBehavior.sleep(300, 500);
+    // Deposit cooked shrimp if present (left-click = deposit all)
+    if (Inventory.hasItem(this, COOKED_SHRIMP, THRESHOLD)) {
+      Inventory.clickItem(this, COOKED_SHRIMP, THRESHOLD, "medium");
+      HumanBehavior.sleep(300, 500);
+    }
+
+    // Deposit burnt shrimp if present
+    if (Inventory.hasItem(this, BURNT_SHRIMP, THRESHOLD)) {
+      Inventory.clickItem(this, BURNT_SHRIMP, THRESHOLD, "medium");
+      HumanBehavior.sleep(300, 500);
+    }
+
+    // Verify deposits cleared — if cooked/burnt still in inventory, deposit failed
+    if (Inventory.hasItem(this, COOKED_SHRIMP, THRESHOLD)
+        || Inventory.hasItem(this, BURNT_SHRIMP, THRESHOLD)) {
+      logger.warn("Deposit failed — items still in inventory. Bank may not be open.");
+      Bank.close(this);
+      stuckCounter++;
+      return;
+    }
 
     // Withdraw raw shrimp by template matching it in the bank view
     BufferedImage gameView = controller().zones().getGameView();
