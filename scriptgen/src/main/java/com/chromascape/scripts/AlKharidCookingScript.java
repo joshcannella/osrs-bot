@@ -68,8 +68,10 @@ public class AlKharidCookingScript extends BaseScript {
     }
 
     if (Inventory.hasItem(this, RAW_SHRIMP, THRESHOLD)) {
+      logger.info("State: COOK | stuck: {}", stuckCounter);
       cook();
     } else {
+      logger.info("State: BANK | stuck: {}", stuckCounter);
       bank();
     }
   }
@@ -79,25 +81,29 @@ public class AlKharidCookingScript extends BaseScript {
   private void cook() {
     // Walk to range if not visible
     if (!isRangeVisible()) {
-      logger.info("Range not visible, walking there");
+      logger.info("Range not visible, walking to range tile");
       Walk.to(this, RANGE_TILE, "range");
       // Try opening door if range still not visible
       if (!isRangeVisible()) {
+        logger.info("Range still not visible, trying door");
         GameCenter.click(this);
         HumanBehavior.sleep(1500, 2000);
       }
       if (!isRangeVisible()) {
+        logger.warn("Range not found after walk + door attempt ({}/{})", stuckCounter + 1, MAX_STUCK_CYCLES);
         stuckCounter++;
         return;
       }
     }
 
     // Use raw shrimp on range
+    logger.info("Using raw shrimp on range");
     Inventory.clickItem(this, RAW_SHRIMP, THRESHOLD, "medium");
     HumanBehavior.sleep(200, 400);
 
     Point rangeLoc = getRangeClickPoint();
     if (rangeLoc == null) {
+      logger.warn("Range click point null ({}/{})", stuckCounter + 1, MAX_STUCK_CYCLES);
       stuckCounter++;
       return;
     }
@@ -105,12 +111,23 @@ public class AlKharidCookingScript extends BaseScript {
     controller().mouse().leftClick();
 
     // Wait for cook dialog to appear, then press space
+    logger.info("Waiting for cook dialog...");
     HumanBehavior.sleep(3000, 4000);
     KeyPress.space(this);
+    logger.info("Pressed space, waiting for cooking to finish");
 
     // Wait for cooking to finish (shorter timeout — 30s is plenty for 28 shrimp)
     if (Idler.waitUntilIdle(this, 30)) {
-      logger.info("Cooking batch complete or interrupted");
+      logger.info("Player went idle — cooking done or interrupted");
+    } else {
+      logger.warn("Idle timeout reached (30s)");
+    }
+
+    int remaining = Inventory.countItem(this, RAW_SHRIMP, THRESHOLD);
+    if (remaining > 0) {
+      logger.info("{} raw shrimp remaining — will retry next cycle", remaining);
+    } else {
+      logger.info("All shrimp cooked");
     }
 
     stuckCounter = 0;
@@ -119,28 +136,34 @@ public class AlKharidCookingScript extends BaseScript {
   // === Banking ===
 
   private void bank() {
+    logger.info("Walking to bank");
     Walk.to(this, BANK_TILE, "bank");
 
+    logger.info("Opening bank");
     Bank.open(this, "Cyan");
 
     // Wait for bank UI — poll for raw shrimp visible in bank grid
     if (!waitForBankOpen()) {
-      logger.warn("Bank UI did not open, retrying");
+      logger.warn("Bank UI did not open ({}/{})", stuckCounter + 1, MAX_STUCK_CYCLES);
       stuckCounter++;
       return;
     }
+    logger.info("Bank UI open");
 
     // Deposit cooked/burnt shrimp if present
     if (Inventory.hasItem(this, COOKED_SHRIMP, THRESHOLD)) {
+      logger.info("Depositing cooked shrimp");
       Inventory.clickItem(this, COOKED_SHRIMP, THRESHOLD, "medium");
       HumanBehavior.sleep(300, 500);
     }
     if (Inventory.hasItem(this, BURNT_SHRIMP, THRESHOLD)) {
+      logger.info("Depositing burnt shrimp");
       Inventory.clickItem(this, BURNT_SHRIMP, THRESHOLD, "medium");
       HumanBehavior.sleep(300, 500);
     }
 
     // Withdraw raw shrimp
+    logger.info("Withdrawing raw shrimp");
     BufferedImage gameView = controller().zones().getGameView();
     Point shrimpLoc = PointSelector.getRandomPointInImage(RAW_SHRIMP, gameView, THRESHOLD);
     if (shrimpLoc == null) {
@@ -156,10 +179,14 @@ public class AlKharidCookingScript extends BaseScript {
     HumanBehavior.sleep(400, 600);
 
     Bank.close(this);
+    logger.info("Bank closed");
 
     if (Inventory.hasItem(this, RAW_SHRIMP, THRESHOLD)) {
+      int count = Inventory.countItem(this, RAW_SHRIMP, THRESHOLD);
+      logger.info("Withdrew {} raw shrimp", count);
       stuckCounter = 0;
     } else {
+      logger.warn("Withdrawal failed — no raw shrimp in inventory ({}/{})", stuckCounter + 1, MAX_STUCK_CYCLES);
       stuckCounter++;
     }
   }
