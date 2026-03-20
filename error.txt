@@ -1,0 +1,38 @@
+> Task :compileJava FAILED
+Note: Processing Log4j annotations
+Note: Annotations processed
+Note: Processing Log4j annotations
+Note: No elements to process
+C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\DraynorFishingScript.java:114: error: method getClickPoint in class ColourClick cannot be applied to given types;
+    Point spotLoc = ColourClick.getClickPoint(this, FISHING_SPOT_COLOUR, 10.0);
+                               ^
+  required: BaseScript,ColourObj
+  found:    DraynorFishingScript,ColourObj,double
+  reason: actual and formal argument lists differ in length
+1 error
+
+[Incubating] Problems report is available at: file:///C:/Users/Owner/Develop/github/osrs-bot/ChromaScape/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\DraynorFishingScript.java:114: error: method getClickPoint in class ColourClick cannot be applied to given types;
+      Point spotLoc = ColourClick.getClickPoint(this, FISHING_SPOT_COLOUR, 10.0);
+                                 ^
+    required: BaseScript,ColourObj
+    found:    DraynorFishingScript,ColourObj,double
+    reason: actual and formal argument lists differ in length
+  Note: Processing Log4j annotations
+  Note: Annotations processed
+  Note: No elements to process
+  1 error
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed
+x Compilation failed
