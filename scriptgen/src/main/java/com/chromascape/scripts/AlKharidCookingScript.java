@@ -41,6 +41,8 @@ public class AlKharidCookingScript extends BaseScript {
 
   // === Images ===
   private static final String RAW_SHRIMP = "/images/user/Raw_shrimps.png";
+  private static final String COOKED_SHRIMP = "/images/user/Shrimps.png";
+  private static final String BURNT_SHRIMP = "/images/user/Burnt_shrimp.png";
   private static final double THRESHOLD = 0.07;
 
   // === Tiles ===
@@ -123,9 +125,10 @@ public class AlKharidCookingScript extends BaseScript {
 
     Bank.open(this, "Cyan");
 
-    // Verify bank opened by checking if we can still see inventory items normally
-    // Bank.depositAll will handle the deposit
-    Bank.depositAll(this);
+    // Deposit cooked and burnt shrimp (left-click deposits all with bank qty set to All)
+    Inventory.clickItem(this, COOKED_SHRIMP, THRESHOLD, "medium");
+    HumanBehavior.sleep(300, 500);
+    Inventory.clickItem(this, BURNT_SHRIMP, THRESHOLD, "medium");
     HumanBehavior.sleep(300, 500);
 
     // Withdraw raw shrimp by template matching it in the bank view
