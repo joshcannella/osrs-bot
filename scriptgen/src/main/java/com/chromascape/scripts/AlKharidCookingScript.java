@@ -74,13 +74,13 @@ public class AlKharidCookingScript extends BaseScript {
   // === Cooking ===
 
   private void cook() {
+    // Always walk to range area first
     if (!isRangeVisible()) {
-      // Walk to door, click to open, then walk inside
       if (!Walk.to(this, RANGE_DOOR_TILE, "range door")) { stuckCounter++; return; }
       GameCenter.click(this);
       HumanBehavior.sleep(1500, 2500);
-      if (!Walk.to(this, RANGE_TILE, "range")) { stuckCounter++; return; }
     }
+    if (!Walk.to(this, RANGE_TILE, "range")) { stuckCounter++; return; }
 
     // Use raw shrimp on range
     Inventory.clickItem(this, RAW_SHRIMP, THRESHOLD, "medium");
@@ -115,10 +115,8 @@ public class AlKharidCookingScript extends BaseScript {
   // === Banking ===
 
   private void bank() {
-    if (!ColourClick.isVisible(this, new ColourObj(
-        "cyan", new Scalar(90, 254, 254, 0), new Scalar(91, 255, 255, 0)))) {
-      if (!Walk.to(this, BANK_TILE, "bank")) { stuckCounter++; return; }
-    }
+    // Always walk to bank first
+    if (!Walk.to(this, BANK_TILE, "bank")) { stuckCounter++; return; }
 
     Bank.open(this, "Cyan");
 
