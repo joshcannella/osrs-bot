@@ -203,24 +203,34 @@ public class LumbridgeGoblinScript extends BaseScript {
     // Eat before blocking on Idler
     if (shouldEat()) eatFood();
 
-    // Block until idle event or timeout
-    IdleType idleType = Idler.waitUntilIdleType(this, KILL_TIMEOUT_SECONDS);
-    inCombat = false;
+    // Loop until combat actually ends or timeout
+    while (true) {
+      IdleType idleType = Idler.waitUntilIdleType(this, KILL_TIMEOUT_SECONDS);
 
-    switch (idleType) {
-      case COMBAT -> {
-        if (isNearSpawn()) {
-          logger.warn("Died — respawned at Lumbridge");
-          recoverToGoblins();
-        } else {
-          logger.info("Kill confirmed (combat idle)");
+      switch (idleType) {
+        case COMBAT -> {
+          inCombat = false;
+          if (isNearSpawn()) {
+            logger.warn("Died — respawned at Lumbridge");
+            recoverToGoblins();
+          } else {
+            logger.info("Kill confirmed (combat idle)");
+          }
+          HumanBehavior.sleep(600, 900);
+          return;
         }
+        case TIMEOUT -> {
+          inCombat = false;
+          logger.info("Kill timeout — retrying");
+          return;
+        }
+        case ANIMATION -> {
+          logger.debug("Animation idle mid-combat, continuing to wait");
+          if (shouldEat()) eatFood();
+        }
+        case MOVEMENT -> logger.debug("Movement idle mid-combat, continuing to wait");
       }
-      case ANIMATION -> logger.info("Animation idle during combat");
-      case MOVEMENT -> logger.info("Movement idle during combat");
-      case TIMEOUT -> logger.info("Kill timeout — retrying");
     }
-    HumanBehavior.sleep(600, 900);
   }
 
   // === Recovery ===
