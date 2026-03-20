@@ -86,8 +86,9 @@ public class DraynorFishingScript extends BaseScript {
       return;
     }
 
-    // Inventory full
-    if (Inventory.isFull(this, KNOWN_ITEMS, INV_THRESHOLD)) {
+    // Inventory full — count empty slots in a single pass
+    int emptySlots = countEmptySlots();
+    if (emptySlots == 0) {
       logger.info("Inventory full.");
       if (BANKING_ENABLED) {
         bank();
@@ -96,6 +97,8 @@ public class DraynorFishingScript extends BaseScript {
       }
       return;
     }
+
+    logger.info("Empty slots: {} | Stuck: {}", emptySlots, stuckCounter);
 
     // Fish
     fish();
@@ -186,6 +189,51 @@ public class DraynorFishingScript extends BaseScript {
     java.awt.image.BufferedImage gameView = controller().zones().getGameView();
     return com.chromascape.utils.actions.PointSelector.getRandomPointInImage(
         image, gameView, threshold);
+  }
+
+  /**
+   * Counts empty inventory slots by checking pixel variance. Empty slots have uniform dark
+   * backgrounds with very low variance. Slots containing items have significantly higher variance.
+   */
+  private int countEmptySlots() {
+    int empty = 0;
+    for (int i = 0; i < 28; i++) {
+      java.awt.Rectangle slot = controller().zones().getInventorySlots().get(i);
+      java.awt.image.BufferedImage slotImg =
+          com.chromascape.utils.core.screen.window.ScreenManager.captureZone(slot);
+      if (isSlotEmpty(slotImg)) empty++;
+    }
+    return empty;
+  }
+
+  private boolean isSlotEmpty(java.awt.image.BufferedImage img) {
+    long totalR = 0, totalG = 0, totalB = 0;
+    int pixels = img.getWidth() * img.getHeight();
+    for (int y = 0; y < img.getHeight(); y++) {
+      for (int x = 0; x < img.getWidth(); x++) {
+        int rgb = img.getRGB(x, y);
+        totalR += (rgb >> 16) & 0xFF;
+        totalG += (rgb >> 8) & 0xFF;
+        totalB += rgb & 0xFF;
+      }
+    }
+    double avgR = (double) totalR / pixels;
+    double avgG = (double) totalG / pixels;
+    double avgB = (double) totalB / pixels;
+
+    double variance = 0;
+    for (int y = 0; y < img.getHeight(); y++) {
+      for (int x = 0; x < img.getWidth(); x++) {
+        int rgb = img.getRGB(x, y);
+        double dr = ((rgb >> 16) & 0xFF) - avgR;
+        double dg = ((rgb >> 8) & 0xFF) - avgG;
+        double db = (rgb & 0xFF) - avgB;
+        variance += dr * dr + dg * dg + db * db;
+      }
+    }
+    variance /= pixels;
+    // Empty slots have very low variance (< 50), items have much higher (> 200)
+    return variance < 100;
   }
 
   private void drop() {
