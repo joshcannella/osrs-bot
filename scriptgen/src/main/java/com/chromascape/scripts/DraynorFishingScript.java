@@ -13,6 +13,8 @@ import com.chromascape.utils.actions.custom.HumanBehavior;
 import com.chromascape.utils.actions.custom.LevelUpDismisser;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import java.awt.Point;
+import java.time.Duration;
+import java.time.Instant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bytedeco.opencv.opencv_core.Scalar;
@@ -114,7 +116,16 @@ public class DraynorFishingScript extends BaseScript {
 
     controller().mouse().moveTo(spotLoc, "medium");
     controller().mouse().leftClick();
-    Idler.waitUntilIdle(this, 120);
+
+    // Wait for idle or fishing spot to disappear (spot moved)
+    Instant deadline = Instant.now().plus(Duration.ofSeconds(120));
+    BaseScript.waitMillis(600);
+    while (Instant.now().isBefore(deadline)) {
+      checkInterrupted();
+      if (Idler.waitUntilIdle(this, 3)) break;
+      if (!ColourClick.isVisible(this, FISHING_SPOT_COLOUR)) break;
+    }
+
     LevelUpDismisser.dismissIfPresent(this);
     stuckCounter = 0;
   }
