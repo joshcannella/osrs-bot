@@ -10,6 +10,7 @@ import com.chromascape.utils.actions.custom.Inventory;
 import com.chromascape.utils.actions.custom.Walk;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import com.chromascape.utils.domain.ocr.Ocr;
+import com.chromascape.utils.domain.walker.Tile;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.time.LocalDateTime;
@@ -51,8 +52,8 @@ public class LumbridgeGoblinScript extends BaseScript {
   // === Combat ===
   private static final int GOBLIN_XP = 20; // 5 HP × 4 XP per damage
   private static final int KILL_TIMEOUT_SECONDS = 20;
-  private static final int ENGAGE_TIMEOUT_MS = 2000;
   private static final int MAX_ENGAGE_ATTEMPTS = 3;
+  private static final int MAX_IDLE_CHECKS = 3; // stop waiting after this many position-unchanged checks
 
   // === Tiles ===
   // Goblin area east of Lumbridge castle, across the bridge
@@ -168,13 +169,30 @@ public class LumbridgeGoblinScript extends BaseScript {
 
   // === Combat ===
 
+  /**
+   * Waits for the first XP gain after clicking a goblin. Keeps waiting while the player is still
+   * moving (pathing to the target). Only gives up after the player has been stationary for
+   * MAX_IDLE_CHECKS consecutive polls with no XP gain.
+   */
   private boolean waitForFirstHit(int previousXp) {
-    LocalDateTime deadline = LocalDateTime.now().plusNanos(ENGAGE_TIMEOUT_MS * 1_000_000L);
-    while (LocalDateTime.now().isBefore(deadline)) {
+    int idleCount = 0;
+    Tile lastPos = null;
+    while (idleCount < MAX_IDLE_CHECKS) {
       try {
         if (Minimap.getXp(this) > previousXp) return true;
       } catch (Exception ignored) {}
-      waitMillis(200);
+      try {
+        Tile pos = controller().walker().getPlayerPosition();
+        if (lastPos != null && pos.x() == lastPos.x() && pos.y() == lastPos.y()) {
+          idleCount++;
+        } else {
+          idleCount = 0;
+        }
+        lastPos = pos;
+      } catch (Exception e) {
+        idleCount++;
+      }
+      waitMillis(600);
     }
     return false;
   }
