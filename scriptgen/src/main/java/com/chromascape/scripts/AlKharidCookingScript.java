@@ -97,12 +97,15 @@ public class AlKharidCookingScript extends BaseScript {
     controller().mouse().moveTo(rangeLoc, "medium");
     controller().mouse().leftClick();
 
-    // Wait for cook dialog then press space to cook all
-    HumanBehavior.sleep(2000, 3000);
-    KeyPress.space(this);
+    // Wait for player to walk to range and cook dialog to appear
+    // Then press space repeatedly until cooking starts
+    for (int i = 0; i < 4; i++) {
+      HumanBehavior.sleep(2000, 3000);
+      KeyPress.space(this);
+    }
 
     // Wait for cooking to finish
-    Idler.waitUntilIdle(this, 90);
+    Idler.waitUntilIdle(this, 120);
 
     // If raw shrimp remain, cooking was interrupted (likely level-up dialog).
     // Spam space to dismiss any dialogs, then return to re-cook.
