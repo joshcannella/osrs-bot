@@ -121,6 +121,22 @@ public class AlKharidCookingScript extends BaseScript {
 
     Bank.open(this, "Cyan");
 
+    // Wait for bank UI to actually open — raw shrimp should be visible in bank grid
+    boolean bankOpen = false;
+    for (int i = 0; i < 5; i++) {
+      HumanBehavior.sleep(800, 1200);
+      BufferedImage gv = controller().zones().getGameView();
+      if (PointSelector.getRandomPointInImage(RAW_SHRIMP, gv, THRESHOLD) != null) {
+        bankOpen = true;
+        break;
+      }
+    }
+    if (!bankOpen) {
+      logger.warn("Bank UI did not open");
+      stuckCounter++;
+      return;
+    }
+
     // Deposit cooked shrimp if present (left-click = deposit all)
     if (Inventory.hasItem(this, COOKED_SHRIMP, THRESHOLD)) {
       Inventory.clickItem(this, COOKED_SHRIMP, THRESHOLD, "medium");
