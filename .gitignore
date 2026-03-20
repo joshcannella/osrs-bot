@@ -19,5 +19,3 @@ ChromaScape/
 logs/
 .kiro/logs/
 
-# Old artifacts
-scriptgen/
