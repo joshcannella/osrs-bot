@@ -1,15 +1,30 @@
-> Task :compileJava FAILED
+PS C:\Users\Owner\Develop\github\osrs-bot\ChromaScape> osrs-bot run
+Fetching submodule ChromaScape
+Already up to date.
+
+> Task :compileJava
 Note: Processing Log4j annotations
 Note: Annotations processed
+C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\AlKharidCookingScript.java:15: error: cannot find symbol
+import com.chromascape.utils.actions.custom.GameCenter;
+                                           ^
+  symbol:   class GameCenter
+  location: package com.chromascape.utils.actions.custom
+C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\CooksAssistantScript.java:9: error: cannot find symbol
+import com.chromascape.utils.actions.custom.GameCenter;
+                                           ^
+  symbol:   class GameCenter
+  location: package com.chromascape.utils.actions.custom
+C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\RestlessGhostScript.java:8: error: cannot find symbol
+import com.chromascape.utils.actions.custom.GameCenter;
+                                           ^
+  symbol:   class GameCenter
+  location: package com.chromascape.utils.actions.custom
 Note: Processing Log4j annotations
 Note: No elements to process
-C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\DraynorFishingScript.java:114: error: method getClickPoint in class ColourClick cannot be applied to given types;
-    Point spotLoc = ColourClick.getClickPoint(this, FISHING_SPOT_COLOUR, 10.0);
-                               ^
-  required: BaseScript,ColourObj
-  found:    DraynorFishingScript,ColourObj,double
-  reason: actual and formal argument lists differ in length
-1 error
+3 errors
+
+> Task :compileJava FAILED
 
 [Incubating] Problems report is available at: file:///C:/Users/Owner/Develop/github/osrs-bot/ChromaScape/build/reports/problems/problems-report.html
 
@@ -18,21 +33,48 @@ FAILURE: Build failed with an exception.
 * What went wrong:
 Execution failed for task ':compileJava'.
 > Compilation failed; see the compiler output below.
-  C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\DraynorFishingScript.java:114: error: method getClickPoint in class ColourClick cannot be applied to given types;
-      Point spotLoc = ColourClick.getClickPoint(this, FISHING_SPOT_COLOUR, 10.0);
-                                 ^
-    required: BaseScript,ColourObj
-    found:    DraynorFishingScript,ColourObj,double
-    reason: actual and formal argument lists differ in length
+  C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\AlKharidCookingScript.java:15: error: cannot find symbol
+  import com.chromascape.utils.actions.custom.GameCenter;
+                                             ^
+    symbol:   class GameCenter
+    location: package com.chromascape.utils.actions.custom
+  C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\CooksAssistantScript.java:9: error: cannot find symbol
+  import com.chromascape.utils.actions.custom.GameCenter;
+                                             ^
+    symbol:   class GameCenter
+    location: package com.chromascape.utils.actions.custom
+  C:\Users\Owner\Develop\github\osrs-bot\ChromaScape\src\main\java\com\chromascape\scripts\RestlessGhostScript.java:8: error: cannot find symbol
+  import com.chromascape.utils.actions.custom.GameCenter;
+                                             ^
+    symbol:   class GameCenter
+    location: package com.chromascape.utils.actions.custom
   Note: Processing Log4j annotations
   Note: Annotations processed
   Note: No elements to process
-  1 error
+  3 errors
 
 * Try:
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights.
 
-BUILD FAILED in 1s
+BUILD FAILED in 3s
 1 actionable task: 1 executed
-x Compilation failed
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\Owner\AppData\Local\Programs\Python\Python314\Scripts\osrs-bot.exe\__main__.py", line 10, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 340, in main
+    commands[args.command](args)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 182, in cmd_run
+    run_cmd([gradle, "bootRun"], cwd=CHROMASCAPE)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 36, in run_cmd
+    return subprocess.run(cmd, cwd=cwd or ROOT, check=check)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Owner\AppData\Local\Programs\Python\Python314\Lib\subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['C:\\Users\\Owner\\Develop\\github\\osrs-bot\\ChromaScape\\gradlew.bat', 'bootRun']' returned non-zero exit status 1.
