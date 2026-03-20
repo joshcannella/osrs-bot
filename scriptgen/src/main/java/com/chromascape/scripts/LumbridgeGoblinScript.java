@@ -2,6 +2,7 @@ package com.chromascape.scripts;
 
 import com.chromascape.api.DiscordNotification;
 import com.chromascape.base.BaseScript;
+import com.chromascape.utils.actions.Idler;
 import com.chromascape.utils.actions.Minimap;
 import com.chromascape.utils.actions.MovingObject;
 import com.chromascape.utils.actions.custom.ColourClick;
@@ -13,7 +14,6 @@ import com.chromascape.utils.domain.ocr.Ocr;
 import com.chromascape.utils.domain.walker.Tile;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.time.LocalDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bytedeco.opencv.opencv_core.Scalar;
@@ -23,8 +23,8 @@ import org.bytedeco.opencv.opencv_core.Scalar;
  * walking back from the Lumbridge respawn point.
  *
  * <p><b>Prerequisites:</b> Any melee weapon equipped, food in inventory.
- * <p><b>RuneLite Setup:</b> NPC Indicators — highlight Goblin in cyan. Ground Items — highlight
- * loot in purple (optional).
+ * <p><b>RuneLite Setup:</b> NPC Indicators — highlight Goblin in cyan. Idle Notifier — enabled
+ * (combat idle detection). Ground Items — highlight loot in purple (optional).
  * <p><b>Image Templates:</b> Trout.png (or whichever food you bring)
  */
 public class LumbridgeGoblinScript extends BaseScript {
@@ -50,7 +50,6 @@ public class LumbridgeGoblinScript extends BaseScript {
       new ColourObj("black", new Scalar(0, 0, 0, 0), new Scalar(0, 0, 0, 0));
 
   // === Combat ===
-  private static final int GOBLIN_XP = 20; // 5 HP × 4 XP per damage
   private static final int KILL_TIMEOUT_SECONDS = 20;
   private static final int MAX_ENGAGE_ATTEMPTS = 3;
   private static final int MAX_IDLE_CHECKS = 3; // stop waiting after this many position-unchanged checks
@@ -60,6 +59,7 @@ public class LumbridgeGoblinScript extends BaseScript {
   private static final Point GOBLIN_AREA = new Point(3259, 3228);
   // Lumbridge respawn (death spawn point)
   private static final Point LUMBRIDGE_SPAWN = new Point(3222, 3218);
+  private static final int DEATH_DETECT_RADIUS = 5;
 
   // === Stuck Detection ===
   private static final int MAX_STUCK_CYCLES = 10;
@@ -163,7 +163,7 @@ public class LumbridgeGoblinScript extends BaseScript {
       return false;
     }
     Inventory.clickItem(this, FOOD_IMAGE, FOOD_THRESHOLD, "fast");
-    waitMillis(HumanBehavior.adjustDelay(1600, 2000));
+    Idler.waitUntilIdle(this, 3);
     return true;
   }
 
@@ -198,32 +198,25 @@ public class LumbridgeGoblinScript extends BaseScript {
   }
 
   private void waitForKill(int previousXp) {
-    LocalDateTime deadline = LocalDateTime.now().plusSeconds(KILL_TIMEOUT_SECONDS);
-    while (LocalDateTime.now().isBefore(deadline)) {
-      // Eat mid-combat if needed
-      if (shouldEat()) {
-        eatFood();
-      }
-      // Check chat for combat end
-      if (isOutOfCombatChat()) {
-        logger.info("Kill confirmed (chat: no longer in combat)");
-        inCombat = false;
-        HumanBehavior.sleep(600, 900);
-        return;
-      }
-      try {
-        int delta = Minimap.getXp(this) - previousXp;
-        if (delta >= GOBLIN_XP && delta < 100) {
-          logger.info("Kill confirmed (+{} XP)", delta);
-          inCombat = false;
-          HumanBehavior.sleep(600, 900);
-          return;
-        }
-      } catch (Exception ignored) {}
-      waitMillis(300);
-    }
-    logger.info("Kill timeout — retrying");
+    // Eat before blocking on Idler
+    if (shouldEat()) eatFood();
+
+    // Block until Idle Notifier fires (player stops combat) or timeout
+    boolean wentIdle = Idler.waitUntilIdle(this, KILL_TIMEOUT_SECONDS);
     inCombat = false;
+
+    if (wentIdle) {
+      // Check if we died (respawned near Lumbridge)
+      if (isNearSpawn()) {
+        logger.warn("Died — respawned at Lumbridge");
+        recoverToGoblins();
+      } else {
+        logger.info("Kill confirmed (idle notifier)");
+      }
+    } else {
+      logger.info("Kill timeout — retrying");
+    }
+    HumanBehavior.sleep(600, 900);
   }
 
   // === Recovery ===
@@ -248,11 +241,25 @@ public class LumbridgeGoblinScript extends BaseScript {
     return Ocr.extractText(latestMsg, "Plain 12", CHAT_BLACK, true).toLowerCase();
   }
 
+  /**
+   * Returns true if the player is near the Lumbridge respawn point (likely died).
+   */
+  private boolean isNearSpawn() {
+    try {
+      Tile pos = controller().walker().getPlayerPosition();
+      return Math.abs(pos.x() - LUMBRIDGE_SPAWN.x) <= DEATH_DETECT_RADIUS
+          && Math.abs(pos.y() - LUMBRIDGE_SPAWN.y) <= DEATH_DETECT_RADIUS;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
   private void recoverToGoblins() {
     waitRandomMillis(600, 800);
     if (ColourClick.isVisible(this, GOBLIN_COLOUR)) return;
 
     logger.info("Walking back to goblin area");
     Walk.to(this, GOBLIN_AREA, "goblin area");
+    Idler.waitUntilIdle(this, 30);
   }
 }
