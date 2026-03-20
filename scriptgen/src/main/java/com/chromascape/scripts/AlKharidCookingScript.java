@@ -104,14 +104,15 @@ public class AlKharidCookingScript extends BaseScript {
     // Wait for cooking to finish
     Idler.waitUntilIdle(this, 90);
 
-    // Dismiss level-up if it interrupted cooking (may need multiple presses)
-    for (int i = 0; i < 3; i++) {
-      if (!LevelUpDismisser.dismissIfPresent(this)) break;
-      HumanBehavior.sleep(600, 900);
-    }
+    // If raw shrimp remain, cooking was interrupted (likely level-up dialog).
+    // Spam space to dismiss any dialogs, then return to re-cook.
     if (Inventory.hasItem(this, RAW_SHRIMP, THRESHOLD)) {
-      logger.info("Raw shrimp remaining after idle — re-cooking");
-      return; // cycle() will call cook() again
+      logger.info("Cooking interrupted — dismissing dialogs");
+      for (int i = 0; i < 4; i++) {
+        KeyPress.space(this);
+        HumanBehavior.sleep(800, 1200);
+      }
+      return;
     }
 
     stuckCounter = 0;
