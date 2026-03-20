@@ -12,7 +12,7 @@ import com.chromascape.utils.actions.custom.KeyPress;
 import com.chromascape.utils.actions.custom.LevelUpDismisser;
 import com.chromascape.utils.actions.custom.Logout;
 import com.chromascape.utils.actions.custom.Walk;
-import com.chromascape.utils.core.input.distribution.ClickDistribution;
+import com.chromascape.utils.actions.custom.GameCenter;
 import com.chromascape.utils.core.screen.colour.ColourObj;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -77,7 +77,7 @@ public class AlKharidCookingScript extends BaseScript {
     if (!isRangeVisible()) {
       // Walk to door, click to open, then walk inside
       if (!Walk.to(this, RANGE_DOOR_TILE, "range door")) { stuckCounter++; return; }
-      clickGameCenter();
+      GameCenter.click(this);
       HumanBehavior.sleep(1500, 2500);
       if (!Walk.to(this, RANGE_TILE, "range")) { stuckCounter++; return; }
     }
@@ -180,12 +180,5 @@ public class AlKharidCookingScript extends BaseScript {
     Point loc = ColourClick.getClickPoint(this, RANGE_COLOUR_LOW);
     if (loc != null) return loc;
     return ColourClick.getClickPoint(this, RANGE_COLOUR_HIGH);
-  }
-
-  private void clickGameCenter() {
-    BufferedImage gameView = controller().zones().getGameView();
-    Point center = new Point(gameView.getWidth() / 2, gameView.getHeight() / 2);
-    controller().mouse().moveTo(center, "medium");
-    controller().mouse().leftClick();
   }
 }

@@ -142,6 +142,11 @@ static boolean to(BaseScript base, Point tile, String label)       // Returns fa
 static void toOrStop(BaseScript base, Point tile, String label)    // Stops script on any failure
 ```
 
+## GameCenter (com.chromascape.utils.actions.custom.GameCenter)
+```java
+static void click(BaseScript base)                                 // Click random point in 40×40 center region
+```
+
 ## ColourClick (com.chromascape.utils.actions.custom.ColourClick)
 ```java
 static boolean isVisible(BaseScript base, ColourObj colour)        // Is colour object on screen?

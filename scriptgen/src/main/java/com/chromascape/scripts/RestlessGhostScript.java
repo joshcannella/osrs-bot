@@ -5,11 +5,9 @@ import com.chromascape.base.BaseScript;
 import com.chromascape.utils.actions.custom.Inventory;
 import com.chromascape.utils.actions.custom.KeyPress;
 import com.chromascape.utils.actions.custom.Walk;
-import com.chromascape.utils.core.input.distribution.ClickDistribution;
-import com.chromascape.utils.core.screen.window.ScreenManager;
+import com.chromascape.utils.actions.custom.GameCenter;
 import com.chromascape.utils.actions.custom.HumanBehavior;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,13 +66,13 @@ public class RestlessGhostScript extends BaseScript {
     switch (step) {
       case ENTER_CHURCH -> {
         Walk.toOrStop(this, CHURCH_DOOR_TILE, "church door");
-        clickGameCenter();
+        GameCenter.click(this);
         HumanBehavior.sleep(1500, 2500);
         step = Step.TALK_AERECK;
       }
       case TALK_AERECK -> {
         Walk.toOrStop(this, AERECK_TILE, "Father Aereck");
-        clickGameCenter();
+        GameCenter.click(this);
         HumanBehavior.sleep(1500, 2500);
         KeyPress.space(this);
         HumanBehavior.sleep(800, 1200);
@@ -107,10 +105,10 @@ public class RestlessGhostScript extends BaseScript {
             return;
           }
           // Click to open door (or talk if already open)
-          clickGameCenter();
+          GameCenter.click(this);
           HumanBehavior.sleep(1500, 2500);
           // Click again to talk to Urhney
-          clickGameCenter();
+          GameCenter.click(this);
           HumanBehavior.sleep(1500, 2500);
           KeyPress.space(this);
           HumanBehavior.sleep(800, 1200);
@@ -139,10 +137,10 @@ public class RestlessGhostScript extends BaseScript {
       case OPEN_COFFIN -> {
         Walk.toOrStop(this, COFFIN_TILE, "coffin");
         // Open the coffin
-        clickGameCenter();
+        GameCenter.click(this);
         HumanBehavior.sleep(2500, 3500);
         // Talk to the ghost that appears
-        clickGameCenter();
+        GameCenter.click(this);
         HumanBehavior.sleep(1500, 2500);
         for (int i = 0; i < 8; i++) {
           checkInterrupted();
@@ -156,7 +154,7 @@ public class RestlessGhostScript extends BaseScript {
         step = Step.DESCEND_TOWER;
       }
       case DESCEND_TOWER -> {
-        clickGameCenter();
+        GameCenter.click(this);
         HumanBehavior.sleep(2500, 3500);
         // Verify we actually descended by checking if walker can reach the basement altar
         if (canWalkTo(ALTAR_TILE)) {
@@ -171,7 +169,7 @@ public class RestlessGhostScript extends BaseScript {
             Walk.toOrStop(this, ALTAR_TILE, "altar");
             walkedToAltar = true;
           }
-          clickGameCenter();
+          GameCenter.click(this);
           HumanBehavior.sleep(1500, 2500);
           KeyPress.space(this);
           HumanBehavior.sleep(800, 1200);
@@ -182,7 +180,7 @@ public class RestlessGhostScript extends BaseScript {
         }
       }
       case ASCEND_TOWER -> {
-        clickGameCenter();
+        GameCenter.click(this);
         HumanBehavior.sleep(2500, 3500);
         // Verify we actually ascended by checking if walker can reach the coffin
         if (canWalkTo(COFFIN_TILE)) {
@@ -199,7 +197,7 @@ public class RestlessGhostScript extends BaseScript {
         if (Inventory.hasItem(this, SKULL_IMAGE, MATCH_THRESHOLD)) {
           Inventory.clickItem(this, SKULL_IMAGE, MATCH_THRESHOLD, "medium");
           HumanBehavior.sleep(300, 500);
-          clickGameCenter();
+          GameCenter.click(this);
           HumanBehavior.sleep(2000, 3000);
           for (int i = 0; i < 5; i++) {
             checkInterrupted();
@@ -229,20 +227,6 @@ public class RestlessGhostScript extends BaseScript {
         && Inventory.hasItem(this, SKULL_IMAGE, MATCH_THRESHOLD)) {
       step = Step.RETURN_TO_COFFIN;
     }
-  }
-
-  private void clickGameCenter() {
-    Rectangle window = ScreenManager.getWindowBounds();
-    int regionSize = 40;
-    Rectangle centerRegion =
-        new Rectangle(
-            window.x + window.width / 2 - regionSize / 2,
-            window.y + window.height / 2 - regionSize / 2,
-            regionSize,
-            regionSize);
-    Point clickLoc = ClickDistribution.generateRandomPoint(centerRegion);
-
-    HumanBehavior.click(this, clickLoc);
   }
 
   private boolean canWalkTo(Point destination) {

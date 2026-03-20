@@ -6,12 +6,11 @@ import com.chromascape.utils.actions.custom.Inventory;
 import com.chromascape.utils.actions.custom.KeyPress;
 import com.chromascape.utils.actions.MouseOver;
 import com.chromascape.utils.actions.custom.Walk;
+import com.chromascape.utils.actions.custom.GameCenter;
 import com.chromascape.utils.core.input.distribution.ClickDistribution;
 import com.chromascape.utils.core.screen.topology.TemplateMatching;
-import com.chromascape.utils.core.screen.window.ScreenManager;
 import com.chromascape.utils.actions.custom.HumanBehavior;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -131,7 +130,7 @@ public class CooksAssistantScript extends BaseScript {
             case GO_TO_CELLAR -> {
                 // Click trapdoor to enter cellar
                 Walk.toOrStop(this, TRAPDOOR_TILE, "trapdoor");
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(2500, 3500);
                 step = Step.GET_BUCKET;
             }
@@ -154,7 +153,7 @@ public class CooksAssistantScript extends BaseScript {
             case LEAVE_CELLAR -> {
                 // Climb ladder up from cellar
                 Walk.toOrStop(this, CELLAR_LADDER_TILE, "ladder");
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(2500, 3500);
                 step = Step.GET_EGG;
             }
@@ -166,7 +165,7 @@ public class CooksAssistantScript extends BaseScript {
                     if (eggLoc == null) {
                         // Fallback: just click center, eggs are common at spawn
                         logger.warn("Egg not detected, clicking center");
-                        clickGameCenter();
+                        GameCenter.click(this);
                     } else {
                         controller().mouse().moveTo(eggLoc, "medium");
                         controller().mouse().leftClick();
@@ -181,7 +180,7 @@ public class CooksAssistantScript extends BaseScript {
                     Walk.toOrStop(this, DAIRY_COW_TILE, "dairy cow");
                     Inventory.clickItem(this, BUCKET_IMAGE, MATCH_THRESHOLD, "medium");
                     HumanBehavior.sleep(300, 500);
-                    clickGameCenter();
+                    GameCenter.click(this);
                     HumanBehavior.sleep(3000, 4000);
                 } else {
                     step = Step.GET_GRAIN;
@@ -190,7 +189,7 @@ public class CooksAssistantScript extends BaseScript {
             case GET_GRAIN -> {
                 if (!Inventory.hasItem(this, GRAIN_IMAGE, MATCH_THRESHOLD)) {
                     Walk.toOrStop(this, WHEAT_TILE, "wheat");
-                    clickGameCenter(); // Wheat is tall and visible at center
+                    GameCenter.click(this); // Wheat is tall and visible at center
                     HumanBehavior.sleep(1200, 1800);
                 } else {
                     step = Step.MILL_CLIMB_UP;
@@ -199,9 +198,9 @@ public class CooksAssistantScript extends BaseScript {
             case MILL_CLIMB_UP -> {
                 Walk.toOrStop(this, MILL_GROUND_TILE, "mill");
                 // Climb two flights of stairs
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(2000, 3000);
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(2000, 3000);
                 step = Step.MILL_USE_HOPPER;
             }
@@ -209,22 +208,22 @@ public class CooksAssistantScript extends BaseScript {
                 if (Inventory.hasItem(this, GRAIN_IMAGE, MATCH_THRESHOLD)) {
                     Inventory.clickItem(this, GRAIN_IMAGE, MATCH_THRESHOLD, "medium");
                     HumanBehavior.sleep(300, 500);
-                    clickGameCenter();
+                    GameCenter.click(this);
                     HumanBehavior.sleep(1500, 2500);
                 } else {
                     step = Step.MILL_PULL_LEVER;
                 }
             }
             case MILL_PULL_LEVER -> {
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(1500, 2500);
                 step = Step.MILL_CLIMB_DOWN;
             }
             case MILL_CLIMB_DOWN -> {
                 // Climb down two flights
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(2000, 3000);
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(2000, 3000);
                 step = Step.MILL_GET_FLOUR;
             }
@@ -232,7 +231,7 @@ public class CooksAssistantScript extends BaseScript {
                 if (!Inventory.hasItem(this, FLOUR_IMAGE, MATCH_THRESHOLD)) {
                     Inventory.clickItem(this, POT_IMAGE, MATCH_THRESHOLD, "medium");
                     HumanBehavior.sleep(300, 500);
-                    clickGameCenter();
+                    GameCenter.click(this);
                     HumanBehavior.sleep(1500, 2500);
                 } else {
                     step = Step.DELIVER;
@@ -240,7 +239,7 @@ public class CooksAssistantScript extends BaseScript {
             }
             case DELIVER -> {
                 Walk.toOrStop(this, COOK_TILE, "cook");
-                clickGameCenter();
+                GameCenter.click(this);
                 HumanBehavior.sleep(1500, 2500);
                 // Dialogue: "What's wrong?" → 1, "Can I help?" → 1
                 KeyPress.character(this, '1');
@@ -288,24 +287,6 @@ public class CooksAssistantScript extends BaseScript {
         if (step == Step.GET_GRAIN && Inventory.hasItem(this, GRAIN_IMAGE, MATCH_THRESHOLD)) {
             step = Step.MILL_CLIMB_UP;
         }
-    }
-
-    /**
-     * Clicks near the center of the game view where the target object is located
-     * after walking to its tile. Uses a Gaussian-distributed point within a region
-     * around screen center for human-like variance.
-     */
-    private void clickGameCenter() {
-        Rectangle window = ScreenManager.getWindowBounds();
-        // Define a region around the center of the game view
-        int regionSize = 40;
-        Rectangle centerRegion = new Rectangle(
-                window.x + window.width / 2 - regionSize / 2,
-                window.y + window.height / 2 - regionSize / 2,
-                regionSize, regionSize);
-        Point clickLoc = ClickDistribution.generateRandomPoint(centerRegion);
-
-        HumanBehavior.click(this, clickLoc);
     }
 
     /**

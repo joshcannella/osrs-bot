@@ -90,6 +90,7 @@ Rules:
 | Open bank + deposit + close | `Banking` | Not yet — duplicated in AlKharidGold, EdgevilleJewellery |
 | Eat food when HP low | `Eating` | Not yet — pattern exists in api-reference |
 | Check colour visibility + get click point | `ColourDetection` | Not yet — duplicated in DraynorFishCook, ChickenKiller |
+| Click game center (doors, objects) | `GameCenter` | ✅ Done |
 
 ## Checklist
 
