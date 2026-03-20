@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Post-merge hook: rebuild after pull
+# Ensures ChromaScape and scripts are compiled after pulling changes.
+
+set -euo pipefail
+
+echo "post-merge: rebuilding after pull..."
+
+if command -v osrs-bot &>/dev/null; then
+  osrs-bot build
+else
+  ./scripts/sync-and-compile.sh
+fi
