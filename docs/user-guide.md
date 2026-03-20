@@ -63,12 +63,21 @@ pip install uv
 
 ## 3. Building ChromaScape
 
-### Clone the repo
+### Clone the repos
 
 ```powershell
-git clone --recurse-submodules https://github.com/joshcannella/osrs-bot.git
+# Clone the parent repo
+git clone https://github.com/joshcannella/osrs-bot.git
 cd osrs-bot
+
+# Clone your ChromaScape fork inside the project root
+git clone https://github.com/joshcannella/ChromaScape.git
+cd ChromaScape
+git remote add upstream https://github.com/StaticSweep/ChromaScape.git
+cd ..
 ```
+
+ChromaScape is its own git repo inside the project — not a submodule. The parent repo's `.gitignore` excludes it.
 
 ### Download fonts and UI templates
 
@@ -170,7 +179,7 @@ This is how ChromaScape finds game objects — by detecting RuneLite's colour ov
 > Implement the al-kharid-iron-mining requirements
 ```
 
-The scripter agent generates the Java script, downloads item images, compiles, and deploys automatically.
+The scripter agent generates the Java script directly into `ChromaScape/src/main/java/com/chromascape/scripts/`, downloads item images, and compiles.
 
 ### Running a script
 
@@ -178,8 +187,6 @@ The scripter agent generates the Java script, downloads item images, compiles, a
 # Pull latest and launch (opens browser too)
 osrs-bot run --browser
 ```
-
-Or double-click `run.bat` at the repo root.
 
 1. Open `http://localhost:8080` in your browser
 2. Select a script from the left panel
@@ -215,7 +222,7 @@ Once a script works correctly:
 osrs-bot complete al-kharid-iron-mining
 ```
 
-Moves the spec from `dev/` → completed, merges SETUP + changelog, and pushes.
+Moves the spec from `dev/` → completed, archives the script source, and pushes.
 
 ---
 
@@ -223,9 +230,10 @@ Moves the spec from `dev/` → completed, merges SETUP + changelog, and pushes.
 
 | Command | Description |
 |---------|-------------|
-| `osrs-bot deploy` | Sync all scripts, compile, dry-run, push |
-| `osrs-bot deploy <id>` | Deploy a single script by spec ID |
-| `osrs-bot run` | Pull latest, clean, launch ChromaScape |
+| `osrs-bot build` | Compile ChromaScape (including all scripts) |
+| `osrs-bot deploy` | Compile, commit, and push both repos |
+| `osrs-bot deploy --dry-run` | Compile only, don't push |
+| `osrs-bot run` | Pull latest, launch ChromaScape |
 | `osrs-bot run --browser` | Same, but also opens http://localhost:8080 |
 | `osrs-bot logs pull <id>` | Copy runtime log to script's spec directory |
 | `osrs-bot logs tail` | Show last 50 lines of runtime log |
@@ -233,6 +241,8 @@ Moves the spec from `dev/` → completed, merges SETUP + changelog, and pushes.
 | `osrs-bot bug <id>` | Pull log, create bug report, open editor, push |
 | `osrs-bot complete <id>` | Move script from dev → completed |
 | `osrs-bot upstream` | Fetch and merge upstream ChromaScape updates |
+| `osrs-bot lint` | Check for duplicate private methods across scripts |
+| `osrs-bot delta` | Show ChromaScape files that differ from upstream |
 | `osrs-bot status` | Show active/completed scripts, pending bugs |
 
 ---
@@ -242,8 +252,9 @@ Moves the spec from `dev/` → completed, merges SETUP + changelog, and pushes.
 ### After a deploy (on Windows)
 
 ```powershell
+# Pull both repos
 git pull
-git submodule update --init --recursive
+cd ChromaScape && git pull && cd ..
 ```
 
 Or just use `osrs-bot run` which does this automatically.

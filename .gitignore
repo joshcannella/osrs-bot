@@ -12,5 +12,12 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# Runtime logs (large, machine-specific)
-ChromaScape/logs/
+# ChromaScape is its own git repo (not a submodule)
+ChromaScape/
+
+# Runtime logs (local only, never committed)
+logs/
+.kiro/logs/
+
+# Old artifacts
+scriptgen/

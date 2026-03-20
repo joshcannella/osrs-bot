@@ -1,6 +1,0 @@
-{
-  "id": "chicken-killer",
-  "status": "dev",
-  "script_class": "ChickenKillerScript",
-  "images": ["Feather.png", "Bones.png"]
-}

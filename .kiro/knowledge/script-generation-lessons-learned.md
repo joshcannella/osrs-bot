@@ -113,19 +113,19 @@ if (itemLoc == null) {
 ## API Differences Between Projects
 **Problem**: Code compiled in scriptgen but failed in ChromaScape due to API differences (e.g., `match.boundingBox()` vs `match.bounds()`).
 
-**Solution**: Always test compilation in the target environment:
+**Solution**: Always compile directly in ChromaScape:
 ```bash
 osrs-bot build
 ```
 
-**Rule**: Use `osrs-bot build` to compile scripts and sync to ChromaScape. Scripts now use `package com.chromascape.scripts` directly — no package rewriting needed. The sync is a straight rsync copy.
+**Rule**: Use `osrs-bot build` to compile. Scripts live directly in `ChromaScape/src/main/java/com/chromascape/scripts/` — no copying or syncing needed.
 
 Check the ChromaScape API when using framework classes - don't assume method names match between projects.
 
 ---
 
 ## ~~Package Declaration Rewrite in Sync Script~~ (Obsolete)
-Scripts now use `package com.chromascape.scripts` directly in scriptgen — no rewriting needed. The sync is a straight rsync copy.
+Scripts live directly in ChromaScape now — no scriptgen, no syncing, no package rewriting.
 
 ---
 

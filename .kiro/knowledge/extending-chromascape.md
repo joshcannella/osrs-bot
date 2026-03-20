@@ -74,10 +74,9 @@ Rules:
 ## How to Deploy
 
 1. Create the file in `ChromaScape/src/main/java/com/chromascape/utils/actions/custom/`
-2. Compile: `cd ChromaScape && gradle compileJava`
-3. Update scripts in scriptgen to import and use the new utility
-4. Run `./scripts/sync-and-compile.sh`
-5. **Update the API reference** at `.kiro/knowledge/chromascape-wiki/api-reference.md`
+2. Compile: `osrs-bot build`
+3. Update scripts to import and use the new utility
+4. **Update the API reference** at `.kiro/knowledge/chromascape-wiki/api-reference.md`
 
 ## Candidates for Future Extraction
 
@@ -95,7 +94,6 @@ Rules:
 ## Checklist
 
 Before committing a new ChromaScape utility:
-- [ ] Compiles in ChromaScape (`gradle compileJava`)
-- [ ] All scripts using it compile via `./scripts/sync-and-compile.sh`
+- [ ] Compiles (`osrs-bot build`)
 - [ ] API reference updated with new class and method signatures
 - [ ] Existing scripts refactored to use the new utility (no leftover private duplicates)
