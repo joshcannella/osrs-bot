@@ -3,6 +3,7 @@ package com.chromascape.scripts;
 import com.chromascape.api.DiscordNotification;
 import com.chromascape.base.BaseScript;
 import com.chromascape.utils.actions.Idler;
+import com.chromascape.utils.actions.IdleType;
 import com.chromascape.utils.actions.Minimap;
 import com.chromascape.utils.actions.MovingObject;
 import com.chromascape.utils.actions.custom.ColourClick;
@@ -42,9 +43,6 @@ public class LumbridgeGoblinScript extends BaseScript {
   private static final int EAT_AT_HP = 5;
 
   // === Chat ===
-  // Red text in OSRS chat (HSV: hue ~0, high sat, high val)
-  private static final ColourObj CHAT_RED =
-      new ColourObj("red", new Scalar(0, 200, 200, 0), new Scalar(5, 255, 255, 0));
   // Black text for "I'm already under attack." / "Someone else is fighting that."
   private static final ColourObj CHAT_BLACK =
       new ColourObj("black", new Scalar(0, 0, 0, 0), new Scalar(0, 0, 0, 0));
@@ -70,16 +68,15 @@ public class LumbridgeGoblinScript extends BaseScript {
   protected void cycle() {
     if (HumanBehavior.runPreCycleChecks(this)) return;
 
-    // Check if we just left combat via chat message
-    if (inCombat && isOutOfCombatChat()) {
-      logger.info("Combat ended (chat: no longer in combat)");
-      inCombat = false;
-    }
-
-    // Still in combat — wait for kill to finish
+    // Check if we just left combat via idle detection
     if (inCombat) {
-      waitMillis(300);
-      return;
+      IdleType idleType = Idler.waitUntilIdleType(this, 1);
+      if (idleType != IdleType.TIMEOUT) {
+        logger.info("Combat ended ({})", idleType);
+        inCombat = false;
+      } else {
+        return;
+      }
     }
 
     // Eat if HP is low
@@ -201,35 +198,27 @@ public class LumbridgeGoblinScript extends BaseScript {
     // Eat before blocking on Idler
     if (shouldEat()) eatFood();
 
-    // Block until Idle Notifier or game "no longer in combat" message
-    boolean wentIdle = Idler.waitUntilIdle(this, KILL_TIMEOUT_SECONDS);
+    // Block until idle event or timeout
+    IdleType idleType = Idler.waitUntilIdleType(this, KILL_TIMEOUT_SECONDS);
     inCombat = false;
 
-    if (wentIdle) {
-      // Check if we died (respawned near Lumbridge)
-      if (isNearSpawn()) {
-        logger.warn("Died — respawned at Lumbridge");
-        recoverToGoblins();
-      } else {
-        logger.info("Kill confirmed (idle/combat message)");
+    switch (idleType) {
+      case COMBAT -> {
+        if (isNearSpawn()) {
+          logger.warn("Died — respawned at Lumbridge");
+          recoverToGoblins();
+        } else {
+          logger.info("Kill confirmed (combat idle)");
+        }
       }
-    } else {
-      logger.info("Kill timeout — retrying");
+      case ANIMATION -> logger.info("Animation idle during combat");
+      case MOVEMENT -> logger.info("Movement idle during combat");
+      case TIMEOUT -> logger.info("Kill timeout — retrying");
     }
     HumanBehavior.sleep(600, 900);
   }
 
   // === Recovery ===
-
-  /**
-   * Reads the latest chat message for red "no longer in combat" text.
-   */
-  private boolean isOutOfCombatChat() {
-    Rectangle latestMsg = controller().zones().getChatTabs().get("Latest Message");
-    if (latestMsg == null) return false;
-    String text = Ocr.extractText(latestMsg, "Plain 12", CHAT_RED, true).toLowerCase();
-    return text.contains("nolonger");
-  }
 
   /**
    * Reads the latest chat message for black game text (e.g. "already under attack",
