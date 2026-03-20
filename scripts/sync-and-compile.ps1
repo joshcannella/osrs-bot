@@ -3,7 +3,6 @@
 $ErrorActionPreference = "Stop"
 
 $ScriptgenScripts = "scriptgen\src\main\java\com\chromascape\scripts"
-$ScriptgenBehavior = "scriptgen\src\main\java\com\chromascape\behavior"
 $ChromascapeScripts = "ChromaScape\src\main\java\com\chromascape\scripts"
 $ScriptgenResources = "scriptgen\src\main\resources\images\user"
 $ChromascapeResources = "ChromaScape\src\main\resources\images\user"
@@ -12,23 +11,6 @@ Write-Host "=== Syncing scripts from scriptgen to ChromaScape ==="
 
 # Copy all scripts
 Copy-Item "$ScriptgenScripts\*.java" "$ChromascapeScripts\" -Force
-
-# Copy HumanBehavior
-if (Test-Path "$ScriptgenBehavior\HumanBehavior.java") {
-    Copy-Item "$ScriptgenBehavior\HumanBehavior.java" "$ChromascapeScripts\" -Force
-    $file = "$ChromascapeScripts\HumanBehavior.java"
-    (Get-Content $file) -replace 'package com\.chromascape\.behavior;', 'package com.chromascape.scripts;' | Set-Content $file
-    Write-Host "  > Copied and updated HumanBehavior.java"
-}
-
-# Update package and import declarations
-Write-Host "  > Updating imports..."
-Get-ChildItem "$ChromascapeScripts\*.java" | ForEach-Object {
-    $content = Get-Content $_.FullName -Raw
-    $content = $content -replace 'package com\.chromascape\.scripts;', 'package com.chromascape.scripts;'
-    $content = $content -replace 'import com\.chromascape\.behavior\.HumanBehavior;', 'import com.chromascape.scripts.HumanBehavior;'
-    Set-Content $_.FullName $content
-}
 
 # Sync image resources
 Write-Host "=== Syncing image resources ==="
