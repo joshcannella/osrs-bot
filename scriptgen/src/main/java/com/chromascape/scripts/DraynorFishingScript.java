@@ -111,7 +111,7 @@ public class DraynorFishingScript extends BaseScript {
       return;
     }
 
-    Point spotLoc = ColourClick.getClickPoint(this, FISHING_SPOT_COLOUR);
+    Point spotLoc = ColourClick.getClickPoint(this, FISHING_SPOT_COLOUR, 10.0);
     if (spotLoc == null) {
       stuckCounter++;
       return;
@@ -201,12 +201,17 @@ public class DraynorFishingScript extends BaseScript {
       java.awt.Rectangle slot = controller().zones().getInventorySlots().get(i);
       java.awt.image.BufferedImage slotImg =
           com.chromascape.utils.core.screen.window.ScreenManager.captureZone(slot);
-      if (isSlotEmpty(slotImg)) empty++;
+      double v = slotVariance(slotImg);
+      if (v < 50) {
+        empty++;
+      } else {
+        logger.debug("Slot {} variance: {}", i, String.format("%.1f", v));
+      }
     }
     return empty;
   }
 
-  private boolean isSlotEmpty(java.awt.image.BufferedImage img) {
+  private double slotVariance(java.awt.image.BufferedImage img) {
     long totalR = 0, totalG = 0, totalB = 0;
     int pixels = img.getWidth() * img.getHeight();
     for (int y = 0; y < img.getHeight(); y++) {
@@ -231,9 +236,7 @@ public class DraynorFishingScript extends BaseScript {
         variance += dr * dr + dg * dg + db * db;
       }
     }
-    variance /= pixels;
-    // Empty slots have very low variance (< 50), items have much higher (> 200)
-    return variance < 100;
+    return variance / pixels;
   }
 
   private void drop() {
