@@ -95,12 +95,8 @@ public class AlKharidCookingScript extends BaseScript {
     controller().mouse().moveTo(rangeLoc, "medium");
     controller().mouse().leftClick();
 
-    // Wait for cook dialog — poll instead of blind sleep
-    if (!waitForCookDialog()) {
-      logger.warn("Cook dialog did not appear");
-      stuckCounter++;
-      return;
-    }
+    // Wait for cook dialog then press space to cook all
+    HumanBehavior.sleep(2000, 3000);
     KeyPress.space(this);
 
     // Wait for cooking to finish
@@ -114,19 +110,6 @@ public class AlKharidCookingScript extends BaseScript {
     }
 
     stuckCounter = 0;
-  }
-
-  /**
-   * Polls for the cook dialog by checking if the range is no longer visible
-   * (the cooking interface covers the game view). Times out after 5 seconds.
-   */
-  private boolean waitForCookDialog() {
-    for (int i = 0; i < 10; i++) {
-      waitMillis(500);
-      // When the cook dialog opens, the game view changes — range disappears
-      if (!isRangeVisible()) return true;
-    }
-    return false;
   }
 
   // === Banking ===
