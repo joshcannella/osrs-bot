@@ -9,7 +9,9 @@ import com.chromascape.utils.actions.custom.HumanBehavior;
 import com.chromascape.utils.actions.custom.Inventory;
 import com.chromascape.utils.actions.custom.Walk;
 import com.chromascape.utils.core.screen.colour.ColourObj;
+import com.chromascape.utils.domain.ocr.Ocr;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.time.LocalDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +40,14 @@ public class LumbridgeGoblinScript extends BaseScript {
   private static final double FOOD_THRESHOLD = 0.07;
   private static final int EAT_AT_HP = 5;
 
+  // === Chat ===
+  // Red text in OSRS chat (HSV: hue ~0, high sat, high val)
+  private static final ColourObj CHAT_RED =
+      new ColourObj("red", new Scalar(0, 200, 200, 0), new Scalar(5, 255, 255, 0));
+  // Black text for "I'm already under attack." / "Someone else is fighting that."
+  private static final ColourObj CHAT_BLACK =
+      new ColourObj("black", new Scalar(0, 0, 0, 0), new Scalar(0, 0, 0, 0));
+
   // === Combat ===
   private static final int GOBLIN_XP = 20; // 5 HP × 4 XP per damage
   private static final int KILL_TIMEOUT_SECONDS = 20;
@@ -53,10 +63,23 @@ public class LumbridgeGoblinScript extends BaseScript {
   // === Stuck Detection ===
   private static final int MAX_STUCK_CYCLES = 10;
   private int stuckCounter = 0;
+  private boolean inCombat = false;
 
   @Override
   protected void cycle() {
     if (HumanBehavior.runPreCycleChecks(this)) return;
+
+    // Check if we just left combat via chat message
+    if (inCombat && isOutOfCombatChat()) {
+      logger.info("Combat ended (chat: no longer in combat)");
+      inCombat = false;
+    }
+
+    // Still in combat — wait for kill to finish
+    if (inCombat) {
+      waitMillis(300);
+      return;
+    }
 
     // Eat if HP is low
     if (shouldEat()) {
@@ -100,8 +123,22 @@ public class LumbridgeGoblinScript extends BaseScript {
       }
       if (waitForFirstHit(previousXp)) {
         stuckCounter = 0;
+        inCombat = true;
         waitForKill(previousXp);
         return;
+      }
+      // Check if we're already fighting something
+      String blackMsg = getLatestBlackChat();
+      if (blackMsg.contains("alreadyunder")) {
+        logger.info("Already in combat, waiting for kill");
+        stuckCounter = 0;
+        inCombat = true;
+        waitForKill(previousXp);
+        return;
+      }
+      if (blackMsg.contains("someoneelse")) {
+        logger.info("Goblin taken by another player, trying next");
+        continue;
       }
       logger.warn("Goblin unreachable (attempt {}), trying another", attempt + 1);
     }
@@ -149,10 +186,18 @@ public class LumbridgeGoblinScript extends BaseScript {
       if (shouldEat()) {
         eatFood();
       }
+      // Check chat for combat end
+      if (isOutOfCombatChat()) {
+        logger.info("Kill confirmed (chat: no longer in combat)");
+        inCombat = false;
+        HumanBehavior.sleep(600, 900);
+        return;
+      }
       try {
         int delta = Minimap.getXp(this) - previousXp;
         if (delta >= GOBLIN_XP && delta < 100) {
           logger.info("Kill confirmed (+{} XP)", delta);
+          inCombat = false;
           HumanBehavior.sleep(600, 900);
           return;
         }
@@ -160,9 +205,30 @@ public class LumbridgeGoblinScript extends BaseScript {
       waitMillis(300);
     }
     logger.info("Kill timeout — retrying");
+    inCombat = false;
   }
 
   // === Recovery ===
+
+  /**
+   * Reads the latest chat message for red "no longer in combat" text.
+   */
+  private boolean isOutOfCombatChat() {
+    Rectangle latestMsg = controller().zones().getChatTabs().get("Latest Message");
+    if (latestMsg == null) return false;
+    String text = Ocr.extractText(latestMsg, "Plain 12", CHAT_RED, true).toLowerCase();
+    return text.contains("nolonger");
+  }
+
+  /**
+   * Reads the latest chat message for black game text (e.g. "already under attack",
+   * "someone else is fighting that").
+   */
+  private String getLatestBlackChat() {
+    Rectangle latestMsg = controller().zones().getChatTabs().get("Latest Message");
+    if (latestMsg == null) return "";
+    return Ocr.extractText(latestMsg, "Plain 12", CHAT_BLACK, true).toLowerCase();
+  }
 
   private void recoverToGoblins() {
     waitRandomMillis(600, 800);
