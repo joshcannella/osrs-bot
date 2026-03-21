@@ -104,3 +104,6 @@ API differences between projects cause silent failures. Use `osrs-bot build`.
 
 ### Don't Duplicate Utilities
 Check API reference before writing any private helper. If `Inventory`, `KeyPress`, `Bank`, etc. already does it, use it. Run `osrs-bot lint` to catch duplicates.
+
+### LevelUpDismisser DIALOG_BLUE Was Wrong
+The "Click here to continue" text in OSRS level-up dialogs is `RGB(0, 0, 128)` → OpenCV HSV `H=120, S=255, V=128`. The original `DIALOG_BLUE` range `H=125-135, S=200-255, V=150-255` missed on both H (too high) and V (floor too high). Fixed to `H=118-122, S=200-255, V=100-255`. Always verify HSV ranges against actual RGB values using `colorsys.rgb_to_hsv()` conversion.
