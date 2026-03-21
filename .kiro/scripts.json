@@ -28,5 +28,11 @@
     "status": "dev",
     "bugs": [],
     "notes": []
+  },
+  "brutus-brawler": {
+    "class": "BrutusBrawlerScript",
+    "status": "dev",
+    "bugs": [],
+    "notes": []
   }
 }

@@ -6,7 +6,9 @@
   "tools": [
     "read",
     "grep",
-    "glob"
+    "glob",
+    "@osrswiki",
+    "@wiseoldman"
   ],
   "toolAliases": {},
   "allowedTools": [
@@ -41,7 +43,8 @@
     "file://.kiro/knowledge/osrs/quests.md",
     "file://.kiro/knowledge/osrs/locations.md",
     "file://.kiro/knowledge/osrs/current-meta.md",
-    "file://.kiro/knowledge/osrs/npcs-monsters.md"
+    "file://.kiro/knowledge/osrs/npcs-monsters.md",
+    "skill://.kiro/skills/runelite/SKILL.md"
   ],
   "hooks": {},
   "toolsSettings": {},

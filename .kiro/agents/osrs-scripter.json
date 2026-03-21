@@ -9,12 +9,15 @@
     "shell",
     "grep",
     "glob",
-    "code"
+    "code",
+    "@osrswiki",
+    "@wiseoldman"
   ],
   "toolAliases": {},
   "allowedTools": [],
   "resources": [
-    "skill://.kiro/skills/chromascape/SKILL.md"
+    "skill://.kiro/skills/chromascape/SKILL.md",
+    "skill://.kiro/skills/runelite/SKILL.md"
   ],
   "hooks": {
     "agentSpawn": [
