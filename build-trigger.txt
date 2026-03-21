@@ -1,0 +1,2 @@
+Build trigger file created to resolve Gradle processResources stale output issue.
+Timestamp: 2026-03-21 01:08
