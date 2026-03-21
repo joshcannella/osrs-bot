@@ -36,6 +36,8 @@
 - `Fly_fishing_rod.png` ✗ MISSING
 - `Raw_salmon.png` ✗ MISSING
 - `Raw_trout.png` ✗ MISSING
+- `Salmon.png` ✓
+- `Trout.png` ✓
 
 ## How to Run
 - Script class: **BarbFishCookScript**
