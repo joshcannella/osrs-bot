@@ -150,7 +150,49 @@ static void click(BaseScript base)                                 // Click rand
 ## ColourClick (com.chromascape.utils.actions.custom.ColourClick)
 ```java
 static boolean isVisible(BaseScript base, ColourObj colour)        // Is colour object on screen?
-static Point getClickPoint(BaseScript base, ColourObj colour)      // Safe click point (null if not found)
+static Point getClickPoint(BaseScript base, ColourObj colour)      // Safe click point for closest object (null if not found)
+static Point getClickPoint(BaseScript base, ColourObj colour, double tightness) // With tightness control
+static boolean wasRedClick(Point clickPoint)                       // Check if red X sprite appeared at point (call ~120ms after click)
+```
+
+### ColourClick vs MovingObject for NPC Targeting
+
+`MovingObject.clickMovingObjectByColourObjUntilRedClick()` picks a **random** colour contour and retries the **same target** up to 10 times in a tight async loop. Good for fast-moving single targets.
+
+`ColourClick.getClickPoint()` picks the **closest** contour to the center of the game view (i.e., closest to the player). Combined with `wasRedClick()`, you control the retry logic yourself. Better for combat scripts where you always want the nearest mob.
+
+**Recommended NPC engage pattern:**
+```java
+Point npc = ColourClick.getClickPoint(this, NPC_COLOUR);
+if (npc == null) return;
+controller().mouse().moveTo(npc, "fast");
+controller().mouse().leftClick();
+waitMillis(120);
+if (!ColourClick.wasRedClick(npc)) { /* retry or skip */ }
+```
+
+## Combat (com.chromascape.utils.actions.custom.Combat)
+```java
+static boolean isInCombat(BaseScript base)                         // True if opponent HP bar is visible
+```
+
+Detects combat state by scanning the top-left of the game view for the green portion of the RuneLite Opponent Information health bar. Requires the Opponent Information plugin (enabled by default).
+
+**Use with Idler for full combat lifecycle:**
+- `Combat.isInCombat()` — poll for combat **start** (health bar appears) and fast-path **during** combat
+- `Idler.waitUntilIdleType()` — authoritative combat **end** signal ("You are now out of combat!" chat message)
+
+```java
+// Top of cycle — skip if still fighting
+if (inCombat) {
+    if (Combat.isInCombat(this)) return;
+    IdleType idle = Idler.waitUntilIdleType(this, 1);
+    if (idle != IdleType.TIMEOUT) { inCombat = false; }
+    else { return; }
+}
+
+// After clicking NPC — wait for combat to start
+if (Combat.waitForEngagement(previousXp, 8)) { inCombat = true; }
 ```
 
 ## Bank (com.chromascape.utils.actions.custom.Bank)

@@ -109,3 +109,4 @@ Every script needs:
 - ChromaScape RuneLite Profile: activated
 - XP Bar: permanent (if using `Minimap.getXp()`)
 - Idle Notifier: enabled (if using `Idler.waitUntilIdle()`)
+- Opponent Information: enabled (if using `Combat.isInCombat()`)

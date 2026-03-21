@@ -65,6 +65,20 @@ Wait 600-900ms after kill confirmation for death animation before next action.
 
 ## Combat
 
+### Health Bar > Chat for Combat State
+`Combat.isInCombat()` detects the Opponent Information health bar overlay — instant, visual, no OCR. Use it for:
+- **Engagement confirmation** after clicking an NPC (replaces XP/position polling)
+- **Fast-path skip** at top of cycle when still fighting (avoids Idler OCR cost)
+- **Mid-fight validation** when Idler fires ANIMATION/MOVEMENT events (confirm still in combat before continuing to wait)
+
+Keep `Idler.waitUntilIdleType()` for the authoritative "combat ended" signal — the chat message is the definitive event.
+
+### Always Target Closest NPC
+Use `ColourClick.getClickPoint()` instead of `MovingObject` for NPC targeting. `ColourClick` uses `getChromaObjClosestToCentre` which picks the nearest mob to the player. `MovingObject` picks randomly, causing the player to run past nearby mobs to reach distant ones.
+
+### Verify Red Click Before Waiting
+After clicking an NPC, call `ColourClick.wasRedClick(point)` ~120ms later. If no red X, skip to next attempt immediately — don't waste 8s polling for combat that will never start.
+
 ### NPC Access Obstacles
 NPCs behind doors/gates/ladders need an explicit step to handle the obstacle first. Don't assume the walker paths through.
 
