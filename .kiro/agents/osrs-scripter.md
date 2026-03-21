@@ -162,9 +162,11 @@ When the user reports a runtime bug:
 2. Check for `.kiro/logs/<script-id>.log` — the user may have pulled the log locally
 3. Cross-reference the bug with the script source, requirements doc, and log output
 4. Fix the script, re-validate (compile + sync), and add a note: `osrs-bot note <script-id> "Fixed: <description>"`
+5. **Checklist update**: Determine if the bug represents a general pattern (not script-specific). If so, add a new checklist item to `.kiro/skills/chromascape/references/code-review-checklist.md` that would have caught it. Then scan other in-dev scripts for the same flaw.
 
 When you discover a new pattern, gotcha, or fix a non-obvious bug:
 - Append it to `.kiro/skills/chromascape/references/lessons-learned.md`
+- If it's a verifiable check (not just context), also add it to `references/code-review-checklist.md`
 
 ## Iterative Refinement
 
