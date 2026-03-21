@@ -31,11 +31,11 @@
 - **Shift-click drop**: must be enabled (Settings → Controls)
 
 ## Image Templates
-- `Burnt_fish.png` ✗ MISSING
+- `Burnt_fish.png` ✓
 - `Feather.png` ✓
-- `Fly_fishing_rod.png` ✗ MISSING
-- `Raw_salmon.png` ✗ MISSING
-- `Raw_trout.png` ✗ MISSING
+- `Fly_fishing_rod.png` ✓
+- `Raw_salmon.png` ✓
+- `Raw_trout.png` ✓
 - `Salmon.png` ✓
 - `Trout.png` ✓
 

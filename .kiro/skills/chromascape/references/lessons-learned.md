@@ -107,3 +107,9 @@ Check API reference before writing any private helper. If `Inventory`, `KeyPress
 
 ### LevelUpDismisser DIALOG_BLUE Was Wrong
 The "Click here to continue" text in OSRS level-up dialogs is `RGB(0, 0, 128)` → OpenCV HSV `H=120, S=255, V=128`. The original `DIALOG_BLUE` range `H=125-135, S=200-255, V=150-255` missed on both H (too high) and V (floor too high). Fixed to `H=118-122, S=200-255, V=100-255`. Always verify HSV ranges against actual RGB values using `colorsys.rgb_to_hsv()` conversion.
+
+### Left-Click Bank Deposit Only Deposits 1
+Left-clicking an item in the bank inventory deposits 1 item by default (unless the player has manually set the quantity to "All" via the bank UI buttons). Don't rely on left-click deposit loops — they deposit 1 per click and are extremely slow. Use `Bank.depositAll()` + withdraw tools instead. The bank quantity setting persists per-account but can't be detected or set programmatically.
+
+### Always Verify Image Templates Exist
+Before deploying a script, verify every image template in `/images/user/` actually exists as a PNG file. Missing templates cause `Resource not found` exceptions at runtime. Download from OSRS Wiki and verify with `file` command.

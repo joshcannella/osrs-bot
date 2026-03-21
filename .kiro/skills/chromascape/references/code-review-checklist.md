@@ -31,7 +31,7 @@
 
 - [ ] Tools/equipment are **never deposited** — deposit specific items, not deposit-all, unless the script withdraws everything it needs back
 - [ ] If using `Bank.depositAll()`, the script must withdraw all required tools afterward and verify they're in inventory
-- [ ] Prefer left-clicking specific items to deposit over `Bank.depositAll()` when the player carries tools
+- [ ] Use `Bank.depositAll()` + withdraw tools — do NOT left-click individual items to deposit (left-click deposits 1, not all)
 
 ## Inventory Detection
 
@@ -59,3 +59,8 @@
 
 - [ ] All delays use `HumanBehavior.adjustDelay(min, max)`, never hardcoded `waitMillis(1200)`
 - [ ] Post-action delays are present (e.g., after clicking, after level-up dismiss, after bank close)
+
+## Image Templates
+
+- [ ] Every template path referenced in the script exists as a PNG in `ChromaScape/src/main/resources/images/user/`
+- [ ] Verify with `file` command — must report PNG image data, not HTML or empty
