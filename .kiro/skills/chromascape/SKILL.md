@@ -84,6 +84,7 @@ Load these based on what you're doing:
 | Designing state machines, recovery logic | `references/scripting-patterns.md` |
 | Debugging or fixing a script | `references/lessons-learned.md` |
 | Creating shared utilities | `references/extending-framework.md` |
+| **Before presenting any script** | `references/code-review-checklist.md` — **mandatory, run every item** |
 
 ## Critical Rules
 

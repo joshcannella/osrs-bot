@@ -133,10 +133,11 @@ Key rules from the API reference:
 
 ## Phase 3: Validation & Deploy
 
-1. **Compile**: `osrs-bot build` — compiles ChromaScape including all scripts
-2. Fix compile errors (max 3 attempts)
-3. **Lint**: `osrs-bot lint` — check for duplicated private methods. If flagged, extract to a shared utility in `utils/actions/custom/`.
-4. **Deploy**: Run `osrs-bot deploy` — this handles everything automatically:
+1. **Code review checklist**: Read `.kiro/skills/chromascape/references/code-review-checklist.md` and verify every item against the script. Fix any violations before proceeding. This is mandatory — every checklist item exists because it caused a real bug.
+2. **Compile**: `osrs-bot build` — compiles ChromaScape including all scripts
+3. Fix compile errors (max 3 attempts)
+4. **Lint**: `osrs-bot lint` — check for duplicated private methods. If flagged, extract to a shared utility in `utils/actions/custom/`.
+5. **Deploy**: Run `osrs-bot deploy` — this handles everything automatically:
    - Compiles ChromaScape (catches all errors)
    - Commits and pushes ChromaScape (scripts, images, utilities)
    - Commits and pushes parent repo (specs, knowledge)
