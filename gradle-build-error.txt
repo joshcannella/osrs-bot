@@ -1,0 +1,71 @@
+Gradle Build Error Report
+=========================
+Date: 2026-03-21
+Command: osrs-bot run
+
+Error Summary:
+--------------
+Task ':processResources' failed with "Failed to clean up stale outputs"
+
+Full Error Output:
+------------------
+PS C:\Users\Owner\Develop\github\osrs-bot> osrs-bot run
+Already up to date.
+Already up to date.
+
+> Task :copyNativeLibraries
+Skipped KInput.dll (already exists)
+Skipped KInputCtrl.dll (already exists)
+
+> Task :processResources FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':processResources'.
+> Failed to clean up stale outputs
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s
+3 actionable tasks: 2 executed, 1 up-to-date
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\Owner\AppData\Local\Programs\Python\Python314\Scripts\osrs-bot.exe\__main__.py", line 6, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 597, in main
+    commands[args.command](args)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 240, in cmd_run
+    gradle(["bootRun"])
+    ~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 62, in gradle
+    run_cmd(cmd, cwd=cwd)
+    ~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Owner\Develop\github\osrs-bot\cli\src\osrs_bot\__init__.py", line 54, in run_cmd
+    return subprocess.run(cmd, cwd=cwd or ROOT, check=check)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Owner\AppData\Local\Programs\Python\Python314\Lib\subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['C:\\Users\\Owner\\Develop\\github\\osrs-bot\\ChromaScape\\gradlew.bat', 'bootRun']' returned non-zero exit status 1.
+
+Notes:
+------
+- This error occurs when Gradle cannot delete/clean stale output files in the build directory
+- Typically caused by files being locked by running processes (Java/ChromaScape instances)
+- Previous attempt to run './gradlew clean' also failed due to locked files in build/dist/ and build/resources/
+- Locked files include: KInput.dll, KInputCtrl.dll, and various image resources
+
+Recommended Fix:
+----------------
+1. Stop all running Java/ChromaScape processes via Task Manager
+2. Delete the ChromaScape/build directory manually
+3. Run 'osrs-bot run' again
