@@ -5,24 +5,6 @@
     "bugs": [],
     "notes": []
   },
-  "restless-ghost": {
-    "class": "RestlessGhostScript",
-    "status": "dev",
-    "bugs": [
-      {
-        "date": "2026-03-04",
-        "description": "Script progresses through steps without verifying completion \u2014 transitions from TALK_AERECK to TALK_URHNEY without confirming dialog opened",
-        "resolved": false
-      }
-    ],
-    "notes": []
-  },
-  "draynor-fish-cook": {
-    "class": "DraynorFishCookScript",
-    "status": "dev",
-    "bugs": [],
-    "notes": []
-  },
   "f2p-melee-trainer": {
     "class": "F2pMeleeTrainerScript",
     "status": "dev",
