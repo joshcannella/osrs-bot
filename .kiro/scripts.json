@@ -34,5 +34,11 @@
     "status": "dev",
     "bugs": [],
     "notes": []
+  },
+  "barb-fish-cook": {
+    "class": "BarbFishCookScript",
+    "status": "dev",
+    "bugs": [],
+    "notes": []
   }
 }
