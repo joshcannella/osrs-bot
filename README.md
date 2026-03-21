@@ -16,13 +16,13 @@ git remote add upstream https://github.com/StaticSweep/ChromaScape.git
 cd ..
 
 # 2. Download fonts and UI templates (required before first build)
-cd ChromaScape && .\CVTemplates.bat && cd ..
+cd ChromaScape; .\CVTemplates.bat; cd ..
 
 # 3. Build ChromaScape (requires Java 17 + MinGW for KInput)
-cd ChromaScape && .\gradlew.bat build && cd ..
+cd ChromaScape; .\gradlew.bat build; cd ..
 
 # 4. Install the CLI
-cd cli && uv tool install --editable . && cd ..
+cd cli; uv tool install --editable .; cd ..
 ```
 
 Daily use:
