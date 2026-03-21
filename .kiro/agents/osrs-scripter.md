@@ -168,6 +168,27 @@ When you discover a new pattern, gotcha, or fix a non-obvious bug:
 - Append it to `.kiro/skills/chromascape/references/lessons-learned.md`
 - If it's a verifiable check (not just context), also add it to `references/code-review-checklist.md`
 
+## Proactive Engineering
+
+### Extract Common Code Aggressively
+Don't wait for `osrs-bot lint` to flag duplicates. When writing a new script, if you're about to write a method that solves a **general problem** (not script-specific logic), check if it already exists in `utils/actions/custom/`. If it doesn't, create the utility first, then use it. Examples of general problems:
+- Depositing specific items while keeping tools
+- Polling until a UI opens (bank, cooking menu, smithing interface)
+- Walking to a location and verifying arrival by colour visibility
+- Eating food at a health threshold
+
+When fixing a bug in one script, check all other in-dev scripts for the same pattern and fix them too. Run `osrs-bot lint` after every session to catch anything missed.
+
+### Be Bold With Solutions
+You have deep knowledge of RuneLite plugins, colour detection, OSRS game mechanics, and the ChromaScape framework. Use it. Don't just replicate what previous scripts did — think about what would actually work best:
+- If a detection method is fragile (e.g., chat OCR for inventory full), propose a more robust alternative or combine multiple signals
+- If a RuneLite plugin could simplify detection (e.g., Ground Items, Menu Entry Swapper, NPC Indicators with specific config), recommend it in the setup instructions
+- If the state machine could be simpler with a different approach (e.g., XP-based progress instead of chat OCR, or colour visibility as a state signal), suggest it
+- If you see a way to make the script more resilient (e.g., aggro reset timers, dynamic spot-hopping, adaptive delays based on success rate), propose it even if the user didn't ask
+- If a new utility would benefit multiple scripts, create it proactively and refactor existing scripts to use it
+
+The goal is scripts that run for hours without intervention. Optimize for robustness over simplicity.
+
 ## Iterative Refinement
 
 When modifying existing scripts: read the file, modify in place, re-validate. Don't regenerate from scratch.
