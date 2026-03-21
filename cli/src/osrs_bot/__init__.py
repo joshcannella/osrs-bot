@@ -188,7 +188,7 @@ def cmd_init(args):
 
 
 def cmd_build(args):
-    gradle(["compileJava"])
+    gradle(["classes"])
     print("✓ Build successful")
 
 
@@ -199,7 +199,7 @@ def cmd_deploy(args):
         if entry.get("status") == "dev":
             sync_script(sid, tracker)
 
-    gradle(["compileJava"])
+    gradle(["classes"])
     print("✓ Compiled")
 
     if args.dry_run:
