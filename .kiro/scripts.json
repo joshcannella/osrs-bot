@@ -20,7 +20,35 @@
   "barb-fish-cook": {
     "class": "BarbFishCookScript",
     "status": "dev",
-    "bugs": [],
+    "bugs": [
+      {
+        "date": "2026-03-21",
+        "description": "Script fails on startup with missing image template: /images/user/Fly_fishing_rod.png not found",
+        "resolved": false,
+        "log_tail": [
+          "12:28:21.196 [Thread-10] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped",
+          "12:35:08.705 [Thread-12] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped",
+          "12:35:38.640 [Thread-3] ERROR com.chromascape.base.BaseScript - Exception in cycle: Resource not found: /images/user/Fly_fishing_rod.png, [com.chromascape.utils.core.screen.topology.TemplateMatching.loadMatFromResource(TemplateMatching.java:183), com.chromascape.utils.core.screen.topology.TemplateMatching.match(TemplateMatching.java:73), com.chromascape.utils.actions.custom.Inventory.findItemSlot(Inventory.java:77), com.chromascape.utils.actions.custom.Inventory.hasItem(Inventory.java:42), com.chromascape.scripts.BarbFishCookScript.cycle(BarbFishCookScript.java:85), com.chromascape.base.BaseScript.run(BaseScript.java:54), com.chromascape.web.instance.ScriptInstance.lambda$start$0(ScriptInstance.java:62), java.base/java.lang.Thread.run(Thread.java:840)]",
+          "12:36:03.886 [Thread-6] ERROR com.chromascape.utils.actions.custom.Walk - Walker error going to fishing spot: Script stopped",
+          "12:37:36.480 [Thread-8] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped",
+          "12:43:10.717 [Thread-2] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped",
+          "12:43:34.274 [Thread-2] WARN  com.chromascape.scripts.DraynorFishingScript - Deposit failed, fish still in inventory.",
+          "12:43:40.020 [Thread-2] WARN  com.chromascape.scripts.DraynorFishingScript - Deposit failed, fish still in inventory.",
+          "12:43:45.506 [Thread-2] WARN  com.chromascape.scripts.DraynorFishingScript - Deposit failed, fish still in inventory.",
+          "12:43:51.718 [Thread-2] WARN  com.chromascape.scripts.DraynorFishingScript - Deposit failed, fish still in inventory.",
+          "12:43:55.477 [Thread-2] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped",
+          "12:45:57.594 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...",
+          "12:45:57.594 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...",
+          "12:46:01.894 [Thread-2] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...",
+          "12:52:11.159 [Thread-2] ERROR com.chromascape.base.BaseScript - Cycle interrupted: Script stopped",
+          "12:53:30.035 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Veered off path, recalculating...",
+          "12:53:30.036 [Thread-5] ERROR com.chromascape.utils.domain.walker.Walker - Too far from path, calling Dax...",
+          "12:53:33.519 [Thread-5] ERROR com.chromascape.utils.actions.custom.Walk - Walker error going to fishing spot: Script stopped",
+          "13:07:41.688 [Thread-7] ERROR com.chromascape.base.BaseScript - Exception in cycle: Resource not found: /images/user/Fly_fishing_rod.png, [com.chromascape.utils.core.screen.topology.TemplateMatching.loadMatFromResource(TemplateMatching.java:183), com.chromascape.utils.core.screen.topology.TemplateMatching.match(TemplateMatching.java:73), com.chromascape.utils.actions.custom.Inventory.findItemSlot(Inventory.java:77), com.chromascape.utils.actions.custom.Inventory.hasItem(Inventory.java:42), com.chromascape.scripts.BarbFishCookScript.cycle(BarbFishCookScript.java:85), com.chromascape.base.BaseScript.run(BaseScript.java:54), com.chromascape.web.instance.ScriptInstance.lambda$start$0(ScriptInstance.java:62), java.base/java.lang.Thread.run(Thread.java:840)]",
+          "13:08:02.305 [Thread-2] ERROR com.chromascape.base.BaseScript - Exception in cycle: Resource not found: /images/user/Fly_fishing_rod.png, [com.chromascape.utils.core.screen.topology.TemplateMatching.loadMatFromResource(TemplateMatching.java:183), com.chromascape.utils.core.screen.topology.TemplateMatching.match(TemplateMatching.java:73), com.chromascape.utils.actions.custom.Inventory.findItemSlot(Inventory.java:77), com.chromascape.utils.actions.custom.Inventory.hasItem(Inventory.java:42), com.chromascape.scripts.BarbFishCookScript.cycle(BarbFishCookScript.java:92), com.chromascape.base.BaseScript.run(BaseScript.java:54), com.chromascape.web.instance.ScriptInstance.lambda$start$0(ScriptInstance.java:62), java.base/java.lang.Thread.run(Thread.java:840)]"
+        ]
+      }
+    ],
     "notes": []
   },
   "draynor-fishing": {
