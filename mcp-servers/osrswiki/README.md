@@ -11,93 +11,79 @@ uv sync
 
 ## Configuration
 
-Add to your Kiro CLI MCP settings for the `osrs-expert` and `script-generator` agents:
+Add to your Kiro CLI MCP settings:
 
-```bash
-kiro-cli mcp add --name osrswiki --agent osrs-expert --command uv --args '--directory' --args '/home/develop/github/osrs-bot/mcp-servers/osrswiki' --args 'run' --args 'osrswiki-mcp'
-
-kiro-cli mcp add --name osrswiki --agent script-generator --command uv --args '--directory' --args '/home/develop/github/osrs-bot/mcp-servers/osrswiki' --args 'run' --args 'osrswiki-mcp'
+```json
+{
+  "mcpServers": {
+    "osrswiki": {
+      "command": "uv",
+      "args": ["--directory", "/path/to/mcp-servers/osrswiki", "run", "osrswiki-mcp"],
+      "env": {}
+    }
+  }
+}
 ```
 
 ## Available Tools
 
-### query_bucket
+### osrswiki_query_bucket
+
 Query the Bucket API for structured data (items, monsters, etc.).
 
-**Parameters:**
 - `query` (required): Bucket query string
 
-**Example:**
-```python
-query_bucket(query="bucket('infobox_item').select('item_id','examine').where('item_name','Iron ore').run()")
+```
+bucket('infobox_item').select('item_id','examine').where('item_name','Iron ore').run()
 ```
 
-**Query syntax:**
-```
-bucket('{bucket_name}')
-  .select('{field1}', '{field2}', ...)
-  .where('{field}', '{value}')
-  .limit({number})
-  .run()
-```
+Common buckets: `infobox_item`, `infobox_monster`. Browse all: https://oldschool.runescape.wiki/w/Special:AllPages?namespace=9592
 
-Common buckets: `infobox_item`, `infobox_monster`
+### osrswiki_search_wiki
 
-Browse all buckets: https://oldschool.runescape.wiki/w/Special:AllPages?namespace=9592
-
-### search_wiki
 Search for pages on the OSRS Wiki.
 
-**Parameters:**
 - `query` (required): Search query
-- `limit` (optional): Maximum results (default: 10)
+- `limit` (optional, 1–50, default 10): Maximum results
 
-**Example:**
-```python
-search_wiki(query="Dragon scimitar", limit=5)
-```
+### osrswiki_get_page_content
 
-### get_page_content
-Get the full content of a wiki page.
+Get the parsed wikitext content of a page.
 
-**Parameters:**
-- `page` (required): Page name
+- `page` (required): Page name (e.g., `Iron ore`)
+- `section` (optional): Section index (0 = lead). Omit for full page.
 
-**Example:**
-```python
-get_page_content(page="Iron ore")
-```
+### osrswiki_get_item_prices
 
-### get_item_prices
-Get current Grand Exchange prices.
+Get latest Grand Exchange high/low prices.
 
-**Parameters:**
-- `item_id` (optional): Specific item ID (omit to get all prices)
+- `item_id` (optional): Specific item ID. Omit to get all ~3700 items in one request.
 
-**Example:**
-```python
-get_item_prices(item_id=440)  # Iron ore
-get_item_prices()  # All items
-```
+### osrswiki_get_item_mapping
 
-### get_item_mapping
-Get item ID ↔ name mapping and metadata (examine text, alch values, buy limits, icons).
+Get item ID ↔ name mapping with metadata (examine text, alch values, buy limits, icon filenames).
 
-**Example:**
-```python
-get_item_mapping()
-```
+No parameters.
 
-### get_item_image_url
-Get the canonical image URL for an item.
+### osrswiki_get_item_image_url
 
-**Parameters:**
-- `item_name` (required): Item name
+Get the canonical wiki image URL for an item.
 
-**Example:**
-```python
-get_item_image_url(item_name="Iron ore")
-```
+- `item_name` (required): Item name (e.g., `Iron ore`)
+
+### osrswiki_get_price_averages
+
+Get 5-minute or 1-hour average prices and trade volumes for all items.
+
+- `interval` (required): `5m` or `1h`
+- `timestamp` (optional): Unix timestamp for a specific period. Omit for most recent.
+
+### osrswiki_get_price_timeseries
+
+Get historical price time-series for a single item (up to 365 data points).
+
+- `item_id` (required): Item ID
+- `timestep` (required): `5m`, `1h`, `6h`, or `24h`. Higher = more history.
 
 ## API Documentation
 

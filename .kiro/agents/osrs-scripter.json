@@ -14,13 +14,7 @@
   "toolAliases": {},
   "allowedTools": [],
   "resources": [
-    "file://.kiro/knowledge/chromascape-wiki/Making-your-first-script.md",
-    "file://.kiro/knowledge/chromascape-wiki/Intermediate-Scripting-From-Planning-to-Execution.md",
-    "file://.kiro/knowledge/chromascape-wiki/Colour-picker.md",
-    "file://.kiro/knowledge/chromascape-wiki/Discord-Notifier.md",
-    "file://.kiro/knowledge/chromascape-wiki/ZoneManager-&-SubZoneMapper.md",
-    "file://.kiro/knowledge/script-generation-lessons-learned.md",
-    "file://.kiro/knowledge/extending-chromascape.md"
+    "skill://.kiro/skills/chromascape/SKILL.md"
   ],
   "hooks": {
     "agentSpawn": [

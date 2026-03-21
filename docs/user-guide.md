@@ -166,20 +166,16 @@ This is how ChromaScape finds game objects — by detecting RuneLite's colour ov
 ### Creating a script
 
 ```
-# 1. Research game mechanics (optional)
+# 1. Research game mechanics, brainstorm ideas (optional)
 /agent osrs-expert
 > What's the best place to mine iron for a level 45 account?
 
-# 2. Generate requirements
-/agent osrs-dev
-> I want a script that mines iron at Al Kharid and banks
-
-# 3. Generate and deploy the script
+# 2. Generate requirements + script
 /agent osrs-scripter
-> Implement the al-kharid-iron-mining requirements
+> I want a script that mines iron at Al Kharid and banks
 ```
 
-The scripter agent generates the Java script directly into `ChromaScape/src/main/java/com/chromascape/scripts/`, downloads item images, and compiles.
+The scripter agent produces a requirements doc first, then generates the Java script directly into `ChromaScape/src/main/java/com/chromascape/scripts/`, downloads item images, and compiles.
 
 ### Running a script
 

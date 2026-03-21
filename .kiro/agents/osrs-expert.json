@@ -1,11 +1,10 @@
 {
   "name": "osrs-expert",
-  "description": "OSRS game knowledge expert. Provides advice on training methods, money making, quest guides, combat strategies, items, NPCs, skills, locations, and all aspects of Old School RuneScape gameplay.",
+  "description": "OSRS game knowledge expert. Provides advice on training methods, money making, quest guides, combat strategies, items, NPCs, skills, locations, and brainstorms script ideas with feasibility assessment.",
   "prompt": "osrs-expert.md",
   "mcpServers": {},
   "tools": [
     "read",
-    "write",
     "grep",
     "glob"
   ],
@@ -20,10 +19,15 @@
     "osrswiki__query_bucket",
     "osrswiki__get_item_mapping",
     "osrswiki__get_item_prices",
+    "osrswiki__get_price_averages",
+    "osrswiki__get_price_timeseries",
     "wiseoldman__search_players",
     "wiseoldman__get_player_details",
     "wiseoldman__get_player_gains",
     "wiseoldman__get_player_achievements",
+    "wiseoldman__get_player_records",
+    "wiseoldman__get_player_snapshot_timeline",
+    "wiseoldman__get_player_names",
     "wiseoldman__get_competition_details",
     "wiseoldman__get_group_details"
   ],

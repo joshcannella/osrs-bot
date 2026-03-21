@@ -56,34 +56,32 @@ osrs-bot deploy
 ## Agent Architecture
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌───────────────┐
-│ osrs-expert │     │  osrs-dev   │     │ osrs-scripter │
-│  (green)    │     │  (blue)     │     │  (red)        │
-│             │     │             │     │               │
-│ Game        │     │ Requirements│     │ Code          │
-│ Knowledge   │────▶│ Architect   │────▶│ Generator     │
-│ Advisor     │     │             │     │               │
-└─────────────┘     └──────┬──────┘     └───────┬───────┘
-                           │                    │
-                           ▼                    ▼
-                    specs/scripts/        ChromaScape/src/
-                    <id>/requirements.md  main/java/...
+┌─────────────┐     ┌───────────────┐
+│ osrs-expert │     │ osrs-scripter │
+│  (green)    │     │  (red)        │
+│             │     │               │
+│ Game        │     │ Requirements  │
+│ Knowledge & │────▶│ + Code        │
+│ Brainstorm  │     │ Generator     │
+└─────────────┘     └───────┬───────┘
+                            │
+                            ▼
+                     ChromaScape/src/
+                     main/java/...
 ```
 
 | Agent | Purpose | Tools |
 |-------|---------|-------|
-| `osrs-expert` | Answers game questions — training methods, quests, items, locations, meta | Read-only + Wiki MCP |
-| `osrs-dev` | Takes a script idea and produces a detailed requirements document | Read/Write + Wiki MCP |
-| `osrs-scripter` | Takes a requirements doc and produces compilable Java | Full toolset + Shell |
+| `osrs-expert` | Answers game questions, brainstorms script ideas, assesses feasibility | Read-only + Wiki MCP |
+| `osrs-scripter` | Takes a script idea, produces requirements doc, then generates compilable Java | Full toolset + Shell |
 
 ## Workflow Overview
 
-1. **Research** — `/agent osrs-expert` to ask game questions
-2. **Requirements** — `/agent osrs-dev` to generate a requirements doc
-3. **Implementation** — `/agent osrs-scripter` to generate and deploy the script
-4. **Test** — `osrs-bot run --browser` on Windows
-5. **Debug** — `osrs-bot bug <id>` to report issues, agent fixes them
-6. **Complete** — `osrs-bot complete <id>` when the script works
+1. **Research** — `/agent osrs-expert` to ask game questions and brainstorm script ideas
+2. **Build** — `/agent osrs-scripter` to produce requirements doc, then generate and deploy the script
+3. **Test** — `osrs-bot run --browser` on Windows
+4. **Debug** — `osrs-bot bug <id>` to report issues, agent fixes them
+5. **Complete** — `osrs-bot complete <id>` when the script works
 
 ## Project Structure
 
