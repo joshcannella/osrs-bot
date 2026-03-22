@@ -26,6 +26,7 @@ ChromaScape/src/main/java/com/chromascape/
 Every script follows this structure:
 
 ```java
+@ScriptVersion(major = 0, minor = 1)
 public class MyScript extends BaseScript {
     private static final Logger logger = LogManager.getLogger(MyScript.class);
 
@@ -36,6 +37,8 @@ public class MyScript extends BaseScript {
     }
 }
 ```
+
+`@ScriptVersion` is **required** on every script class. Bump `minor` for iterative changes, `major` for rewrites. The git commit hash is appended automatically at runtime (e.g. `0.1.a3f9c2b`).
 
 `HumanBehavior.runPreCycleChecks(this)` handles breaks, camera fidgets, idle drifts, and level-up dismissal. It must be the first line of every `cycle()`.
 
