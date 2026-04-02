@@ -3,137 +3,60 @@
 ## Table of Contents
 
 - [1. System Requirements](#1-system-requirements)
-- [2. Installing Prerequisites](#2-installing-prerequisites)
-- [3. Building ChromaScape](#3-building-chromascape)
-- [4. CLI Setup](#4-cli-setup)
-- [5. RuneLite Configuration](#5-runelite-configuration)
-- [6. Workflow](#6-workflow)
-- [7. CLI Reference](#7-cli-reference)
-- [8. Pulling Updates](#8-pulling-updates)
-- [9. Colour System Reference](#9-colour-system-reference)
+- [2. Installation](#2-installation)
+- [3. RuneLite Configuration](#3-runelite-configuration)
+- [4. Running Scripts](#4-running-scripts)
+- [5. Generating New Scripts](#5-generating-new-scripts)
+- [6. Iteration Loop](#6-iteration-loop)
+- [7. RuneLite Plugin Bridge](#7-runelite-plugin-bridge)
+- [8. CLI Reference](#8-cli-reference)
+- [9. Color System Reference](#9-color-system-reference)
 - [10. Troubleshooting](#10-troubleshooting)
-- [11. Tips for Best Results](#11-tips-for-best-results)
+- [11. Tips](#11-tips)
 
 ---
 
 ## 1. System Requirements
 
-- **Windows 11** (64-bit) — ChromaScape uses KInput for remote mouse/keyboard injection via DLL
-- **Java 17** (JDK, not JRE)
+- **Windows 11** (64-bit) — KInput DLLs require Windows
+- **Python 3.12+** and [uv](https://docs.astral.sh/uv/)
 - **RuneLite** client installed and logged in
-- **Python 3.12+** and [uv](https://docs.astral.sh/uv/) — for the CLI
-- **4GB+ RAM** recommended
-- **Internet connection** — required for Dax Walker pathfinding API
+- **ChromaScape clone** (for pre-compiled KInput DLLs)
+- **ANTHROPIC_API_KEY** (for script generation via Claude API)
 
 ---
 
-## 2. Installing Prerequisites
-
-### Java 17
-
-Download JDK 17 from [Eclipse Adoptium](https://adoptium.net/). Verify:
+## 2. Installation
 
 ```powershell
-java -version
-```
-
-### MinGW-w64 (for KInput)
-
-1. Install [MSYS2](https://www.msys2.org/)
-2. From the MSYS2 terminal: `pacman -S mingw-w64-x86_64-gcc`
-3. Add `C:\msys64\mingw64\bin` to your system PATH
-
-### Git
-
-```powershell
-winget install Git.Git
-```
-
-### RuneLite
-
-Download from [runelite.net](https://runelite.net/). Install and log in before running ChromaScape.
-
-### uv (Python package manager)
-
-```powershell
-pip install uv
-```
-
----
-
-## 3. Building ChromaScape
-
-### Clone the repos
-
-```powershell
-# Clone the parent repo
+# 1. Clone the repo
 git clone https://github.com/joshcannella/osrs-bot.git
 cd osrs-bot
 
-# Clone your ChromaScape fork inside the project root
+# 2. Clone ChromaScape (needed for KInput DLLs at ChromaScape/build/dist/)
 git clone https://github.com/joshcannella/ChromaScape.git
-cd ChromaScape
-git remote add upstream https://github.com/StaticSweep/ChromaScape.git
-cd ..
-```
 
-ChromaScape is its own git repo inside the project — not a submodule. The parent repo's `.gitignore` excludes it.
+# 3. Create venv and install the Python framework
+uv venv
+uv pip install -e framework/
 
-### Download fonts and UI templates
+# 4. Install the CLI
+cd cli && uv tool install --editable . && cd ..
 
-```powershell
-cd ChromaScape
-.\CVTemplates.bat
-```
-
-This downloads font bitmaps (for OCR) and UI templates (for zone detection). Required before first build.
-
-### Build KInput native libraries
-
-1. Edit Java include paths in `third_party\KInput\KInput\KInput\KInput.cbp` to point to your JDK 17
-2. Build:
-   ```powershell
-   cd third_party\KInput\KInput\KInput
-   mingw32-make
-   cd ..\KInputCtrl
-   mingw32-make
-   ```
-
-### Build ChromaScape
-
-```powershell
-cd osrs-bot\ChromaScape
-$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17.0.x-hotspot"
-.\gradlew.bat build
-```
-
----
-
-## 4. CLI Setup
-
-One-time install — makes `osrs-bot` available globally:
-
-```powershell
-cd osrs-bot\cli
-uv tool install --editable .
+# 5. Set your API key
+echo "ANTHROPIC_API_KEY=sk-ant-..." > .env
 ```
 
 Verify:
 
 ```powershell
 osrs-bot --help
+python scripts/demo_mining_bot.py --debug
 ```
-
-Since it's editable, `git pull` picks up CLI changes automatically — no reinstall needed.
 
 ---
 
-## 5. RuneLite Configuration
-
-### ChromaScape profile
-
-ChromaScape auto-creates a RuneLite profile on first startup. Activate it:
-1. Open RuneLite → profile selector (top-right) → select **"ChromaScape"**
+## 3. RuneLite Configuration
 
 ### Required settings
 
@@ -145,172 +68,198 @@ ChromaScape auto-creates a RuneLite profile on first startup. Activate it:
 
 ### Object Markers plugin
 
-This is how ChromaScape finds game objects — by detecting RuneLite's colour overlays.
+This is how the framework finds game objects — by detecting RuneLite's color overlays.
 
 1. Enable **Object Markers** in RuneLite plugins
-2. Set highlight colour to **Cyan (#00FFFF)**
-3. In-game: hold **Shift + right-click** an object → **Mark**
+2. Set highlight color to **Cyan (#00FFFF)**
+3. In-game: hold **Shift + right-click** an object, then **Mark**
 
 ### Other useful plugins
 
 | Plugin | Purpose |
 |--------|---------|
-| XP Tracker | Permanent XP bar — used by `Minimap.getXp()` |
-| Ground Items | Highlights ground items — used for Marks of Grace |
-| NPC Indicators | Highlights NPCs — used by combat/fishing scripts |
+| NPC Indicators | Highlights NPCs — used by fishing/combat scripts |
+| Ground Items | Highlights ground items with color overlays |
+| Idle Notifier | Alerts when player goes idle (Phase 4: OCR detection) |
 
 ---
 
-## 6. Workflow
+## 4. Running Scripts
 
-### Creating a script
-
-```
-# 1. Research game mechanics, brainstorm ideas (optional)
-/agent osrs-expert
-> What's the best place to mine iron for a level 45 account?
-
-# 2. Generate requirements + script
-/agent osrs-scripter
-> I want a script that mines iron at Al Kharid and banks
-```
-
-The scripter agent produces a requirements doc first, then generates the Java script directly into `ChromaScape/src/main/java/com/chromascape/scripts/`, downloads item images, and compiles.
-
-### Running a script
+### Debug mode (safe — no clicks)
 
 ```powershell
-# Pull latest and launch (opens browser too)
-osrs-bot run --browser
+python scripts/demo_mining_bot.py --debug
 ```
 
-1. Open `http://localhost:8080` in your browser
-2. Select a script from the left panel
-3. Click **START**
-4. Monitor via the viewport and terminal output
+This:
+- Captures screenshots and saves annotated images to `debug/`
+- Draws contour outlines (green) and chosen click points (red dot)
+- Logs HSV mask coverage percentage
+- Moves the mouse but does NOT click
 
-**Important:** RuneLite must be open and logged in before starting ChromaScape.
+Check the `debug/` folder to verify the red dot lands on the correct target.
 
-### Debugging a script
-
-When something goes wrong:
+### Live mode
 
 ```powershell
-# On Windows — pulls log, opens bug report editor, pushes
-osrs-bot bug al-kharid-iron-mining
+python scripts/demo_mining_bot.py
 ```
 
-Then on Linux:
+Press **Ctrl+C** to stop cleanly.
 
-```
-git pull
-/agent osrs-scripter
-> Read the bug report for al-kharid-iron-mining and fix it
-```
-
-The agent reads the bug report and runtime log, fixes the script, and redeploys.
-
-### Completing a script
-
-Once a script works correctly:
-
-```bash
-osrs-bot complete al-kharid-iron-mining
-```
-
-Moves the spec from `dev/` → completed, archives the script source, and pushes.
+**Important:** RuneLite must be open and logged in before starting a script.
 
 ---
 
-## 7. CLI Reference
+## 5. Generating New Scripts
+
+### Step 1: Create a Script Generation Request
+
+Start a Claude Code session. Research the task using the OSRS Wiki MCP, then write a spec:
+
+```
+generator/requests/<id>.json
+```
+
+Example:
+
+```json
+{
+  "id": "catherby-lobster-fisher",
+  "task": "Fish lobsters at Catherby and bank when full",
+  "skill": "Fishing",
+  "location": "Catherby fishing spots",
+  "entities": {
+    "fishing_spot": {"detection": "overlay", "color": "Cyan"}
+  },
+  "workflow": "bank",
+  "color_requirements": [
+    {"name": "Cyan", "target": "fishing spot NPC highlight"}
+  ]
+}
+```
+
+### Step 2: Generate
+
+```powershell
+osrs-bot py-generate catherby-lobster-fisher
+```
+
+Reads the SGR, calls Claude with the full framework API + lessons learned, validates the output, writes to `scripts/catherby_lobster_fisher_bot.py`.
+
+### Step 3: Test
+
+```powershell
+python scripts/catherby_lobster_fisher_bot.py --debug
+```
+
+---
+
+## 6. Iteration Loop
+
+```
+Generate → Debug → Live → Bug → Fix → Lesson → (repeat)
+```
+
+```powershell
+# Something goes wrong
+osrs-bot bug catherby-lobster-fisher "clicks wrong fishing spot"
+
+# Claude reads the spec + script + bugs and generates a fix
+osrs-bot py-fix catherby-lobster-fisher
+
+# Working? Mark resolved and extract a lesson
+osrs-bot resolve catherby-lobster-fisher
+osrs-bot py-lesson catherby-lobster-fisher
+```
+
+Every lesson extracted with `py-lesson` is appended to `knowledge/script-generation-lessons-learned.md`. All future `py-generate` calls include these lessons in the system prompt — the generator gets better with every script.
+
+---
+
+## 7. RuneLite Plugin Bridge (Optional)
+
+A Java plugin that exports game state via shared memory for more reliable scripts. Uses memory-mapped files instead of HTTP — no open ports, no unusual JVM classes.
+
+### Building
+
+```powershell
+cd plugin
+.\gradlew.bat jar
+```
+
+### Installing
+
+Copy `plugin/build/libs/osrsbot-plugin-0.1.0.jar` to RuneLite's external plugin directory. See `plugin/SETUP.md` for details. Enable "State Export" in RuneLite's plugin panel.
+
+### Verifying
+
+```powershell
+# Check the shared memory file exists (64KB)
+ls "$env:USERPROFILE\.runelite\osrsbot_state.dat"
+
+# Or verify from Python
+python -c "from framework.game_state.client import GameStateClient; print(GameStateClient().is_available())"
+```
+
+When the plugin is running, scripts automatically use it for inventory checks, NPC positions, and stats instead of color detection alone.
+
+---
+
+## 8. CLI Reference
 
 | Command | Description |
 |---------|-------------|
-| `osrs-bot build` | Compile ChromaScape (including all scripts) |
-| `osrs-bot deploy` | Compile, commit, and push both repos |
-| `osrs-bot deploy --dry-run` | Compile only, don't push |
-| `osrs-bot run` | Pull latest, launch ChromaScape |
-| `osrs-bot run --browser` | Same, but also opens http://localhost:8080 |
-| `osrs-bot logs pull <id>` | Copy runtime log to script's spec directory |
-| `osrs-bot logs tail` | Show last 50 lines of runtime log |
-| `osrs-bot logs tail -n 100` | Show last 100 lines |
-| `osrs-bot bug <id>` | Pull log, create bug report, open editor, push |
-| `osrs-bot complete <id>` | Move script from dev → completed |
-| `osrs-bot upstream` | Fetch and merge upstream ChromaScape updates |
-| `osrs-bot lint` | Check for duplicate private methods across scripts |
-| `osrs-bot delta` | Show ChromaScape files that differ from upstream |
-| `osrs-bot status` | Show active/completed scripts, pending bugs |
+| `osrs-bot py-generate <id>` | Generate a Python script from an SGR file |
+| `osrs-bot py-fix <id>` | Fix a script using logged bugs (shows diff, confirms) |
+| `osrs-bot py-lesson <id>` | Extract a lesson from a resolved bug |
+| `osrs-bot init <id>` | Initialize a new script in the tracker |
+| `osrs-bot bug <id> "msg"` | Report a bug (optionally with `-i image.png`) |
+| `osrs-bot note <id> "msg"` | Add a note to a script |
+| `osrs-bot resolve <id>` | Mark the latest bug as resolved |
+| `osrs-bot show <id>` | Show script details, bugs, notes |
+| `osrs-bot status` | Show all scripts and their state |
 
 ---
 
-## 8. Pulling Updates
+## 9. Color System Reference
 
-### After a deploy (on Windows)
-
-```powershell
-# Pull both repos
-git pull
-cd ChromaScape && git pull && cd ..
-```
-
-Or just use `osrs-bot run` which does this automatically.
-
-### Upstream ChromaScape updates
-
-When the original ChromaScape repo releases new features or patches:
-
-```bash
-osrs-bot upstream
-```
-
-This fetches from `StaticSweep/ChromaScape`, merges into your fork, and pushes.
-
----
-
-## 9. Colour System Reference
-
-ChromaScape uses OpenCV HSV colour space. Predefined colours in `colours/colours.json`:
+The framework uses OpenCV HSV color space. Predefined colors in `framework/framework/colors/colors.json`:
 
 | Name | HSV Min | HSV Max | Typical Use |
 |---|---|---|---|
-| Cyan | (87, 225, 226) | (105, 255, 255) | Object Markers (rocks, booths) |
-| Green | (50, 200, 200) | (70, 255, 255) | Object Markers (obstacles, NPCs) |
-| Red | (1, 255, 251) | (50, 255, 255) | Ground Items (Marks of Grace) |
+| Cyan | (87, 225, 226) | (105, 255, 255) | Object/NPC markers |
+| Green | (50, 200, 200) | (70, 255, 255) | Object markers |
+| Red | (1, 255, 251) | (50, 255, 255) | Ground item highlights |
 | Yellow | (20, 255, 255) | (48, 255, 255) | NPC highlights |
 | Purple | (127, 115, 181) | (151, 255, 255) | Custom highlights |
 
-**HSV bounds**: H: 0–180 (OpenCV convention), S: 0–255, V: 0–255.
-
-Use the built-in colour picker at `http://localhost:8080/colour` while ChromaScape is running.
+**HSV bounds**: H: 0-180 (OpenCV convention), S: 0-255, V: 0-255.
 
 ---
 
 ## 10. Troubleshooting
 
-### Common Issues
-
 | Problem | Fix |
 |---|---|
-| "Script class not found" | Run `osrs-bot run` (does `clean bootRun`). Verify package is `com.chromascape.scripts` |
-| "No rock found in game view" | Verify Object Markers is enabled with Cyan (#00FFFF) and objects are marked |
-| "Walker error" | Check internet. Verify XP bar is visible (walker reads position via OCR) |
-| "Failed to create Kinput instance" | Start RuneLite first. Window title must be "RuneLite" |
-| "Missing native libraries" | Build KInput DLLs (Section 3), then rebuild ChromaScape |
-| Script not in UI | Verify file ends with `Script.java` and is in `com.chromascape.scripts` |
-| "Font masks" error | Run `CVTemplates.bat` in ChromaScape directory |
-| Bot doesn't move mouse | Ensure 64-bit MinGW matches 64-bit Java |
+| "RuneLite window not found" | Start RuneLite first. Window title must be "RuneLite" |
+| "KInputCtrl.dll not found" | Clone ChromaScape and verify `ChromaScape/build/dist/KInputCtrl.dll` exists |
+| "KInput_Create failed" | RuneLite must be running. Restart RuneLite and try again |
+| "No rock found in game view" | Verify Object Markers is enabled with Cyan, and objects are marked |
+| "Expected at least 2 SunAwtCanvas" | RuneLite not fully loaded. Wait for login, then retry |
+| Debug images show wrong target | Check color values. Use RuneLite's color picker to verify HSV |
 | Bot clicks wrong things | Remove extra Cyan markers that aren't targets |
-| Build fails: "Unable to delete directory" or "KInputCtrl.dll is being used by another process" | Kill all Java processes: `taskkill /F /IM java.exe`, then rebuild |
+| `py-generate` fails | Check `ANTHROPIC_API_KEY` is set in `.env` |
 
 ---
 
-## 11. Tips for Best Results
+## 11. Tips
 
-- **Camera zoom** — keep at default so colour highlights are consistent pixel sizes
-- **Don't move RuneLite** while running — coordinates are calibrated on startup
-- **Fixed Mode only** — resizable mode breaks zone detection
-- **Let breaks happen** — HumanBehavior pauses periodically for anti-detection
+- **Camera zoom** — keep at default so color highlights are consistent pixel sizes
+- **Don't move RuneLite** while running — canvas rect is cached on startup
+- **Fixed Mode only** — resizable mode breaks hardcoded zone positions (Phase 1 limitation)
 - **Watch the first few cycles** — verify clicks are correct before walking away
 - **Pick quiet worlds** — less competition for resources
-- **Screenshotter** — use the button in the Hub to capture game view for debugging
-- **Discord notifications** — configure a webhook in `secrets.properties` for remote alerts
+- **Use --debug first** — always validate targeting with annotated screenshots before going live
+- **Check debug/ folder** — green outlines show all detected contours, red dot is the chosen click point

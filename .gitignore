@@ -1,3 +1,9 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+
 # Gradle
 .gradle/
 build/
@@ -12,10 +18,12 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# ChromaScape is its own git repo (not a submodule)
+# ChromaScape is its own git repo (needed for KInput DLLs)
 ChromaScape/
 
-# Runtime logs (local only, never committed)
+# Runtime
 logs/
-.kiro/logs/
+debug/
 
+# Secrets
+.env

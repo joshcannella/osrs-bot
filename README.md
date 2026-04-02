@@ -1,124 +1,114 @@
-# OSRS Bot — AI-Assisted Script Generation
+# OSRS Bot v2 — Python Automation Framework + AI Script Generator
 
-An AI-powered workflow for generating Old School RuneScape automation scripts using the [ChromaScape](https://github.com/StaticSweep/ChromaScape) framework. Three specialized AI agents collaborate to go from a script idea to compilable Java code.
+A Python-native automation framework for Old School RuneScape with a Claude-powered script generator. Color-based detection via RuneLite overlays, remote input via KInput DLLs, and an iteration loop that gets better with every script.
 
-## Quick Start (Windows)
-
-First-time setup:
+## Quick Start
 
 ```powershell
-# 1. Clone both repos
+# 1. Clone
 git clone https://github.com/joshcannella/osrs-bot.git
 cd osrs-bot
-git clone https://github.com/joshcannella/ChromaScape.git
-cd ChromaScape
-git remote add upstream https://github.com/StaticSweep/ChromaScape.git
-cd ..
+git clone https://github.com/joshcannella/ChromaScape.git  # needed for KInput DLLs
 
-# 2. Download fonts and UI templates (required before first build)
-cd ChromaScape; .\CVTemplates.bat; cd ..
+# 2. Install the framework
+uv venv && uv pip install -e framework/
 
-# 3. Build ChromaScape (requires Java 17 + MinGW for KInput)
-cd ChromaScape; .\gradlew.bat build; cd ..
-
-# 4. Install the CLI
-cd cli; uv tool install --editable .; cd ..
-```
-
-Daily use:
-
-```powershell
-# Pull latest and launch (opens browser too)
-osrs-bot run --browser
-```
-
-See the [User Guide](docs/user-guide.md) for full setup (KInput, RuneLite config, etc.) and troubleshooting.
-
-## Quick Start (Linux — Development)
-
-```bash
-# 1. Clone both repos
-git clone https://github.com/joshcannella/osrs-bot.git
-cd osrs-bot
-git clone https://github.com/joshcannella/ChromaScape.git
-cd ChromaScape && git remote add upstream https://github.com/StaticSweep/ChromaScape.git && cd ..
-
-# 2. Install the CLI
+# 3. Install the CLI
 cd cli && uv tool install --editable . && cd ..
 
-# 3. Check what's available
-osrs-bot status
-
-# 4. Deploy scripts (compile + push)
-osrs-bot deploy
+# 4. Run the demo (debug mode — no clicks, saves annotated screenshots)
+python scripts/demo_mining_bot.py --debug
 ```
 
-## Agent Architecture
+## Architecture
 
 ```
-┌─────────────┐     ┌───────────────┐
-│ osrs-expert │     │ osrs-scripter │
-│  (green)    │     │  (red)        │
-│             │     │               │
-│ Game        │     │ Requirements  │
-│ Knowledge & │────▶│ + Code        │
-│ Brainstorm  │     │ Generator     │
-└─────────────┘     └───────┬───────┘
-                            │
-                            ▼
-                     ChromaScape/src/
-                     main/java/...
+                   Claude Code + MCP Servers
+                          │
+              ┌───────────┼───────────┐
+              ▼           ▼           ▼
+         osrswiki    wiseoldman    native tools
+         (items,     (player       (file read/
+          NPCs,      stats,        write)
+          wiki)      gains)
+              │           │           │
+              └───────────┼───────────┘
+                          ▼
+              generator/requests/<id>.json   ← Script Generation Request
+                          │
+                          ▼
+              osrs-bot py-generate <id>      ← Claude API generates script
+                          │
+                          ▼
+              scripts/<id>_bot.py             ← Run with --debug, then live
+                          │
+                          ▼
+              osrs-bot bug / py-fix / py-lesson  ← Iterate until working
 ```
-
-| Agent | Purpose | Tools |
-|-------|---------|-------|
-| `osrs-expert` | Answers game questions, brainstorms script ideas, assesses feasibility | Read-only + Wiki MCP |
-| `osrs-scripter` | Takes a script idea, produces requirements doc, then generates compilable Java | Full toolset + Shell |
-
-## Workflow Overview
-
-1. **Research** — `/agent osrs-expert` to ask game questions and brainstorm script ideas
-2. **Build** — `/agent osrs-scripter` to produce requirements doc, then generate and deploy the script
-3. **Test** — `osrs-bot run --browser` on Windows
-4. **Debug** — `osrs-bot bug <id>` to report issues, agent fixes them
-5. **Complete** — `osrs-bot complete <id>` when the script works
 
 ## Project Structure
 
 ```
 osrs-bot/
-├── .kiro/
-│   ├── agents/                          # Agent configs + prompts
-│   ├── knowledge/                       # OSRS game data + ChromaScape docs
-│   └── specs/scripts/
-│       ├── dev/<id>/                    # Scripts under development
-│       └── complete/<id>/              # Completed scripts
-├── ChromaScape/                         # Framework (your fork, separate git repo)
-│   └── src/main/java/com/chromascape/
-│       ├── scripts/                     # Generated scripts live here
-│       └── utils/actions/custom/        # Shared utilities
-├── cli/                                 # osrs-bot CLI (Python/uv)
-├── mcp-servers/                         # OSRS Wiki + Wise Old Man MCP servers
-├── scripts/                             # Internal shell scripts
-├── build.gradle.kts                     # Compile-check via composite build
-├── settings.gradle.kts                  # References ChromaScape
-└── docs/                                # User guide
+├── framework/              Python automation library
+│   └── framework/
+│       ├── bot.py          BaseBot with cycle() loop
+│       ├── controller.py   Wires capture, input, detection, zones, actions
+│       ├── capture.py      Screen capture (mss + win32gui)
+│       ├── humanize.py     WindMouse + random delays
+│       ├── colors.py       HSV color registry
+│       ├── detection/      Color contour detection (OpenCV)
+│       ├── input/          KInput DLL remote mouse/keyboard
+│       ├── zones/          UI zone positions (inventory, minimap)
+│       ├── actions/        Dropper, idler
+│       └── game_state/     RuneLite plugin bridge client
+│
+├── generator/              Claude API script generator
+│   ├── prompts.py          System prompt with API reference + lessons
+│   ├── client.py           Anthropic SDK wrapper
+│   ├── pipeline.py         Generate + fix workflows
+│   ├── validator.py        AST-based script validation
+│   └── requests/           Script Generation Request JSON files
+│
+├── plugin/                 RuneLite bridge plugin (Java)
+│   └── src/.../osrsbot/    Game state via shared memory (mmap)
+│
+├── scripts/                Generated + hand-written bot scripts
+├── cli/                    osrs-bot CLI
+├── mcp-servers/            OSRS Wiki + Wise Old Man MCP servers
+├── knowledge/              Lessons learned (fed into generator prompt)
+├── specs/scripts/          Script specs and domain knowledge
+├── scripts.json            Script tracker (bugs, notes, status)
+├── CLAUDE.md               Project instructions for Claude Code
+└── ChromaScape/            Upstream fork (KInput DLLs, gitignored)
 ```
 
-## Architecture
+## CLI Commands
 
-ChromaScape is a separate git repository (your fork of StaticSweep/ChromaScape) cloned inside the project root. It is **not** a submodule — it's its own independent repo listed in `.gitignore`.
+| Command | What it does |
+|---------|-------------|
+| `osrs-bot py-generate <id>` | Generate a script from `generator/requests/<id>.json` |
+| `osrs-bot py-fix <id>` | Fix a script using logged bugs (versioned, shows diff) |
+| `osrs-bot py-lesson <id>` | Extract a lesson from a resolved bug |
+| `osrs-bot bug <id> "msg"` | Log a bug against a script |
+| `osrs-bot resolve <id>` | Mark latest bug as resolved |
+| `osrs-bot status` | Show all scripts and their state |
+| `osrs-bot show <id>` | Show script details, bugs, notes |
 
-- **Scripts** are written directly into `ChromaScape/src/main/java/com/chromascape/scripts/`
-- **Images** go into `ChromaScape/src/main/resources/images/user/`
-- **Compile-check** uses the root `build.gradle.kts` with Gradle composite build
-- **Deploy** compiles and pushes ChromaScape, then pushes the parent repo
+## How It Works
 
-This means: no file copying, no sync scripts, no submodule ceremony. Edit a `.java` file, run `osrs-bot deploy`, done.
+1. **Framework** — Python replaces ChromaScape as the runtime. Captures the RuneLite canvas, detects colored overlays via OpenCV HSV thresholding, injects mouse/keyboard events via KInput DLLs (no physical mouse hijack).
+
+2. **Generator** — Claude reads a Script Generation Request (JSON spec with task, entities, colors, workflow) and produces a complete Python bot script. The system prompt includes the full framework API and all lessons learned from prior bugs.
+
+3. **Iteration Loop** — Run `--debug` to verify targeting with annotated screenshots. Go live. Report bugs with `osrs-bot bug`. Fix with `osrs-bot py-fix`. Extract lessons with `osrs-bot py-lesson`. Every lesson improves future script generation.
+
+4. **Plugin Bridge** (optional) — A RuneLite Java plugin exports structured game state (inventory, NPCs, stats) via shared memory. No open ports — uses a memory-mapped file at `~/.runelite/osrsbot_state.dat`. Framework uses it when available, falls back to color detection only.
 
 ## Prerequisites
 
-- [Kiro CLI](https://kiro.dev) with agent support
-- Java 17 (for ChromaScape compilation)
-- Python 3.12+ and [uv](https://docs.astral.sh/uv/) (for CLI and MCP servers)
-- ChromaScape fork (cloned inside project root)
+- Windows 11 (KInput DLLs require Windows)
+- Python 3.12+ and [uv](https://docs.astral.sh/uv/)
+- RuneLite client
+- ChromaScape clone (for `KInput.dll` and `KInputCtrl.dll` in `ChromaScape/build/dist/`)
+- `ANTHROPIC_API_KEY` in `.env` (for script generation)

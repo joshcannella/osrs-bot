@@ -15,9 +15,9 @@ from pathlib import Path
 def get_root() -> Path:
     p = Path(__file__).resolve()
     for parent in [p] + list(p.parents):
-        if (parent / ".kiro").is_dir():
+        if (parent / "CLAUDE.md").is_file():
             return parent
-    print("Error: could not find project root (.kiro/ directory)", file=sys.stderr)
+    print("Error: could not find project root (CLAUDE.md not found)", file=sys.stderr)
     sys.exit(1)
 
 
@@ -25,11 +25,11 @@ ROOT = get_root()
 CHROMASCAPE = ROOT / "ChromaScape"
 SCRIPTS_DIR = CHROMASCAPE / "src/main/java/com/chromascape/scripts"
 RESOURCES_DIR = CHROMASCAPE / "src/main/resources/images/user"
-SPECS = ROOT / ".kiro/specs/scripts"
-TRACKER = ROOT / ".kiro/scripts.json"
+SPECS = ROOT / "specs/scripts"
+TRACKER = ROOT / "scripts.json"
 TEMPLATE = SPECS / "TEMPLATE.md"
 LOG_FILE = CHROMASCAPE / "logs/chromascape.log"
-LOCAL_LOGS = ROOT / ".kiro/logs"
+LOCAL_LOGS = ROOT / "logs"
 
 
 # === Tracker ===
@@ -184,7 +184,7 @@ def cmd_init(args):
     print(f"✓ Initialized {sid}")
     print(f"  class:        {class_name}")
     print(f"  requirements: {req.relative_to(ROOT)}")
-    print(f"  tracker:      .kiro/scripts.json")
+    print(f"  tracker:      scripts.json")
 
 
 def cmd_build(args):
@@ -438,6 +438,139 @@ def cmd_delta(args):
     run_cmd(["git", "diff", "--stat", "upstream/main..HEAD"], cwd=CHROMASCAPE)
 
 
+# === Python Framework Commands ===
+
+PY_SCRIPTS_DIR = ROOT / "scripts"
+PY_GENERATOR_REQUESTS = ROOT / "generator" / "requests"
+LESSONS_PATH = ROOT / "knowledge" / "script-generation-lessons-learned.md"
+
+
+def cmd_py_generate(args):
+    """Generate a Python bot script from a Script Generation Request."""
+    sys.path.insert(0, str(ROOT))
+    from generator.pipeline import GeneratorPipeline
+    pipeline = GeneratorPipeline()
+    result = pipeline.generate_from_sgr(args.id)
+    if result.success:
+        print(f"\n✓ Script generated: {result.script_path}")
+    else:
+        print(f"\n✗ Generation completed with warnings")
+        sys.exit(1)
+
+
+def cmd_py_fix(args):
+    """Fix a Python bot script using logged bugs."""
+    sys.path.insert(0, str(ROOT))
+    from generator.pipeline import GeneratorPipeline
+    pipeline = GeneratorPipeline()
+    result = pipeline.fix_script(args.id)
+    if result.success:
+        print(f"\n✓ Fix applied: {result.script_path}")
+    else:
+        print(f"\n✗ Fix completed with warnings")
+
+
+def cmd_py_lesson(args):
+    """Extract a lesson from a resolved bug and add to lessons-learned.md."""
+    tracker = load_tracker()
+    sid = args.id
+    if sid not in tracker:
+        print(f"Unknown script '{sid}'. Run: osrs-bot init {sid}", file=sys.stderr)
+        sys.exit(1)
+
+    entry = tracker[sid]
+    bugs = entry.get("bugs", [])
+    resolved_bugs = [b for b in bugs if b.get("resolved", False)]
+
+    if not resolved_bugs:
+        print(f"No resolved bugs for {sid}")
+        return
+
+    # Pick the bug to extract a lesson from
+    if args.bug is not None:
+        if args.bug < 0 or args.bug >= len(bugs):
+            print(f"Bug index {args.bug} out of range (0-{len(bugs)-1})")
+            sys.exit(1)
+        target_bug = bugs[args.bug]
+        if not target_bug.get("resolved"):
+            print(f"Bug {args.bug} is not resolved yet")
+            sys.exit(1)
+    else:
+        target_bug = resolved_bugs[-1]  # most recently resolved
+
+    # Try to use Claude to distill a lesson
+    try:
+        sys.path.insert(0, str(ROOT))
+        from generator.client import ClaudeClient
+
+        # Read the current script if it exists
+        script_name = sid.replace("-", "_") + "_bot.py"
+        script_path = PY_SCRIPTS_DIR / script_name
+        script_context = ""
+        if script_path.exists():
+            script_context = f"\n\nCurrent script ({script_name}):\n```python\n{script_path.read_text()}\n```"
+
+        client = ClaudeClient()
+        prompt = (
+            f"A bot script had this bug:\n"
+            f"  Description: {target_bug['description']}\n"
+            f"  Date: {target_bug.get('date', 'unknown')}\n"
+            f"{script_context}\n\n"
+            f"The bug has been resolved. Distill a concise lesson (2-4 sentences) that would "
+            f"help future script generation avoid this mistake. Format as:\n"
+            f"## [Short Title]\n[Lesson text]\n\n"
+            f"Focus on the general principle, not the specific script."
+        )
+        response = client.generate_script(
+            "You are a bot development expert. Extract concise, actionable lessons from resolved bugs.",
+            prompt,
+        )
+        lesson_text = response.strip()
+
+    except Exception as e:
+        # Fallback: manual lesson from bug description
+        lesson_text = (
+            f"## {target_bug['description'][:60]}\n"
+            f"Resolved bug from script '{sid}'. "
+            f"Review the fix to understand the root cause."
+        )
+        print(f"(Could not use Claude API: {e}. Using fallback lesson.)")
+
+    # Show for review
+    critical_tag = " [critical]" if args.critical else ""
+    print(f"\nProposed lesson:{critical_tag}")
+    print("─" * 60)
+    print(lesson_text)
+    print("─" * 60)
+    answer = input("Add this lesson? [y/n/edit/critical]: ").strip().lower()
+
+    if answer == "critical":
+        args.critical = True
+        answer = "y"
+
+    if answer == "edit":
+        print("Enter your edited lesson (end with a blank line):")
+        lines = []
+        while True:
+            line = input()
+            if line == "":
+                break
+            lines.append(line)
+        lesson_text = "\n".join(lines)
+        answer = "y"
+
+    if answer == "y":
+        if args.critical and "[critical]" not in lesson_text:
+            lesson_text = lesson_text.rstrip() + " [critical]"
+
+        LESSONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(LESSONS_PATH, "a", encoding="utf-8") as f:
+            f.write(f"\n\n---\n\n{lesson_text}\n")
+        print(f"✓ Lesson appended to {LESSONS_PATH.relative_to(ROOT)}")
+    else:
+        print("Lesson discarded.")
+
+
 def cmd_status(args):
     tracker = load_tracker()
 
@@ -569,6 +702,18 @@ def main():
     sub.add_parser("upstream", help="Fetch and merge upstream ChromaScape")
     sub.add_parser("status", help="Show all scripts and their state")
 
+    # Python framework commands
+    p_pygen = sub.add_parser("py-generate", help="Generate a Python bot from an SGR file")
+    p_pygen.add_argument("id", help="SGR ID (e.g. catherby-lobster-fisher)")
+
+    p_pyfix = sub.add_parser("py-fix", help="Fix a Python bot using logged bugs")
+    p_pyfix.add_argument("id", help="Script ID")
+
+    p_pylesson = sub.add_parser("py-lesson", help="Extract a lesson from a resolved bug")
+    p_pylesson.add_argument("id", help="Script ID")
+    p_pylesson.add_argument("--bug", type=int, default=None, help="Bug index to extract from")
+    p_pylesson.add_argument("--critical", action="store_true", help="Tag lesson as [critical]")
+
     args = parser.parse_args()
 
     commands = {
@@ -586,6 +731,9 @@ def main():
         "show": cmd_show,
         "upstream": cmd_upstream,
         "status": cmd_status,
+        "py-generate": cmd_py_generate,
+        "py-fix": cmd_py_fix,
+        "py-lesson": cmd_py_lesson,
         "logs": lambda a: {
             "pull": cmd_logs_pull,
             "tail": cmd_logs_tail,

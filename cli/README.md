@@ -10,14 +10,14 @@ cd cli && uv tool install --editable .
 
 | Command | Description |
 |---------|-------------|
-| `osrs-bot deploy` | Sync all scripts, compile, dry-run, push |
-| `osrs-bot deploy <id>` | Deploy a single script by spec ID |
-| `osrs-bot run [--browser]` | Pull latest, clean, launch ChromaScape |
-| `osrs-bot logs pull <id>` | Copy runtime log to script's spec directory |
-| `osrs-bot logs tail [-n N]` | Show last N lines of runtime log |
-| `osrs-bot bug <id>` | Pull log, create bug report, open editor, push |
-| `osrs-bot complete <id>` | Move script from dev → completed |
-| `osrs-bot upstream` | Fetch and merge upstream ChromaScape updates |
-| `osrs-bot status` | Show active/completed scripts, pending bugs |
+| `osrs-bot py-generate <id>` | Generate a Python script from an SGR file |
+| `osrs-bot py-fix <id>` | Fix a script using logged bugs |
+| `osrs-bot py-lesson <id>` | Extract a lesson from a resolved bug |
+| `osrs-bot init <id>` | Initialize a new script in the tracker |
+| `osrs-bot bug <id> "msg"` | Report a bug (optionally with `-i image.png`) |
+| `osrs-bot note <id> "msg"` | Add a note to a script |
+| `osrs-bot resolve <id>` | Mark the latest bug as resolved |
+| `osrs-bot show <id>` | Show script details, bugs, notes |
+| `osrs-bot status` | Show all scripts and their state |
 
 See the [User Guide](../docs/user-guide.md) for full documentation.
