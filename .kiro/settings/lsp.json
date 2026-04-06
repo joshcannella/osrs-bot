@@ -139,7 +139,9 @@
     "java": {
       "name": "jdtls",
       "command": "jdtls",
-      "args": [],
+      "args": [
+        "-data", "/tmp/jdtls-workspace"
+      ],
       "file_extensions": [
         "java"
       ],
@@ -163,6 +165,14 @@
                 "mode": "automatic"
               }
             },
+            "import": {
+              "gradle": {
+                "enabled": true,
+                "wrapper": {
+                  "enabled": true
+                }
+              }
+            },
             "configuration": {
               "annotationProcessing": {
                 "enabled": true
@@ -171,7 +181,7 @@
           }
         }
       },
-      "request_timeout_secs": 60
+      "request_timeout_secs": 120
     },
     "go": {
       "name": "gopls",

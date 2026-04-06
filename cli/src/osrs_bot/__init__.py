@@ -1,4 +1,4 @@
-"""osrs-bot CLI — manage scripts, deployments, logs, and bugs."""
+"""osrs-bot CLI — manage DreamBot scripts, deployments, logs, and bugs."""
 
 import argparse
 import json
@@ -22,22 +22,59 @@ def get_root() -> Path:
 
 
 ROOT = get_root()
-CHROMASCAPE = ROOT / "ChromaScape"
-SCRIPTS_DIR = CHROMASCAPE / "src/main/java/com/chromascape/scripts"
-RESOURCES_DIR = CHROMASCAPE / "src/main/resources/images/user"
+DREAMBOT_PROJECT = ROOT / "dreambot"
+SCRIPTS_SRC = DREAMBOT_PROJECT / "src/main/java/scripts"
 SPECS = ROOT / ".kiro/specs/scripts"
 TRACKER = ROOT / ".kiro/scripts.json"
 TEMPLATE = SPECS / "TEMPLATE.md"
-LOG_FILE = CHROMASCAPE / "logs/chromascape.log"
 LOCAL_LOGS = ROOT / ".kiro/logs"
+
+ENV_MAP = {
+    "dropbox_dir": "OSRS_BOT_DROPBOX",
+    "dreambot_scripts": "OSRS_BOT_DREAMBOT",
+    "dreambot_logs": "OSRS_BOT_DREAMBOT_LOGS",
+}
+
+
+# === Config ===
+
+def load_config() -> dict:
+    conf = {
+        "dropbox_dir": Path.home() / "Dropbox/osrs-bot/builds",
+        "dreambot_scripts": Path.home() / "DreamBot/Scripts",
+        "dreambot_logs": Path.home() / "DreamBot/BotData/logs",
+    }
+    conf_file = ROOT / ".osrs-bot.conf"
+    if conf_file.exists():
+        for line in conf_file.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" in line:
+                k, v = line.split("=", 1)
+                k, v = k.strip(), v.strip()
+                if k in conf:
+                    conf[k] = Path(v).expanduser()
+    for k, env_key in ENV_MAP.items():
+        val = os.environ.get(env_key)
+        if val:
+            conf[k] = Path(val).expanduser()
+    return conf
+
+
+CONFIG = load_config()
 
 
 # === Tracker ===
 
 def load_tracker() -> dict:
     if TRACKER.exists():
-        return json.loads(TRACKER.read_text())
-    return {}
+        data = json.loads(TRACKER.read_text())
+        # Migrate old format
+        if "scripts" not in data:
+            data = {"scripts": data}
+        return data
+    return {"scripts": {}}
 
 
 def save_tracker(data: dict):
@@ -48,133 +85,153 @@ def id_to_class(script_id: str) -> str:
     return "".join(w.capitalize() for w in script_id.split("-")) + "Script"
 
 
+def jar_timestamp() -> str:
+    from datetime import datetime
+    return datetime.now().strftime("%Y%m%d-%H%M")
+
+
+def _bump_script_version(entry: dict, major: bool = False):
+    """Bump a script's major.minor version in the tracker."""
+    v = entry.get("version", {"major": 0, "minor": 0})
+    if isinstance(v, str):
+        parts = v.split(".")
+        v = {"major": int(parts[0]), "minor": int(parts[1]) if len(parts) > 1 else 0}
+    if major:
+        v["major"] += 1
+        v["minor"] = 0
+    else:
+        v["minor"] += 1
+    entry["version"] = v
+    return f"{v['major']}.{v['minor']}"
+
+
 # === Helpers ===
 
 def run_cmd(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, cwd=cwd or ROOT, check=check)
 
 
-def gradle(args: list[str], cwd: Path = CHROMASCAPE):
-    if platform.system() == "Windows":
-        cmd = [str(cwd / "gradlew.bat")] + args
+def gradle(args: list[str]):
+    wrapper = DREAMBOT_PROJECT / ("gradlew.bat" if platform.system() == "Windows" else "gradlew")
+    if wrapper.exists():
+        cmd = [str(wrapper)] + args
     else:
         cmd = ["gradle"] + args
-    run_cmd(cmd, cwd=cwd)
+    run_cmd(cmd, cwd=DREAMBOT_PROJECT)
 
 
 def today() -> str:
     return date.today().isoformat()
 
 
-# === Sync: generate SETUP.md from Java source ===
-
-def sync_script(script_id: str, tracker: dict):
-    """Scan Java source and generate/update SETUP.md."""
-    entry = tracker.get(script_id)
-    if not entry:
-        return
-    class_name = entry.get("class", id_to_class(script_id))
-    java_file = SCRIPTS_DIR / f"{class_name}.java"
-    if not java_file.exists():
-        return
-
-    source = java_file.read_text()
-    spec_dir = SPECS / script_id
-    spec_dir.mkdir(parents=True, exist_ok=True)
-
-    # Extract image references
-    images = sorted(set(re.findall(r'/images/user/([^"]+\.png)', source)))
-    existing = {f.name for f in RESOURCES_DIR.iterdir()} if RESOURCES_DIR.exists() else set()
-
-    # Extract ColourObj definitions
-    colours = re.findall(
-        r'ColourObj\(\s*"(\w+)".*?Scalar\((\d+),\s*(\d+),\s*(\d+)',
-        source
-    )
-
-    # Detect features
-    uses_idler = "Idler." in source or "waitUntilIdle" in source
-    uses_shift_drop = "shiftDrop" in source.lower() or "shift" in source.lower() and "drop" in source.lower()
-    uses_walker = "Walker" in source
-    uses_bank = "Bank." in source
-    uses_colour = "ColourClick" in source
-
-    # Build SETUP.md
-    lines = [f"# {class_name} — Setup Instructions\n"]
-    lines.append("## RuneLite Requirements (Mandatory)")
-    lines.append("- Windows Display Scaling: **100%**")
-    lines.append("- RuneScape UI: **\"Fixed - Classic\"**")
-    lines.append("- Display Brightness: **middle (50%)**")
-    lines.append("- ChromaScape RuneLite Profile: **activated**\n")
-
-    if uses_colour and colours:
-        lines.append("## RuneLite Plugin Configuration\n")
-        for name, h, s, v in colours:
-            lines.append(f"### {name.capitalize()} Colour Tag")
-            lines.append(f"- Tag the target in **{name}** — HSV ~{h}, {s}, {v}")
-            lines.append(f"- Use **Hull** or **Tile** highlight style\n")
-
-    if uses_idler:
-        lines.append("### Idle Notifier")
-        lines.append("- **Enable** this plugin — required for idle detection\n")
-
-    lines.append("## Game Settings")
-    if uses_shift_drop:
-        lines.append("- **Shift-click drop**: must be enabled (Settings → Controls)\n")
-
-    lines.append("## Image Templates")
-    for img in images:
-        status = "✓" if img in existing else "✗ MISSING"
-        lines.append(f"- `{img}` {status}")
-    if not images:
-        lines.append("- (none detected)")
-    lines.append("")
-
-    lines.append("## How to Run")
-    lines.append(f"- Script class: **{class_name}**")
-    lines.append("- Start ChromaScape, open the web UI at `http://localhost:8080/`")
-    lines.append(f"- Select **{class_name}** from the sidebar and click Start\n")
-
-    # Write — auto-generated marker so we know it's safe to overwrite
-    content = "\n".join(lines)
-    setup_file = spec_dir / "SETUP.md"
-    # Only overwrite if auto-generated or doesn't exist
-    if not setup_file.exists() or setup_file.read_text().startswith("# " + class_name + " — Setup"):
-        setup_file.write_text(content)
+def find_log_file() -> Path | None:
+    log_dir = CONFIG["dreambot_logs"]
+    if not log_dir.exists():
+        return None
+    logs = sorted(log_dir.glob("*.log"), key=lambda f: f.stat().st_mtime, reverse=True)
+    return logs[0] if logs else None
 
 
 def extract_log_errors(n: int = 20) -> list[str]:
-    """Extract last N ERROR/WARN lines from runtime log."""
-    if not LOG_FILE.exists():
+    log_file = find_log_file()
+    if not log_file:
         return []
-    lines = LOG_FILE.read_text().splitlines()
-    errors = [l for l in lines if " ERROR " in l or " WARN " in l]
+    lines = log_file.read_text().splitlines()
+    errors = [l for l in lines if "ERROR" in l or "WARN" in l or "Exception" in l]
     return errors[-n:]
 
 
 # === Commands ===
 
 def cmd_init(args):
-    """Initialize a new script spec directory and tracker entry."""
     sid = args.script_id
     tracker = load_tracker()
-    if sid in tracker:
+    if sid in tracker["scripts"]:
         print(f"'{sid}' already exists in tracker")
         return
 
     class_name = id_to_class(sid)
-    tracker[sid] = {
+    pkg_name = sid.replace("-", "")
+    tracker["scripts"][sid] = {
         "class": class_name,
+        "package": f"scripts.{pkg_name}",
         "status": "dev",
+        "version": {"major": 0, "minor": 1},
+        "category": "MISC",
         "bugs": [],
         "notes": [],
     }
     save_tracker(tracker)
 
+    # Create script package
+    pkg_dir = SCRIPTS_SRC / pkg_name
+    pkg_dir.mkdir(parents=True, exist_ok=True)
+
+    # Scaffold script
+    script_file = pkg_dir / f"{class_name}.java"
+    if not script_file.exists():
+        if args.simple:
+            script_file.write_text(f"""package scripts.{pkg_name};
+
+import org.dreambot.api.script.AbstractScript;
+import org.dreambot.api.script.Category;
+import org.dreambot.api.script.ScriptManifest;
+import org.dreambot.api.utilities.Logger;
+
+@ScriptManifest(name = "{sid}", author = "osrs-bot", version = 0.1,
+                description = "", category = Category.MISC)
+public class {class_name} extends AbstractScript {{
+
+    @Override
+    public void onStart() {{
+        Logger.log("Starting {class_name}");
+    }}
+
+    @Override
+    public int onLoop() {{
+        // TODO: implement
+        return 600;
+    }}
+
+    @Override
+    public void onExit() {{
+        Logger.log("Stopping {class_name}");
+    }}
+}}
+""")
+        else:
+            # TaskScript scaffold
+            nodes_dir = pkg_dir / "nodes"
+            nodes_dir.mkdir(exist_ok=True)
+            script_file.write_text(f"""package scripts.{pkg_name};
+
+import org.dreambot.api.script.Category;
+import org.dreambot.api.script.ScriptManifest;
+import org.dreambot.api.script.impl.TaskScript;
+import org.dreambot.api.utilities.Logger;
+import scripts.shared.antiban.AntiBanNode;
+
+@ScriptManifest(name = "{sid}", author = "osrs-bot", version = 0.1,
+                description = "", category = Category.MISC)
+public class {class_name} extends TaskScript {{
+
+    @Override
+    public void onStart() {{
+        Logger.log("Starting {class_name}");
+        addNodes(new AntiBanNode());
+        // TODO: add script-specific nodes
+    }}
+
+    @Override
+    public void onExit() {{
+        Logger.log("Stopping {class_name}");
+    }}
+}}
+""")
+
+    # Create spec directory
     spec_dir = SPECS / sid
     spec_dir.mkdir(parents=True, exist_ok=True)
-
-    # Copy requirements template
     req = spec_dir / "requirements.md"
     if not req.exists() and TEMPLATE.exists():
         content = TEMPLATE.read_text()
@@ -182,66 +239,215 @@ def cmd_init(args):
         req.write_text(content)
 
     print(f"✓ Initialized {sid}")
-    print(f"  class:        {class_name}")
-    print(f"  requirements: {req.relative_to(ROOT)}")
-    print(f"  tracker:      .kiro/scripts.json")
+    print(f"  class:   {class_name}")
+    print(f"  package: scripts.{pkg_name}")
+    print(f"  source:  {pkg_dir.relative_to(ROOT)}")
+    print(f"  type:    {'AbstractScript' if args.simple else 'TaskScript'}")
 
 
 def cmd_build(args):
-    gradle(["classes"])
+    gradle(["jar"])
     print("✓ Build successful")
 
 
-def cmd_deploy(args):
-    # Sync all dev scripts before deploying
-    tracker = load_tracker()
-    for sid, entry in tracker.items():
-        if entry.get("status") == "dev":
-            sync_script(sid, tracker)
+def _changed_scripts(tracker: dict) -> list[str]:
+    """Return script IDs whose source files changed since last commit."""
+    result = subprocess.run(
+        ["git", "diff", "--name-only", "HEAD"],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+    )
+    # Also check staged files
+    staged = subprocess.run(
+        ["git", "diff", "--name-only", "--cached"],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+    )
+    # And untracked new files
+    untracked = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", "dreambot/src/"],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+    )
+    changed_files = set(
+        (result.stdout + staged.stdout + untracked.stdout).strip().splitlines()
+    )
+    changed = []
+    for sid, entry in tracker.get("scripts", {}).items():
+        pkg = entry.get("package", "").replace(".", "/")
+        if any(f.startswith(f"dreambot/src/main/java/{pkg}/") for f in changed_files):
+            changed.append(sid)
+    return changed
 
-    gradle(["classes"])
-    print("✓ Compiled")
+
+def _update_manifest_version(script_id: str, tracker: dict, ver: str):
+    """Update @ScriptManifest version in the script's Java source file."""
+    entry = tracker["scripts"][script_id]
+    pkg = entry.get("package", "").replace(".", "/")
+    pkg_dir = DREAMBOT_PROJECT / "src/main/java" / pkg
+    if not pkg_dir.exists():
+        return
+    for java_file in pkg_dir.glob("*Script.java"):
+        text = java_file.read_text()
+        updated = re.sub(
+            r'(@ScriptManifest\([^)]*version\s*=\s*)[\d.]+',
+            rf'\g<1>{ver}',
+            text,
+        )
+        if updated != text:
+            java_file.write_text(updated)
+
+
+def cmd_deploy(args):
+    tracker = load_tracker()
+
+    ts = jar_timestamp()
+    jar_name = "osrs-scripts"
+
+    # Bump versions for changed scripts
+    changed = _changed_scripts(tracker)
+    for sid in changed:
+        entry = tracker["scripts"][sid]
+        major = args.major_script and sid in args.major_script
+        ver = _bump_script_version(entry, major=major)
+        _update_manifest_version(sid, tracker, ver)
+        print(f"  ↑ {sid} → v{ver}")
+
+    save_tracker(tracker)
+
+    # Build
+    gradle(["jar", f"-PjarName={jar_name}", f"-PjarVersion={ts}"])
+    print(f"✓ Compiled {jar_name}-{ts}.jar")
+
+    # Copy to Dropbox
+    dropbox = CONFIG["dropbox_dir"]
+    dropbox.mkdir(parents=True, exist_ok=True)
+    built_jar = DREAMBOT_PROJECT / "build/libs" / f"{jar_name}-{ts}.jar"
+    if not built_jar.exists():
+        print(f"Error: jar not found at {built_jar}", file=sys.stderr)
+        sys.exit(1)
+    dest = dropbox / f"{jar_name}-{ts}.jar"
+    shutil.copy2(built_jar, dest)
+    print(f"✓ Copied to {dest}")
 
     if args.dry_run:
         print("✓ Deploy complete (dry-run)")
         return
 
-    # Push ChromaScape
-    run_cmd(["git", "add", "-A"], cwd=CHROMASCAPE)
-    result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=CHROMASCAPE, check=False)
-    if result.returncode != 0:
-        run_cmd(["git", "commit", "-m", "deploy: update scripts and resources"], cwd=CHROMASCAPE)
-        run_cmd(["git", "push"], cwd=CHROMASCAPE)
-        print("✓ ChromaScape pushed")
-    else:
-        print("  No ChromaScape changes to push")
+    if args.quick:
+        # Quick deploy still commits live feed so Linux can see it
+        run_cmd(["git", "add", ".kiro/live", ".kiro/scripts.json", ".kiro/specs"], check=False)
+        result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT, check=False)
+        if result.returncode != 0:
+            run_cmd(["git", "commit", "-m", f"quick deploy: {ts}"])
+            run_cmd(["git", "push"])
+        print(f"\n✓ Quick deploy complete — {ts}")
+        print(f"  Dropbox will sync to Windows automatically")
+        return
 
-    # Push parent
+    # Git push
     run_cmd(["git", "add", "-A"])
     result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT, check=False)
     if result.returncode != 0:
-        run_cmd(["git", "commit", "-m", "deploy: update specs"])
+        run_cmd(["git", "commit", "-m", f"deploy: {ts}"])
         run_cmd(["git", "push"])
-        print("✓ Parent repo pushed")
+        print("✓ Pushed to git")
     else:
-        print("  No parent changes to push")
+        print("  No changes to push")
 
-    print("\n✓ Deploy complete — pull from Windows and run")
+    print(f"\n✓ Deploy complete — {ts}")
+    print(f"  Dropbox will sync to Windows automatically")
+    print(f"  Then run: osrs-bot run")
+
+    # Clear live feed after full deploy
+    if LIVE_DIR.exists():
+        for f in LIVE_DIR.glob("*.md"):
+            f.unlink()
+        print("  Live feed cleared")
+
+
+def _copy_latest_jar(dropbox: Path, dreambot: Path) -> str | None:
+    """Copy latest jar from Dropbox to DreamBot. Returns jar name or None if already current."""
+    jars = sorted(dropbox.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True)
+    if not jars:
+        return None
+    src = jars[0]
+    current = list(dreambot.glob("osrs-scripts-*.jar"))
+    if current and current[0].name == src.name:
+        return None
+    for old in dreambot.glob("osrs-scripts-*.jar"):
+        old.unlink()
+    shutil.copy2(src, dreambot / src.name)
+    return src.name
 
 
 def cmd_run(args):
-    run_cmd(["git", "pull"])
-    run_cmd(["git", "pull"], cwd=CHROMASCAPE)
-    if args.browser:
-        if platform.system() == "Windows":
-            os.startfile("http://localhost:8080")
-        else:
-            subprocess.Popen(["xdg-open", "http://localhost:8080"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    gradle(["bootRun"])
+    if platform.system() == "Windows":
+        dropbox = CONFIG["dropbox_dir"]
+        dreambot = CONFIG["dreambot_scripts"]
+        dreambot.mkdir(parents=True, exist_ok=True)
+
+        if args.watch:
+            import time
+            print(f"👀 Watching {dropbox} for new jars... (Ctrl+C to stop)")
+            last_seen = None
+            current = list(dreambot.glob("osrs-scripts-*.jar"))
+            if current:
+                last_seen = current[0].name
+                print(f"  Current: {last_seen}")
+            while True:
+                name = _copy_latest_jar(dropbox, dreambot)
+                if name and name != last_seen:
+                    last_seen = name
+                    print(f"\n✓ New jar detected: {name}")
+                    print(f"  ⚠ Stop your script in DreamBot, then Refresh local scripts")
+                time.sleep(5)
+            return
+
+        # One-shot mode
+        jars = sorted(dropbox.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True)
+        if not jars:
+            print(f"No jars found in {dropbox}", file=sys.stderr)
+            print("Run 'osrs-bot deploy' on the dev machine first")
+            sys.exit(1)
+
+        src = jars[0]
+        current = list(dreambot.glob("osrs-scripts-*.jar"))
+        if current and current[0].name == src.name:
+            print(f"  Already running {src.name}")
+            print(f"  ⚠ Stop your script in DreamBot before updating")
+            return
+
+        if current:
+            print(f"  Old: {current[0].name}")
+        print(f"  New: {src.name}")
+
+        for old in dreambot.glob("osrs-scripts-*.jar"):
+            old.unlink()
+        shutil.copy2(src, dreambot / src.name)
+        print(f"✓ Copied {src.name} → {dreambot}")
+
+        run_cmd(["git", "pull"], check=False)
+        tracker = load_tracker()
+        scripts = tracker.get("scripts", {})
+        if scripts:
+            print(f"\n  Scripts:")
+            for sid, entry in scripts.items():
+                v = entry.get("version", {})
+                vstr = f"v{v['major']}.{v['minor']}" if isinstance(v, dict) else f"v{v}"
+                print(f"    {sid} {vstr}")
+
+        print(f"\n  ⚠ Stop your script in DreamBot, then Refresh local scripts")
+    else:
+        run_cmd(["git", "pull"])
+        tracker = load_tracker()
+        print(f"✓ Pulled latest")
+        scripts = tracker.get("scripts", {})
+        if scripts:
+            for sid, entry in scripts.items():
+                v = entry.get("version", {})
+                vstr = f"{v['major']}.{v['minor']}" if isinstance(v, dict) else str(v)
+                print(f"  {sid} v{vstr} ({entry.get('status', '?')})")
 
 
 def copy_images(sid: str, image_paths: list[str]) -> list[str]:
-    """Copy images to the spec directory, return relative paths."""
     spec_dir = SPECS / sid
     spec_dir.mkdir(parents=True, exist_ok=True)
     saved = []
@@ -251,7 +457,6 @@ def copy_images(sid: str, image_paths: list[str]) -> list[str]:
             print(f"  ⚠ Image not found: {p}", file=sys.stderr)
             continue
         dest = spec_dir / src.name
-        # Avoid collisions with a counter
         if dest.exists():
             stem, suffix = dest.stem, dest.suffix
             i = 1
@@ -264,10 +469,9 @@ def copy_images(sid: str, image_paths: list[str]) -> list[str]:
 
 
 def cmd_bug(args):
-    """Add a bug to the tracker, optionally with log errors and images."""
     tracker = load_tracker()
     sid = args.script_id
-    if sid not in tracker:
+    if sid not in tracker["scripts"]:
         print(f"Unknown script '{sid}'. Run: osrs-bot init {sid}", file=sys.stderr)
         sys.exit(1)
 
@@ -283,21 +487,17 @@ def cmd_bug(args):
         if saved:
             bug["images"] = saved
 
-    tracker[sid]["bugs"].append(bug)
+    tracker["scripts"][sid]["bugs"].append(bug)
     save_tracker(tracker)
     print(f"✓ Bug added to {sid}: {desc}")
     if errors:
         print(f"  Attached {len(errors)} error/warn lines from log")
-    if args.image:
-        for p in bug.get("images", []):
-            print(f"  📎 {p}")
 
 
 def cmd_note(args):
-    """Add a note to the tracker."""
     tracker = load_tracker()
     sid = args.script_id
-    if sid not in tracker:
+    if sid not in tracker["scripts"]:
         print(f"Unknown script '{sid}'. Run: osrs-bot init {sid}", file=sys.stderr)
         sys.exit(1)
 
@@ -306,29 +506,24 @@ def cmd_note(args):
         "from": "windows" if platform.system() == "Windows" else "linux",
         "text": args.message,
     }
-
     if args.image:
         saved = copy_images(sid, args.image)
         if saved:
             note["images"] = saved
 
-    tracker[sid]["notes"].append(note)
+    tracker["scripts"][sid]["notes"].append(note)
     save_tracker(tracker)
     print(f"✓ Note added to {sid}")
-    if args.image:
-        for p in note.get("images", []):
-            print(f"  📎 {p}")
 
 
 def cmd_resolve(args):
-    """Mark the latest unresolved bug as resolved."""
     tracker = load_tracker()
     sid = args.script_id
-    if sid not in tracker:
+    if sid not in tracker["scripts"]:
         print(f"Unknown script '{sid}'", file=sys.stderr)
         sys.exit(1)
 
-    for bug in reversed(tracker[sid]["bugs"]):
+    for bug in reversed(tracker["scripts"][sid]["bugs"]):
         if not bug["resolved"]:
             bug["resolved"] = True
             save_tracker(tracker)
@@ -338,61 +533,59 @@ def cmd_resolve(args):
 
 
 def cmd_complete(args):
-    """Mark a script as complete."""
     tracker = load_tracker()
     sid = args.script_id
-    if sid not in tracker:
+    if sid not in tracker["scripts"]:
         print(f"Unknown script '{sid}'", file=sys.stderr)
         sys.exit(1)
 
-    tracker[sid]["status"] = "complete"
+    tracker["scripts"][sid]["status"] = "complete"
     save_tracker(tracker)
-    sync_script(sid, tracker)
     print(f"✓ {sid} marked complete")
 
 
-def cmd_sync(args):
-    """Regenerate SETUP.md for a script (or all dev scripts)."""
-    tracker = load_tracker()
-    if args.script_id:
-        if args.script_id not in tracker:
-            print(f"Unknown script '{args.script_id}'", file=sys.stderr)
-            sys.exit(1)
-        sync_script(args.script_id, tracker)
-        print(f"✓ Synced {args.script_id}")
-    else:
-        count = 0
-        for sid, entry in tracker.items():
-            if entry.get("status") == "dev":
-                sync_script(sid, tracker)
-                count += 1
-        print(f"✓ Synced {count} dev script(s)")
+def cmd_lint(args):
+    issues = []
+    for f in SCRIPTS_SRC.rglob("*Script.java"):
+        text = f.read_text()
+        if "@ScriptManifest" not in text:
+            issues.append(f"  ✗ {f.relative_to(ROOT)}: missing @ScriptManifest")
+        if "extends TaskScript" in text and "addNodes" not in text:
+            issues.append(f"  ✗ {f.relative_to(ROOT)}: TaskScript without addNodes() in onStart()")
+    if issues:
+        print(f"⚠ {len(issues)} issue(s):")
+        for i in issues:
+            print(i)
+        sys.exit(1)
+    print("✓ All scripts pass lint")
 
 
 def cmd_logs_pull(args):
-    if not LOG_FILE.exists():
-        print(f"No log file at {LOG_FILE}", file=sys.stderr)
+    log_file = find_log_file()
+    if not log_file:
+        print(f"No log files found in {CONFIG['dreambot_logs']}", file=sys.stderr)
+        print(f"  Expected: {CONFIG['dreambot_logs']}/*.log")
         sys.exit(1)
     LOCAL_LOGS.mkdir(parents=True, exist_ok=True)
     dest = LOCAL_LOGS / f"{args.script_id}.log"
-    shutil.copy2(LOG_FILE, dest)
+    shutil.copy2(log_file, dest)
     print(f"✓ Copied log to {dest.relative_to(ROOT)} (local only, gitignored)")
 
 
 def cmd_logs_tail(args):
-    if not LOG_FILE.exists():
-        print(f"No log file at {LOG_FILE}", file=sys.stderr)
+    log_file = find_log_file()
+    if not log_file:
+        print(f"No log files found in {CONFIG['dreambot_logs']}", file=sys.stderr)
         sys.exit(1)
-    lines = LOG_FILE.read_text().splitlines()
+    lines = log_file.read_text().splitlines()
     for line in lines[-args.n:]:
         print(line)
 
 
 def cmd_logs_summary(args):
-    """Extract errors from log and save as a note."""
     tracker = load_tracker()
     sid = args.script_id
-    if sid not in tracker:
+    if sid not in tracker["scripts"]:
         print(f"Unknown script '{sid}'", file=sys.stderr)
         sys.exit(1)
 
@@ -402,7 +595,7 @@ def cmd_logs_summary(args):
         return
 
     summary = "\n".join(errors)
-    tracker[sid]["notes"].append({
+    tracker["scripts"][sid]["notes"].append({
         "date": today(),
         "from": "windows" if platform.system() == "Windows" else "linux",
         "text": f"Log summary ({len(errors)} errors/warnings):\n{summary}",
@@ -411,40 +604,154 @@ def cmd_logs_summary(args):
     print(f"✓ Added {len(errors)} error/warn lines as note to {sid}")
 
 
-def cmd_upstream(args):
-    print("Fetching upstream...")
-    run_cmd(["git", "fetch", "upstream"], cwd=CHROMASCAPE)
-    run_cmd(["git", "merge", "upstream/main"], cwd=CHROMASCAPE)
-    run_cmd(["git", "push"], cwd=CHROMASCAPE)
-    print("✓ Merged and pushed upstream updates")
+def cmd_push(args):
+    """Lightweight push — commit and push tracker/specs without building."""
+    run_cmd(["git", "add", "-A"])
+    result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT, check=False)
+    if result.returncode != 0:
+        run_cmd(["git", "commit", "-m", "sync: bugs, notes, specs"])
+        run_cmd(["git", "push"])
+        print("✓ Pushed feedback to git")
+    else:
+        print("  Nothing to push")
 
 
-def cmd_lint(args):
-    sig_re = re.compile(r"private\s+\w+\s+(\w+)\(")
-    methods: dict[str, set[str]] = {}
-    for f in SCRIPTS_DIR.glob("*.java"):
-        for m in sig_re.findall(f.read_text()):
-            methods.setdefault(m, set()).add(f.stem)
-    dupes = {m: files for m, files in methods.items() if len(files) > 1}
-    if dupes:
-        print(f"⚠ {len(dupes)} duplicate private method(s) found:")
-        for m, files in sorted(dupes.items()):
-            print(f"  {m}() — {', '.join(sorted(files))}")
+# === Live Feed ===
+
+LIVE_DIR = ROOT / ".kiro/live"
+
+
+def _live_file(script_id: str) -> Path:
+    LIVE_DIR.mkdir(parents=True, exist_ok=True)
+    return LIVE_DIR / f"{script_id}.md"
+
+
+def _append_live(script_id: str, message: str, images: list[str] | None = None, log_lines: int = 0):
+    """Append a timestamped entry to the live feed."""
+    from datetime import datetime
+    ts = datetime.now().strftime("%H:%M:%S")
+    f = _live_file(script_id)
+
+    lines = [f"- **{ts}** — {message}"]
+    if images:
+        saved = copy_images(script_id, images)
+        for img in saved:
+            lines.append(f"  - 📎 {img}")
+    if log_lines > 0:
+        errors = extract_log_errors(log_lines)
+        if errors:
+            lines.append(f"  - 📋 Log ({len(errors)} lines):")
+            for e in errors:
+                lines.append(f"    - `{e[:120]}`")
+
+    entry = "\n".join(lines) + "\n"
+
+    # Create file with header if new
+    if not f.exists():
+        f.write_text(f"# Live Feed: {script_id}\n\n{entry}")
+    else:
+        with open(f, "a") as fh:
+            fh.write(entry)
+
+    print(f"[{ts}] Sent: {message}")
+
+
+def cmd_live(args):
+    """Send a live message, or tail the feed."""
+    if args.tail:
+        # Show all live feeds
+        if not LIVE_DIR.exists():
+            print("No live feed yet")
+            return
+        for f in sorted(LIVE_DIR.glob("*.md")):
+            print(f.read_text())
+        return
+
+    if args.clear:
+        if LIVE_DIR.exists():
+            for f in LIVE_DIR.glob("*.md"):
+                f.unlink()
+        print("✓ Live feed cleared")
+        return
+
+    if not args.script_id or not args.message:
+        print("Usage: osrs-bot live <script-id> \"message\" [-i img] [-l 10]", file=sys.stderr)
         sys.exit(1)
-    print("✓ No duplicate private methods")
+
+    _append_live(
+        args.script_id,
+        " ".join(args.message),
+        images=args.image,
+        log_lines=args.log or 0,
+    )
 
 
-def cmd_delta(args):
-    run_cmd(["git", "diff", "--stat", "upstream/main..HEAD"], cwd=CHROMASCAPE)
+def cmd_inbox(args):
+    """Show unresolved bugs, recent notes, and live feed across all scripts."""
+    tracker = load_tracker()
+    scripts = tracker.get("scripts", {})
+    found = False
+
+    # Collect script IDs from tracker + any live feed files
+    all_ids = set(scripts.keys())
+    if LIVE_DIR.exists():
+        for f in LIVE_DIR.glob("*.md"):
+            all_ids.add(f.stem)
+
+    for sid in sorted(all_ids):
+        entry = scripts.get(sid, {})
+        bugs = [b for b in entry.get("bugs", []) if not b["resolved"]]
+        notes = entry.get("notes", [])
+        recent_notes = notes[-5:] if notes else []
+        live_file = LIVE_DIR / f"{sid}.md" if LIVE_DIR.exists() else None
+        has_live = live_file and live_file.exists()
+
+        if not bugs and not recent_notes and not has_live:
+            continue
+
+        found = True
+        v = entry.get("version", {})
+        vstr = f"v{v['major']}.{v['minor']}" if isinstance(v, dict) and v else ""
+        print(f"\n{sid} {vstr}")
+
+        for b in bugs:
+            print(f"  🐛 [{b['date']}] {b['description']}")
+            for img in b.get("images", []):
+                print(f"      📎 {img}")
+
+        for n in recent_notes:
+            src = f"({n['from']})" if n.get("from") else ""
+            text = n["text"]
+            if "\n" in text:
+                text = text.split("\n")[0] + " ..."
+            print(f"  📝 [{n['date']}] {src} {text}")
+
+        if has_live:
+            print(f"  💬 Live:")
+            for line in live_file.read_text().splitlines():
+                if line.startswith("- **"):
+                    print(f"    {line[2:]}")  # strip leading "- "
+
+    if not found:
+        print("✓ Inbox clear — no bugs, notes, or live messages")
 
 
 def cmd_status(args):
     tracker = load_tracker()
+    scripts = tracker.get("scripts", {})
 
-    dev = {k: v for k, v in tracker.items() if v.get("status") == "dev"}
-    done = {k: v for k, v in tracker.items() if v.get("status") == "complete"}
+    # Check Dropbox for latest jar
+    dropbox = CONFIG["dropbox_dir"]
+    jars = sorted(dropbox.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True) if dropbox.exists() else []
+    if jars:
+        print(f"=== Latest Jar: {jars[0].name} ===\n")
+    else:
+        print(f"=== No jars in {dropbox} ===\n")
 
-    print("=== Dev ===")
+    dev = {k: v for k, v in scripts.items() if v.get("status") == "dev"}
+    done = {k: v for k, v in scripts.items() if v.get("status") == "complete"}
+
+    print("\n=== Dev ===")
     if dev:
         for sid, entry in sorted(dev.items()):
             open_bugs = sum(1 for b in entry.get("bugs", []) if not b["resolved"])
@@ -455,7 +762,9 @@ def cmd_status(args):
             if notes_count:
                 flags.append(f"{notes_count} note{'s' if notes_count > 1 else ''}")
             suffix = f"  [{', '.join(flags)}]" if flags else ""
-            print(f"  {sid}{suffix}")
+            v = entry.get("version", {})
+            vstr = f"v{v['major']}.{v['minor']}" if isinstance(v, dict) else f"v{v}"
+            print(f"  {sid} {vstr} ({entry.get('category', '?')}){suffix}")
     else:
         print("  (none)")
 
@@ -466,43 +775,37 @@ def cmd_status(args):
     else:
         print("  (none)")
 
-    # Scripts in ChromaScape
-    if SCRIPTS_DIR.exists():
-        scripts = sorted(f.stem for f in SCRIPTS_DIR.glob("*Script.java"))
-        print(f"\n=== Scripts ({len(scripts)}) ===")
-        for s in scripts:
+    # Script files on disk
+    script_files = sorted(f.stem for f in SCRIPTS_SRC.rglob("*Script.java") if "shared" not in str(f))
+    if script_files:
+        print(f"\n=== Script Files ({len(script_files)}) ===")
+        for s in script_files:
             print(f"  {s}")
-
-    # Uncommitted changes
-    for label, cwd in [("parent", ROOT), ("ChromaScape", CHROMASCAPE)]:
-        result = subprocess.run(["git", "status", "--porcelain"], cwd=cwd, capture_output=True, text=True)
-        dirty = result.stdout.strip()
-        if dirty:
-            print(f"\n=== Uncommitted ({label}) ===")
-            print(dirty)
 
 
 def cmd_show(args):
-    """Show details for a script — bugs, notes, status."""
     tracker = load_tracker()
     sid = args.script_id
-    if sid not in tracker:
+    if sid not in tracker["scripts"]:
         print(f"Unknown script '{sid}'", file=sys.stderr)
         sys.exit(1)
 
-    entry = tracker[sid]
-    print(f"Script:  {sid}")
-    print(f"Class:   {entry['class']}")
-    print(f"Status:  {entry['status']}")
+    entry = tracker["scripts"][sid]
+    v = entry.get("version", {})
+    vstr = f"{v['major']}.{v['minor']}" if isinstance(v, dict) else str(v)
+    print(f"Script:   {sid}")
+    print(f"Class:    {entry['class']}")
+    print(f"Package:  {entry.get('package', '?')}")
+    print(f"Version:  {vstr}")
+    print(f"Category: {entry.get('category', '?')}")
+    print(f"Status:   {entry['status']}")
 
     bugs = entry.get("bugs", [])
     if bugs:
         print(f"\nBugs ({len(bugs)}):")
-        for i, b in enumerate(bugs, 1):
+        for b in bugs:
             resolved = "✓" if b["resolved"] else "✗"
             print(f"  {resolved} [{b['date']}] {b['description']}")
-            for img in b.get("images", []):
-                print(f"      📎 {img}")
 
     notes = entry.get("notes", [])
     if notes:
@@ -513,8 +816,6 @@ def cmd_show(args):
             if "\n" in text:
                 text = text.split("\n")[0] + " ..."
             print(f"  [{n['date']}] {src} {text}")
-            for img in n.get("images", []):
-                print(f"      📎 {img}")
 
 
 def main():
@@ -523,16 +824,18 @@ def main():
 
     p_init = sub.add_parser("init", help="Initialize a new script")
     p_init.add_argument("script_id", help="Script ID (kebab-case)")
+    p_init.add_argument("--simple", action="store_true", help="Use AbstractScript instead of TaskScript")
 
-    sub.add_parser("build", help="Compile ChromaScape")
-    sub.add_parser("lint", help="Find duplicate private methods")
-    sub.add_parser("delta", help="Show ChromaScape diff from upstream")
+    sub.add_parser("build", help="Compile all scripts")
+    sub.add_parser("lint", help="Check scripts for common issues")
 
-    p_deploy = sub.add_parser("deploy", help="Compile, sync, commit, push")
+    p_deploy = sub.add_parser("deploy", help="Compile, copy to Dropbox, push")
     p_deploy.add_argument("--dry-run", action="store_true")
+    p_deploy.add_argument("--quick", action="store_true", help="Skip git push — just build + Dropbox")
+    p_deploy.add_argument("--major-script", nargs="+", metavar="ID", help="Bump major version for specific script(s)")
 
-    p_run = sub.add_parser("run", help="Pull latest and launch ChromaScape")
-    p_run.add_argument("--browser", action="store_true")
+    p_run = sub.add_parser("run", help="Windows: copy jar to DreamBot. Linux: git pull")
+    p_run.add_argument("--watch", action="store_true", help="Watch Dropbox for new jars and auto-copy (Windows)")
 
     p_bug = sub.add_parser("bug", help="Report a bug")
     p_bug.add_argument("script_id")
@@ -550,9 +853,6 @@ def main():
     p_complete = sub.add_parser("complete", help="Mark script as complete")
     p_complete.add_argument("script_id")
 
-    p_sync = sub.add_parser("sync", help="Regenerate SETUP.md from Java source")
-    p_sync.add_argument("script_id", nargs="?", help="Script ID (or omit for all dev)")
-
     p_show = sub.add_parser("show", help="Show script details")
     p_show.add_argument("script_id")
 
@@ -566,8 +866,17 @@ def main():
     p_ls.add_argument("script_id")
     p_ls.add_argument("-n", type=int, default=20)
 
-    sub.add_parser("upstream", help="Fetch and merge upstream ChromaScape")
-    sub.add_parser("status", help="Show all scripts and their state")
+    sub.add_parser("status", help="Show all scripts and latest jar")
+    sub.add_parser("push", help="Push tracker/specs to git without building")
+    sub.add_parser("inbox", help="Show unresolved bugs, notes, and live feed")
+
+    p_live = sub.add_parser("live", help="Send live feedback during testing")
+    p_live.add_argument("script_id", nargs="?", help="Script ID")
+    p_live.add_argument("message", nargs="*", help="Message text")
+    p_live.add_argument("-i", "--image", nargs="+", help="Attach screenshot(s)")
+    p_live.add_argument("-l", "--log", type=int, metavar="N", help="Attach last N log error lines")
+    p_live.add_argument("--tail", action="store_true", help="Show all live feeds")
+    p_live.add_argument("--clear", action="store_true", help="Clear all live feeds")
 
     args = parser.parse_args()
 
@@ -575,17 +884,17 @@ def main():
         "init": cmd_init,
         "build": cmd_build,
         "lint": cmd_lint,
-        "delta": cmd_delta,
         "deploy": cmd_deploy,
         "run": cmd_run,
         "bug": cmd_bug,
         "note": cmd_note,
         "resolve": cmd_resolve,
         "complete": cmd_complete,
-        "sync": cmd_sync,
         "show": cmd_show,
-        "upstream": cmd_upstream,
         "status": cmd_status,
+        "push": cmd_push,
+        "inbox": cmd_inbox,
+        "live": cmd_live,
         "logs": lambda a: {
             "pull": cmd_logs_pull,
             "tail": cmd_logs_tail,

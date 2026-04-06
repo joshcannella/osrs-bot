@@ -1,28 +1,51 @@
 # Project Conventions
 
-## Architecture
+## Package Structure
 
-ChromaScape is a separate git repo (your fork) cloned inside the project root. It is NOT a submodule — it's listed in `.gitignore` and managed independently.
+```
+scripts/
+├── shared/              # Shared utilities — antiban, ScriptContext
+│   ├── antiban/
+│   └── ScriptContext.java
+└── {scriptname}/        # One package per script
+    ├── {Name}Script.java
+    ├── {Name}Context.java   # (TaskScript only)
+    └── nodes/               # (TaskScript only)
+```
 
-- **Scripts** go directly into `ChromaScape/src/main/java/com/chromascape/scripts/`
-- **Images** go into `ChromaScape/src/main/resources/images/user/`
-- **Custom utilities** go into `ChromaScape/src/main/java/com/chromascape/utils/actions/custom/`
-- **Specs and knowledge** live in the parent repo under `.kiro/`
+## Naming
 
-## Two-Repo Workflow
+- Script entry points: `{Name}Script.java` (e.g., `FisherScript.java`)
+- Script context: `{Name}Context.java` (e.g., `FisherContext.java`)
+- Task nodes: `{Action}Node.java` (e.g., `FishNode.java`, `BankNode.java`)
+- Script IDs: kebab-case (e.g., `draynor-fishing`)
+- Package names: script ID without hyphens (e.g., `scripts.draynorfishing`)
 
-The parent repo (`osrs-bot`) and ChromaScape are pushed independently:
-- `osrs-bot deploy` pushes both
-- On Windows: `git pull` in both, then `osrs-bot run`
+## One Jar, Multiple Scripts
 
-## Script Spec Lifecycle
+All scripts compile into a single `osrs-scripts-{timestamp}.jar`. DreamBot discovers each `@ScriptManifest` class and lists them separately.
 
-Script specifications live under `.kiro/specs/scripts/` and follow a lifecycle:
+## Versioning
 
-- **`dev/`** — Scripts under active development. These are works in progress, may have bugs, and are being iterated on. Requirements, runtime logs, and bug reports live here during development.
-- **`complete/`** — Finished scripts considered working. These have been tested, are stable, and are ready for use. Moving a spec from `dev/` to `complete/` marks it as done.
+- Jar uses datetime timestamp: `osrs-scripts-20260405-1135.jar`
+- Each script has independent major.minor tracked in `.kiro/scripts.json`
+- `osrs-bot deploy` auto-bumps minor for changed scripts, updates `@ScriptManifest`
+- `osrs-bot deploy --major-script <id>` bumps major for specific script(s)
 
-When referencing script status:
-- Scripts listed under `dev/` are NOT finished — they need work.
-- Scripts listed under `complete/` are finished — treat them as working products.
-- To mark a script complete: `osrs-bot complete <script-id>`
+## Framework Choice
+
+- **TaskScript** (default): 3+ states, banking, walking, multiple actions
+- **AbstractScript**: ≤2 states, no banking, trivial logic
+
+## Anti-Ban
+
+Every TaskScript registers `AntiBanNode` in `onStart()`. All nodes use `AntiBanUtil` for delays.
+
+## Feedback Loop
+
+- `osrs-bot live <id> "msg"` for quick feedback during testing
+- `osrs-bot push` to sync feedback to git
+- `osrs-bot inbox` to see all unresolved bugs, notes, and live messages
+- `osrs-bot deploy --quick` for fast iteration (build + Dropbox, skip full push)
+- `osrs-bot run --watch` on Windows to auto-copy new jars
+- Full `osrs-bot deploy` clears the live feed
