@@ -1,6 +1,15 @@
 # Gradle
 dreambot/build/
 dreambot/.gradle/
+dreambot/bin/
+
+# Eclipse/jdtls
+dreambot/.classpath
+dreambot/.project
+dreambot/.settings/
+
+# Build reports
+build/
 
 # Python
 __pycache__/
