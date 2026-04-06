@@ -85,6 +85,23 @@ public final class AntiBanUtil {
         return fatigueDelay(startTime, baseMin, baseMax, 480);
     }
 
+    /**
+     * Adjust DreamBot's mouse speed based on session fatigue.
+     * Call periodically (e.g., from AntiBanNode). Early session: 80-95.
+     * Late session: 55-75. Simulates a tired player moving the mouse slower.
+     *
+     * @param startTime script start time
+     * @param maxMins   fatigue curve duration
+     */
+    public static void adjustMouseSpeed(long startTime, int maxMins) {
+        double mins = (System.currentTimeMillis() - startTime) / 60_000.0;
+        double f = Math.min(mins / maxMins, 1.0);
+        int fast = Calculations.random(80, 95);
+        int slow = Calculations.random(55, 75);
+        int speed = fast - (int) ((fast - slow) * f);
+        Mouse.getMouseSettings().setSpeed(speed);
+    }
+
     // ── Reaction time (#3) ───────────────────────────────────────────
 
     /**
@@ -121,20 +138,17 @@ public final class AntiBanUtil {
     }
 
     /**
-     * Click a nearby entity by mistake, pause, then click the intended one.
-     * No-ops if no nearby distraction found.
+     * Click a nearby entity by mistake, pause, then interact with the intended one.
+     * Uses DreamBot's interact() for natural click behavior.
      */
     public static void misclick(Entity intended) {
         if (intended == null) return;
         Entity distraction = findDistraction(intended);
         if (distraction == null) return;
         Logger.log("[AntiBan] Misclick on " + distraction.getName());
-        Mouse.move(distraction);
-        Sleep.sleep(Calculations.random(80, 200));
-        Mouse.click();
+        distraction.interact();
         Sleep.sleep(Calculations.random(300, 800));
         Logger.log("[AntiBan] Correcting to " + intended.getName());
-        intended.interact();
     }
 
     private static Entity findDistraction(Entity intended) {
@@ -153,23 +167,25 @@ public final class AntiBanUtil {
     // ── Mouse drift (#4) ─────────────────────────────────────────────
 
     /**
-     * Small random micro-movements while "watching" an action.
-     * Call instead of Sleep.sleep() during animation waits.
+     * Pause while "watching" an action, optionally hovering the next target.
+     * Does NOT add mouse micro-drift — DreamBot's mouse algorithm already
+     * produces natural movement. Adding jitter creates detectable double-randomization.
      *
-     * @param durationMs total drift duration
+     * @param durationMs total wait duration
+     * @param nextTarget optional entity to hover while waiting (null to just wait)
      */
-    public static void driftMouse(int durationMs) {
-        long end = System.currentTimeMillis() + durationMs;
-        while (System.currentTimeMillis() < end) {
-            if (!Mouse.isMouseInScreen()) break;
-            Point pos = Mouse.getPosition();
-            int dx = Calculations.random(-4, 5);
-            int dy = Calculations.random(-4, 5);
-            int nx = Math.max(0, Math.min(760, pos.x + dx));
-            int ny = Math.max(0, Math.min(500, pos.y + dy));
-            Mouse.hop(nx, ny);
-            Sleep.sleep(Calculations.random(150, 400));
+    public static void idleWatch(int durationMs, Entity nextTarget) {
+        if (nextTarget != null && nextTarget.isOnScreen()) {
+            Sleep.sleep(Calculations.random(durationMs / 3, durationMs / 2));
+            hoverNextTarget(nextTarget);
+            Sleep.sleep(Calculations.random(durationMs / 4, durationMs / 2));
+        } else {
+            Sleep.sleep(durationMs);
         }
+    }
+
+    public static void idleWatch(int durationMs) {
+        idleWatch(durationMs, null);
     }
 
     // ── Inventory glance (#5) ────────────────────────────────────────
@@ -209,8 +225,8 @@ public final class AntiBanUtil {
     }
 
     /**
-     * Right-click an entity, "read" the menu, then dismiss.
-     * If entity is null, finds a nearby one.
+     * Right-click an entity, "read" the menu, then dismiss by clicking away.
+     * Uses DreamBot's hover() for natural mouse movement.
      */
     public static void rightClickCancel(Entity target) {
         if (target == null) {
@@ -219,15 +235,9 @@ public final class AntiBanUtil {
         }
         if (target == null) return;
         Logger.log("[AntiBan] Right-click cancel on " + target.getName());
-        Mouse.move(target);
-        Sleep.sleep(Calculations.random(50, 150));
-        Mouse.click(true); // right-click
+        target.interact(target.getName(), true, true); // force right-click menu
         Sleep.sleep(Calculations.random(400, 1200));
-        // Dismiss by clicking away
-        Mouse.move(new Point(
-                Calculations.random(10, 750),
-                Calculations.random(10, 490)));
-        Sleep.sleep(Calculations.random(50, 150));
+        // Dismiss menu — clicking anywhere closes it
         Mouse.click();
     }
 

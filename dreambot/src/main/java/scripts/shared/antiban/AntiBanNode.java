@@ -77,6 +77,10 @@ public class AntiBanNode extends Leaf {
     @Override
     public int onLoop() {
         lastActionTime = System.currentTimeMillis();
+
+        // Periodically adjust mouse speed for fatigue
+        AntiBanUtil.adjustMouseSpeed(startTime, maxRuntimeMinutes);
+
         int roll = Calculations.random(0, TOTAL);
         int c = 0;
 

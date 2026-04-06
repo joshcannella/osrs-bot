@@ -8,7 +8,9 @@ Two-layer humanization system:
 
 2. **AntiBanUtil** (inline) — Static methods called by script nodes during normal gameplay. Reaction delays, hover-next-target, misclick recovery, mouse drift, inventory glances, and more. Also called by AntiBanNode for ambient triggering.
 
-Both layers use a **fatigue system** — delays increase as the script runs longer, simulating a real player getting tired.
+Both layers use a **fatigue system** — delays increase as the script runs longer, simulating a real player getting tired. Mouse speed also decreases over time via DreamBot's built-in `MouseSettings.setSpeed()`.
+
+**Important:** DreamBot already randomizes low-level input (click positions, mouse paths, click timing, left/right click decisions). Our anti-ban focuses on high-level behavioral variation only. See `knowledge/osrs/dreambot-builtin-randomization.md` for details. Do NOT add mouse micro-drift or manual click randomization — it creates detectable double-randomization patterns.
 
 ## AntiBanNode Setup
 
@@ -120,10 +122,13 @@ if (AntiBanUtil.shouldMisclick()) {
 ### During Animation Wait
 
 ```java
-// Mouse micro-drift while watching (replaces Sleep.sleep)
-AntiBanUtil.driftMouse(3000);
+// Wait while optionally hovering next target (replaces driftMouse)
+AntiBanUtil.idleWatch(3000, nextTree);
 
-// Hover next target while waiting for current action
+// Or just wait without hovering
+AntiBanUtil.idleWatch(3000);
+
+// Hover next target directly
 AntiBanUtil.hoverNextTarget(nextTree);
 ```
 
@@ -169,7 +174,7 @@ Gather Phase:
   2. shouldMisclick() → misclick(target) OR shouldHesitate() → hesitate()
   3. target.interact("Chop down")
   4. Sleep.sleepUntil(animating, moving, timeout)
-     └─ During wait: driftMouse() or hoverNextTarget(nextTarget)
+     └─ During wait: idleWatch() or hoverNextTarget(nextTarget)
   5. Action completes → Sleep.sleep(reactionDelay())
   6. Occasionally: glanceInventory()
 
@@ -189,6 +194,6 @@ For every new script:
 3. ✅ Add `shouldHesitate()` / `hesitate()` before important clicks
 4. ✅ Add `shouldMisclick()` / `misclick()` before primary interactions
 5. ✅ Use `reactionDelay()` after detecting action completion
-6. ✅ Use `driftMouse()` or `hoverNextTarget()` during animation waits
+6. ✅ Use `idleWatch()` or `hoverNextTarget()` during animation waits
 7. ✅ Call `glanceInventory()` occasionally after gaining items
 8. ✅ Use `shouldUseMinimap()` before walking
