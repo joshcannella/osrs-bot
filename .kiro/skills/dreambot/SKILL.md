@@ -9,9 +9,16 @@ DreamBot is a Java framework for OSRS automation. Scripts extend `AbstractScript
 
 ## Framework Selection
 
-**Use TaskScript** (default) for any script with 3+ states, banking, walking, or multiple distinct actions. Nodes are separate classes, each with `accept()` (condition) and `execute()` (action).
+**TreeScript** (default) — DreamBot's built-in decision tree. Your script IS a decision tree — make it explicit. `Root` → `Branch`es → `Leaf`s. Each node has `isValid()` (condition) and `onLoop()` (action). First valid child runs. Built-in decision path tracking via `getCurrentBranchName()`/`getCurrentLeafName()`.
 
-**Use AbstractScript** only for trivial scripts with ≤2 states and no banking (e.g., click ore → wait → repeat).
+**TaskScript** — flat priority-based node list. Good for scripts where actions don't have a natural hierarchy (e.g., combat with independent eat/loot/attack nodes that all check independently).
+
+**AbstractScript** — raw `onLoop()`. For trivial scripts with no branching (≤2 actions).
+
+### When to Use What
+- **TreeScript**: gathering + banking, progression scripts, anything with "if X then (A or B), else (C or D)" logic
+- **TaskScript**: combat scripts, scripts where multiple independent concerns run in parallel (eat if low HP, loot if items nearby, attack if idle)
+- **AbstractScript**: single-action scripts (power mine, alch)
 
 ## Architecture
 
@@ -19,60 +26,77 @@ DreamBot is a Java framework for OSRS automation. Scripts extend `AbstractScript
 dreambot/src/main/java/scripts/
 ├── shared/                       # Shared utilities
 │   ├── antiban/
-│   │   ├── AntiBanNode.java      # High-priority ambient anti-ban
+│   │   ├── AntiBanNode.java      # Anti-ban Leaf (works in TreeScript, also callable standalone)
 │   │   └── AntiBanUtil.java      # Inline anti-ban utilities
-│   └── ScriptContext.java        # Shared state for TaskScript nodes
+│   └── ScriptContext.java        # Shared state base class
 └── {scriptname}/                 # Per-script package
     ├── {Name}Script.java         # Entry point
-    └── nodes/                    # TaskNode classes (TaskScript only)
+    └── nodes/                    # Branch/Leaf classes (TreeScript) or TaskNode classes (TaskScript)
 ```
 
-## TaskScript Skeleton
+## TreeScript Skeleton (Default)
 
 ```java
 package scripts.myscript;
 
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
-import org.dreambot.api.script.impl.TaskScript;
-import org.dreambot.api.utilities.Logger;
+import org.dreambot.api.script.frameworks.treebranch.TreeScript;
 import scripts.shared.antiban.AntiBanNode;
 
 @ScriptManifest(name = "my-script", author = "osrs-bot", version = 0.1,
                 description = "Description here", category = Category.MISC)
-public class MyScript extends TaskScript {
+public class MyScript extends TreeScript {
 
     @Override
     public void onStart() {
-        Logger.log("Starting MyScript");
-        MyContext ctx = new MyContext(this);
-        addNodes(new AntiBanNode(), new GatherNode(ctx), new BankNode(ctx));
+        addBranches(
+            new AntiBanNode(),
+            new GatherBranch(),
+            new BankBranch()
+        );
     }
 
     @Override
-    public void onExit() {
-        Logger.log("Stopping MyScript");
+    public void onPaint(java.awt.Graphics2D g) {
+        g.drawString("Branch: " + getCurrentBranchName(), 25, 170);
+        g.drawString("Leaf: " + getCurrentLeafName(), 25, 185);
     }
 }
 ```
 
-## AbstractScript Skeleton
+Branches contain leaves. First valid child at each level runs. The tree is the script — no state variables needed.
+
+## TaskScript Skeleton (Alternative)
+
+For flat independent concerns (combat with eat/loot/attack):
 
 ```java
-package scripts.simple;
+@ScriptManifest(name = "my-combat", author = "osrs-bot", version = 0.1,
+                description = "", category = Category.COMBAT)
+public class MyCombatScript extends TaskScript {
+    @Override
+    public void onStart() {
+        addNodes(new EatNode(), new LootNode(), new AttackNode());
+    }
+}
+```
 
-import org.dreambot.api.script.AbstractScript;
-import org.dreambot.api.script.Category;
-import org.dreambot.api.script.ScriptManifest;
-import org.dreambot.api.utilities.Logger;
+## Simple Script Skeleton (AbstractScript)
 
+For truly trivial scripts only — single action, no branching:
+
+```java
 @ScriptManifest(name = "simple-miner", author = "osrs-bot", version = 0.1,
                 description = "", category = Category.MINING)
 public class SimpleMinerScript extends AbstractScript {
-
     @Override
     public int onLoop() {
-        // Simple: click ore, wait, repeat
+        if (Inventory.isFull()) { Inventory.dropAll(); return 600; }
+        GameObject rock = GameObjects.closest("Rocks");
+        if (rock != null && !Players.getLocal().isAnimating()) {
+            rock.interact("Mine");
+        }
         return 600;
     }
 }
@@ -97,102 +121,41 @@ Always use `AntiBanUtil.humanDelay(min, max)` instead of raw `Calculations.rando
 
 ## Core Patterns
 
+### Use the Tree, Not State Variables
+Your script is a decision tree. Build it with DreamBot's `TreeScript` → `Branch` → `Leaf`. Don't use state enums, `getState()` functions, or `switch` statements — they disconnect decisions from actions and are the root of bugs. See `references/scripting-patterns.md` for the full tree pattern.
+
+### Always Return 600 (One Game Tick)
+OSRS runs on 600ms ticks. Returning less means spam-clicking (worst case: 599 clicks before the next tick). Return 600 as baseline.
+
 ### One Action Per Loop
-Execute only one action per `onLoop()` or `execute()` call, then return. Don't chain multiple actions — any action can fail, and chaining makes scripts unreliable. Let the next loop iteration re-evaluate game state and decide the next action.
+Execute ONE action then return. Let the next tick re-evaluate game state.
 
+### Bank.open() Walks For You
+Never manually walk to a bank. `Bank.open()` handles walking automatically. Guard with `Walking.shouldWalk()`:
 ```java
-// BAD — chaining actions
-Bank.withdraw("Iron scimitar");
-Equipment.equip(EquipmentSlot.WEAPON, "Iron scimitar");
-
-// GOOD — one action, return, re-evaluate next loop
-if (Inventory.contains(WEAPON_NAME)) {
-    Equipment.equip(EquipmentSlot.WEAPON, WEAPON_NAME);
-} else if (Bank.isOpen()) {
-    Bank.withdraw(WEAPON_NAME);
-}
+if (Walking.shouldWalk()) Bank.open();
 ```
 
-### Validate Game State, Don't Track State Manually
-Determine what to do by checking the actual game state each tick — not by setting a "next state" variable after each action. The script should work correctly even if the user pauses, does something manually, and resumes.
-
+### Walking.shouldWalk() Guard
+Don't call `Walking.walk()` every tick:
 ```java
-// BAD — manually tracking state
-state = "deposit";
-// ...later...
-if (state.equals("deposit")) { ... }
-
-// GOOD — check actual game state
-if (Inventory.isFull()) {
-    if (Bank.isOpen()) { Bank.depositAllItems(); }
-    else { Bank.open(); }
-} else if (!playerInArea) {
-    Walking.walk(targetArea.getRandomTile());
-} else {
-    // gather resources
-}
+if (Walking.shouldWalk()) Walking.walk(area);
 ```
 
 ### Check Return Values Before Sleeping
-Most API methods return `boolean` — `true` if the action succeeded. Don't sleep after a failed action. Only sleep when the action actually fired.
-
 ```java
-// BAD — sleeps even if withdraw failed
-Bank.withdraw("Iron ore");
-Sleep.sleepUntil(() -> Inventory.contains("Iron ore"), 3000);
-
-// GOOD — only sleep on success
 if (Bank.withdraw("Iron ore")) {
     Sleep.sleepUntil(() -> Inventory.contains("Iron ore"), 3000);
 }
 ```
 
-### Use Boolean Returns to Simplify State Checks
-Many API methods already check the current state and return `true` immediately if the desired state is active. Use this to simplify code:
-
-```java
-// VERBOSE
-if (Bank.getWithdrawMode() == BankMode.NOTE) {
-    Bank.withdrawAll("Iron scimitar");
-} else {
-    Bank.setWithdrawMode(BankMode.NOTE);
-}
-
-// SIMPLIFIED — setWithdrawMode returns true if already set OR successfully changed
-if (Bank.setWithdrawMode(BankMode.NOTE)) {
-    Bank.withdrawAll("Iron scimitar");
-}
-```
-
 ### Sleep Until with Reset Conditions
-Use `Sleep.sleepUntil` with a reset condition for actions that involve walking or variable-length waits. The reset condition extends the timeout while the player is still making progress (moving, animating):
-
+Use lambdas (not method references) for reset conditions — gets fresh player reference each poll:
 ```java
-// BAD — fixed timeout may be too short if player has to walk far
-NPC banker = NPCs.closest("Banker");
-if (banker != null && banker.interact("Bank")) {
-    Sleep.sleepUntil(Bank::isOpen, 5000);
-}
-
-// GOOD — resets timeout while player is still moving
-NPC banker = NPCs.closest("Banker");
-if (banker != null && banker.interact("Bank")) {
-    Sleep.sleepUntil(Bank::isOpen, () -> Players.getLocal().isMoving(), 3000, 100);
-}
+Sleep.sleepUntil(Bank::isOpen, () -> Players.getLocal().isMoving(), 3000, 100);
 ```
-
-For processing actions (crafting, cooking), use animation as the reset condition:
-```java
-if (ItemProcessing.makeAll("Leather body")) {
-    Sleep.sleepUntil(() -> !Inventory.contains("Leather"),
-                     () -> Players.getLocal().isAnimating(), 3000, 100);
-}
-```
-
-**Important:** Always use `() -> Players.getLocal().isMoving()` (lambda), not `Players.getLocal()::isMoving` (method reference). The lambda gets a fresh player reference each poll. The method reference captures a stale reference that won't update if the client disconnects.
 
 ### Null-Check Everything
-Every `.closest()` call can return null. Always check:
 ```java
 NPC target = NPCs.closest("Cow");
 if (target != null && !target.isInCombat()) {
@@ -200,55 +163,26 @@ if (target != null && !target.isInCombat()) {
 }
 ```
 
-### No Magic Numbers or Repeated Literals
-Extract item names, IDs, and coordinates into named constants. Makes code readable and easy to change:
-
+### No Magic Numbers — Use Constants and Enums
 ```java
-// BAD
-if (Inventory.contains(1323)) { ... }
-
-// GOOD
 private static final String WEAPON_NAME = "Iron scimitar";
-private static final int WEAPON_ID = 1323;
-private static final Area FISHING_AREA = new Area(3238, 3253, 3245, 3241);
-```
-
-### Use Enums for Data Sets
-When a script supports multiple options (ore types, food types, locations), use enums instead of if/else chains:
-
-```java
-public enum OreType {
-    IRON("Iron ore", 440, "Iron bar"),
-    MITHRIL("Mithril ore", 447, "Mithril bar");
-
-    private final String oreName;
-    private final int rockId;
-    private final String barName;
-
-    OreType(String oreName, int rockId, String barName) {
-        this.oreName = oreName; this.rockId = rockId; this.barName = barName;
-    }
-    public String getOreName() { return oreName; }
-    public int getRockId() { return rockId; }
-    public String getBarName() { return barName; }
-}
-```
-
-### ScriptContext for Shared State
-TaskScript nodes share state via a context object passed through constructors:
-```java
-public class MyContext extends ScriptContext {
-    public boolean needsFood = false;
-    public MyContext(AbstractScript s) { super(s); }
-}
+private static final Area TREE_AREA = new Area(3138, 3220, 3150, 3235);
 ```
 
 ### Anti-Ban Integration
-Always register `AntiBanNode` in `onStart()`. Use `AntiBanUtil` in nodes:
+Add `AntiBanNode` as first leaf in your tree root (TreeScript), or first node in `addNodes()` (TaskScript). Use `AntiBanUtil` in leaf/node code:
 ```java
 if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
-target.interact("Attack");
-return AntiBanUtil.conditionSleep("clicking");
+```
+
+### Paint Debug Info
+TreeScript: use built-in `getCurrentBranchName()`/`getCurrentLeafName()`:
+```java
+@Override
+public void onPaint(Graphics2D g) {
+    g.drawString("Branch: " + getCurrentBranchName(), 25, 170);
+    g.drawString("Leaf: " + getCurrentLeafName(), 25, 185);
+}
 ```
 
 ## When to Load References
@@ -256,22 +190,26 @@ return AntiBanUtil.conditionSleep("clicking");
 | Task | Reference |
 |------|-----------|
 | Writing any script code | `references/api-reference.md` — **always read first** |
-| Designing state machines, node structure | `references/scripting-patterns.md` |
+| Designing tree structure, reusable nodes | `references/scripting-patterns.md` |
 | Adding anti-ban behavior | `references/anti-ban.md` |
 | Build/deploy questions | `references/build-and-deploy.md` |
 
 ## Critical Rules
 
 1. Every script class needs `@ScriptManifest` annotation
-2. Every TaskScript must call `addNodes()` in `onStart()`
-3. Always register `AntiBanNode` in TaskScript
-4. Null-check all `.closest()` results
-5. Use `Sleep.sleepUntil()` to verify actions completed
-6. Return positive int from `onLoop()`/`execute()` (negative stops script)
-7. Use `AntiBanUtil.humanDelay()` instead of raw `Calculations.random()` for delays
-8. Use `Logger.log()` for state transitions and important events
-9. Use lambda filters for precise entity selection
-10. Package per script: `scripts.{name}`, shared code in `scripts.shared`
+2. Prefer TreeScript (decision tree) — use TaskScript for flat independent concerns, AbstractScript for trivial scripts
+3. No state variables — no state enums, no `getState()`, no `switch` on state
+4. Always add `AntiBanNode` as first leaf/node
+5. Always return 600 from `onLoop()` / leaf nodes (one game tick) — never return 1
+6. One action per loop — don't chain actions
+7. `Bank.open()` walks for you — never manually walk to banks
+8. `Walking.shouldWalk()` before every `Walking.walk()` or `Bank.open()`
+9. Null-check all `.closest()` results
+10. Check return values before sleeping
+11. Use lambdas (not method references) in `Sleep.sleepUntil` reset conditions
+12. Paint debug info in `onPaint()` — branch/leaf names for TreeScript
+13. Log from every leaf/node
+14. Package per script: `scripts.{name}`, shared code in `scripts.shared`
 
 ## CLI Commands
 

@@ -1,36 +1,32 @@
 package scripts.shared.antiban;
 
-import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.input.Camera;
 import org.dreambot.api.methods.tabs.Tab;
 import org.dreambot.api.methods.tabs.Tabs;
-import org.dreambot.api.script.TaskNode;
+import org.dreambot.api.script.frameworks.treebranch.Leaf;
 import org.dreambot.api.utilities.Logger;
 
 /**
- * High-priority anti-ban node. Fires probabilistically to perform
- * ambient human-like actions: camera rotation, tab switching, short pauses.
- * Register in onStart() of every TaskScript.
+ * Anti-ban leaf node for TreeScript. Add to any branch.
+ * Fires probabilistically (~8% of ticks, min 15s apart).
+ * Actions: camera rotation, tab switching, short pauses.
+ *
+ * Also works standalone — call isValid() + onLoop() from AbstractScript/TaskScript.
  */
-public class AntiBanNode extends TaskNode {
+public class AntiBanNode extends Leaf {
 
     private long lastActionTime = System.currentTimeMillis();
     private static final long MIN_INTERVAL_MS = 15_000;
 
     @Override
-    public int priority() {
-        return 100;
-    }
-
-    @Override
-    public boolean accept() {
+    public boolean isValid() {
         long elapsed = System.currentTimeMillis() - lastActionTime;
         if (elapsed < MIN_INTERVAL_MS) return false;
         return Math.random() < 0.08;
     }
 
     @Override
-    public int execute() {
+    public int onLoop() {
         lastActionTime = System.currentTimeMillis();
         int action = (int) (Math.random() * 4);
         switch (action) {
@@ -39,7 +35,7 @@ public class AntiBanNode extends TaskNode {
                 Camera.rotateTo(Camera.getYaw() + (int) (Math.random() * 120 - 60), Camera.getPitch());
                 break;
             case 1:
-                Logger.log("[AntiBan] Checking stats tab");
+                Logger.log("[AntiBan] Checking skills tab");
                 Tabs.open(Tab.SKILLS);
                 AntiBanUtil.hesitate();
                 Tabs.open(Tab.INVENTORY);
