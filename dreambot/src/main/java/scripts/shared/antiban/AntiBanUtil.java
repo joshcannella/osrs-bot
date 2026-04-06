@@ -269,6 +269,54 @@ public final class AntiBanUtil {
         return Math.random() < 0.20;
     }
 
+    // ── Interaction variation ────────────────────────────────────────
+
+    /**
+     * ~15% chance of forcing right-click interaction instead of left-click.
+     * Use before interact() calls to vary how the bot clicks things.
+     *
+     * Usage:
+     *   if (AntiBanUtil.shouldForceRightClick()) {
+     *       target.interactForceRight("Chop down");
+     *   } else {
+     *       target.interact("Chop down");
+     *   }
+     */
+    public static boolean shouldForceRightClick() {
+        return Math.random() < 0.15;
+    }
+
+    // ── Break scheduler ──────────────────────────────────────────────
+
+    private static long lastBreakTime = System.currentTimeMillis();
+    private static final long MIN_BREAK_INTERVAL = 20 * 60_000; // 20 minutes minimum
+
+    /**
+     * Check if it's time for an extended AFK break (1-5 minutes).
+     * Call from AntiBanNode or script loop. Returns 0 if no break needed,
+     * otherwise returns the break duration in ms (already sleeps internally).
+     *
+     * Triggers roughly every 20-40 minutes with ~30% chance when eligible.
+     */
+    public static int maybeBreak() {
+        long now = System.currentTimeMillis();
+        long elapsed = now - lastBreakTime;
+        long threshold = MIN_BREAK_INTERVAL + Calculations.random(0, 20 * 60_000);
+
+        if (elapsed < threshold || Math.random() > 0.30) return 0;
+
+        lastBreakTime = now;
+        int breakSec = Calculations.random(60, 300); // 1-5 minutes
+        Logger.log("[AntiBan] Taking break: " + breakSec + "s");
+
+        // Move mouse off screen like a real AFK player
+        if (Mouse.isMouseInScreen()) Mouse.moveOutsideScreen();
+        Sleep.sleep(breakSec * 1000);
+
+        Logger.log("[AntiBan] Break over, resuming");
+        return breakSec * 1000;
+    }
+
     // ── Chat glance (#9) ─────────────────────────────────────────────
 
     /**

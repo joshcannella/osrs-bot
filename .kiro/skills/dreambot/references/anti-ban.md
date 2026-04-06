@@ -153,6 +153,26 @@ if (AntiBanUtil.shouldUseMinimap()) {
 }
 ```
 
+### Interaction Variation
+
+```java
+// ~15% chance to right-click instead of left-click
+if (AntiBanUtil.shouldForceRightClick()) {
+    target.interactForceRight("Chop down");
+} else {
+    target.interact("Chop down");
+}
+```
+
+### Break Scheduling
+
+```java
+// Called automatically by AntiBanNode during idle.
+// Can also call manually — returns 0 if no break, or break duration in ms.
+int breakTime = AntiBanUtil.maybeBreak();
+// Triggers ~every 20-40 min, 1-5 min AFK with mouse off-screen.
+```
+
 ### Ambient (called by AntiBanNode, also callable manually)
 
 ```java
