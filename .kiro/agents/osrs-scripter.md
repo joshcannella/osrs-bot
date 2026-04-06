@@ -108,11 +108,13 @@ When no requirements doc exists, research game mechanics and produce a structure
 4. **AbstractScript** (simple): raw `onLoop()` for trivial single-action scripts only.
 5. **Reusable leaf nodes**: parameterize with filters, areas, and conditions. One class should handle many cases.
 6. **AntiBanNode**: always add as first leaf/node
-7. **AntiBanUtil**: use `humanDelay()` for delays, `shouldHesitate()`/`hesitate()` before important clicks
-8. **Always return 600** from `onLoop()` and leaf nodes (one game tick). Never return 1.
+7. **AntiBanUtil**: use `humanDelay()` for delays, `shouldHesitate()`/`hesitate()` before important clicks, `shouldForceRightClick()` to vary interaction style
+8. **Never return less than 600** from `onLoop()` and leaf nodes (one game tick). Vary above it with `AntiBanUtil.humanDelay(600, 1200)` — never flat `return 600` from every leaf.
 9. **One action per loop** — execute one action then return. Don't chain.
 10. **Bank.open() walks for you** — never manually walk to banks. Guard with `Walking.shouldWalk()`.
 11. **Null-check** all `.closest()` results
+12. **Check before opening** — `if (!Bank.isOpen()) Bank.open()`, not just `Bank.open()`. Spam-opening is a bot tell.
+13. **Use interact() not raw Mouse calls** — DreamBot randomizes click position, mouse path, and timing internally.
 12. **Check return values** before sleeping — only sleep on success
 13. **Lambda reset conditions** in `Sleep.sleepUntil` — use `() -> Players.getLocal().isMoving()`, not method references
 14. **Paint debug info**: `getCurrentBranchName()`/`getCurrentLeafName()` for TreeScript
