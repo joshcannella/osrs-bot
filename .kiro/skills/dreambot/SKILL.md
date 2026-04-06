@@ -189,10 +189,37 @@ public void onPaint(Graphics2D g) {
 
 | Task | Reference |
 |------|-----------|
-| Writing any script code | `references/api-reference.md` — **always read first** |
+| Writing any script code | `references/api-reference.md` — **always read first** (index + key class signatures) |
+| Need full API for a specific domain | `references/api/{domain}.md` — see domain list below |
 | Designing tree structure, reusable nodes | `references/scripting-patterns.md` |
 | Adding anti-ban behavior | `references/anti-ban.md` |
 | Build/deploy questions | `references/build-and-deploy.md` |
+
+### API Domain Files (load on demand)
+
+When you need the full method list for a specific API, load the relevant file from `references/api/`:
+
+| Domain | File | Key Classes |
+|--------|------|-------------|
+| Interactables | `api/interactive.md` | GameObjects, NPCs, Players, GroundItems |
+| Containers | `api/containers.md` | Bank, Inventory, Equipment, Shop, DepositBox |
+| Walking/Map | `api/walking.md`, `api/map.md` | Walking, Tile, Area |
+| Combat | `api/combat.md` | Combat, CombatStyle |
+| Magic | `api/magic.md` | Magic, Normal, Ancient, Lunar, Arceuus |
+| Prayer | `api/prayer.md` | Prayers, Prayer |
+| Dialogues | `api/dialogues.md` | Dialogues |
+| Skills | `api/skills.md` | Skills, Skill, SkillTracker |
+| Grand Exchange | `api/grandexchange.md` | GrandExchange, GrandExchangeItem |
+| Widgets | `api/widgets.md` | Widgets, ItemProcessing, Smithing |
+| World/Hopping | `api/world.md` | Worlds, WorldHopper |
+| Entity wrappers | `api/wrappers-entities.md` | Character, Entity, NPC, Player, GameObject |
+| Item wrappers | `api/wrappers-items.md` | Item, GroundItem |
+| Widget wrappers | `api/wrappers-widgets.md` | WidgetChild, Menu, MenuRow |
+| Script framework | `api/script-frameworks.md` | TreeScript, Branch, Leaf, TaskScript |
+| Settings/Vars | `api/settings.md` | PlayerSettings, VarBit, VarPlayer |
+| Utilities | `api/utilities.md` | Sleep, Logger, Timer |
+
+Load `api-reference.md` first for the index. Only load specific domain files when you need exact method signatures beyond the key classes.
 
 ## Critical Rules
 
