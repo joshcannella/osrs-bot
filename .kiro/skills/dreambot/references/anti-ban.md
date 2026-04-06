@@ -8,10 +8,33 @@ Two components:
 
 ## AntiBanNode
 
-Located at `scripts/shared/antiban/AntiBanNode.java`. Register in every TaskScript's `onStart()`:
+Located at `scripts/shared/antiban/AntiBanNode.java`. Extends DreamBot's `Leaf` class — works natively in TreeScript, also callable standalone from TaskScript/AbstractScript.
 
+### In TreeScript
+Add as first branch:
 ```java
-addNodes(new AntiBanNode(), ...otherNodes);
+addBranches(new AntiBanNode(), ...otherBranches);
+```
+
+### In TaskScript
+Create a wrapper TaskNode that delegates:
+```java
+public class AntiBanTaskNode extends TaskNode {
+    private final AntiBanNode inner = new AntiBanNode();
+    @Override public boolean accept() { return inner.isValid(); }
+    @Override public int execute() { return inner.onLoop(); }
+    @Override public int priority() { return 100; }
+}
+```
+
+### In AbstractScript
+Call directly:
+```java
+private final AntiBanNode antiBan = new AntiBanNode();
+@Override public int onLoop() {
+    if (antiBan.isValid()) return antiBan.onLoop();
+    // ... rest of script
+}
 ```
 
 ### Behavior

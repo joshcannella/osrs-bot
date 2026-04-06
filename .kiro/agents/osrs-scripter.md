@@ -102,21 +102,26 @@ When no requirements doc exists, research game mechanics and produce a structure
 
 ### Code Generation Rules
 
-1. **@ScriptManifest** on every script class — infer `Category` from the script's purpose (FISHING, MINING, COMBAT, WOODCUTTING, COOKING, etc.)
-2. **TaskScript**: create separate classes for each node in `nodes/` subdirectory
-3. **ScriptContext**: create a `{Name}Context extends ScriptContext` with script-specific shared state
-4. **AntiBanNode**: always register in `onStart()` as first node
-5. **AntiBanUtil**: use `humanDelay()` for all return values, `shouldHesitate()`/`hesitate()` before important clicks, `conditionSleep()` for context-appropriate delays
-6. **Null-check** all `.closest()` results
-7. **Sleep.sleepUntil()** after every action to verify it worked
-8. **Logger.log()** for state transitions and important events
-9. **Lambda filters** for precise entity selection (check name, combat state, distance, health)
-10. **Stuck detection** via `ScriptContext.incrementStuck()` / `resetStuck()`
+1. **@ScriptManifest** on every script class — infer `Category` from the script's purpose
+2. **TreeScript** (default): extend `TreeScript`, add `Branch`/`Leaf` nodes via `addBranches()`. Use for gather+bank, progression, hierarchical decisions.
+3. **TaskScript** (alternative): extend `TaskScript`, add `TaskNode`s via `addNodes()`. Use for combat or flat independent concerns.
+4. **AbstractScript** (simple): raw `onLoop()` for trivial single-action scripts only.
+5. **Reusable leaf nodes**: parameterize with filters, areas, and conditions. One class should handle many cases.
+6. **AntiBanNode**: always add as first leaf/node
+7. **AntiBanUtil**: use `humanDelay()` for delays, `shouldHesitate()`/`hesitate()` before important clicks
+8. **Always return 600** from `onLoop()` and leaf nodes (one game tick). Never return 1.
+9. **One action per loop** — execute one action then return. Don't chain.
+10. **Bank.open() walks for you** — never manually walk to banks. Guard with `Walking.shouldWalk()`.
+11. **Null-check** all `.closest()` results
+12. **Check return values** before sleeping — only sleep on success
+13. **Lambda reset conditions** in `Sleep.sleepUntil` — use `() -> Players.getLocal().isMoving()`, not method references
+14. **Paint debug info**: `getCurrentBranchName()`/`getCurrentLeafName()` for TreeScript
+15. **No state variables** — never use state enums, `getState()`, or `switch` on state. The tree IS the state.
 
 ### File Naming
 - Entry point: `{Name}Script.java` in `scripts/{name}/`
-- Context: `{Name}Context.java` in `scripts/{name}/`
-- Nodes: `{Action}Node.java` in `scripts/{name}/nodes/`
+- Tree nodes: `{Action}Leaf.java` or `{Action}Branch.java` in `scripts/{name}/nodes/`
+- Task nodes: `{Action}Node.java` in `scripts/{name}/nodes/` (if using TaskScript)
 
 ## Phase 3: Validation & Deploy
 
