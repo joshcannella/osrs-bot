@@ -27,3 +27,6 @@ Desktop.ini
 
 # Runtime logs (local only)
 .kiro/logs/
+
+# DreamBot SNAPSHOT version state (local per-machine)
+.kiro/.dreambot-snapshot-state
