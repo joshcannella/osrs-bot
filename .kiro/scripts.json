@@ -1,32 +1,3 @@
 {
-  "chicken-killer": {
-    "class": "ChickenKillerScript",
-    "status": "complete",
-    "bugs": [],
-    "notes": []
-  },
-  "f2p-melee-trainer": {
-    "class": "F2pMeleeTrainerScript",
-    "status": "dev",
-    "bugs": [],
-    "notes": []
-  },
-  "brutus-brawler": {
-    "class": "BrutusBrawlerScript",
-    "status": "dev",
-    "bugs": [],
-    "notes": []
-  },
-  "barb-fish-cook": {
-    "class": "BarbFishCookScript",
-    "status": "dev",
-    "bugs": [],
-    "notes": []
-  },
-  "draynor-fishing": {
-    "class": "DraynorFishingScript",
-    "status": "dev",
-    "bugs": [],
-    "notes": []
-  }
+  "scripts": {}
 }

@@ -34,20 +34,21 @@ When the user wants to explore a script idea, help them think through it at a hi
 - **Location** — Where exactly? Are there multiple viable spots? Which is best for botting (fewer players, closer bank, etc.)?
 - **Prerequisites** — Quest requirements, skill levels, unlocks needed
 
-### What You Know About ChromaScape
+### What You Know About DreamBot
 
 You understand the framework's capabilities at a high level so you can assess feasibility:
 
-- **Detection**: Colour-based (HSV ranges via RuneLite highlights), image template matching, OCR text reading
-- **Interaction**: Mouse clicks (with human-like movement), keyboard input
-- **Navigation**: Walker API for tile-to-tile pathfinding, teleportation support
-- **State tracking**: XP changes, HP/Prayer/Run/Spec monitoring, idle detection, template presence
-- **Inventory**: 28-slot management, template matching per slot, drop patterns
-- **Banking**: Booth detection, deposit/withdraw, menu interaction
-- **Combat**: NPC targeting, HP monitoring, eating, prayer, special attacks
-- **Human behavior**: Breaks, hesitation, misclicks, camera fidgets, tempo variation
+- **Detection**: Direct game state access — find NPCs, GameObjects, GroundItems by name/ID/filter
+- **Interaction**: Click entities directly, interact with menus, keyboard input
+- **Navigation**: Built-in web walking (`Walking.walk(tile)`) — auto-pathfinds across the map
+- **State tracking**: Player health, prayer, combat state, inventory contents, XP, PlayerSettings (Varps/Varbits)
+- **Inventory**: Full API — `isFull()`, `contains()`, `count()`, `drop()`, `dropAll()`
+- **Banking**: `Bank.open()` auto-walks, deposit/withdraw by name or ID
+- **Combat**: NPC targeting with combat state checks, health monitoring
+- **Anti-ban**: Custom AntiBanNode (camera, tabs, pauses) + AntiBanUtil (humanized delays)
+- **Frameworks**: TaskScript (node-based, default) or AbstractScript (simple state machine)
 
-Use this knowledge to tell the user whether an idea is straightforward, tricky, or likely not feasible with the current framework.
+Use this knowledge to tell the user whether an idea is straightforward, tricky, or likely not feasible.
 
 ### Boundaries
 
@@ -75,11 +76,11 @@ You have comprehensive OSRS knowledge loaded from `.kiro/knowledge/osrs/`. This 
 
 Use this knowledge as your baseline. When you need to verify specifics or look up data not in your knowledge base, use the OSRS Wiki MCP tools.
 
-### ChromaScape Knowledge (on-demand — `.kiro/knowledge/chromascape-wiki/`)
+### DreamBot Knowledge (on-demand)
 
-Read these when you need to assess whether a detection or interaction approach is feasible:
-- `Making-your-first-script.md` — Basic patterns: clicking images, colours, rectangles, keypresses
-- `Intermediate-Scripting-From-Planning-to-Execution.md` — State machine design, MovingObject, XP tracking, recovery logic
+Read the DreamBot skill references when you need to assess whether a detection or interaction approach is feasible:
+- `.kiro/skills/dreambot/references/api-reference.md` — Full API surface
+- `.kiro/skills/dreambot/references/scripting-patterns.md` — Common script patterns
 
 ## Definitive Source: OSRS Wiki
 

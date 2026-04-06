@@ -6,65 +6,79 @@ inclusion: always
 
 This project uses a two-machine workflow: Linux for development, Windows for testing. When running on Windows (Kiro IDE), the user is typically testing scripts and reporting issues — not writing code.
 
+## How It Works
+
+1. Linux: `osrs-bot deploy` → compiles jar, copies to Dropbox, pushes git
+2. Dropbox syncs the jar to Windows automatically
+3. Windows: `osrs-bot run` → copies jar from Dropbox to `~/DreamBot/Scripts/`
+4. User launches DreamBot client separately and selects the script
+
+## Rapid Iteration (Preferred)
+
+For active testing sessions, use the watch + live workflow:
+
+1. Windows: `osrs-bot run --watch` in one terminal (auto-copies new jars)
+2. Test the script in DreamBot
+3. Send feedback: `osrs-bot live <id> "message" [-i screenshot.png] [-l 10]`
+4. `osrs-bot push` to sync feedback to Linux
+5. Linux: `osrs-bot inbox` to see feedback → fix → `osrs-bot deploy --quick`
+6. Watch terminal auto-detects new jar → stop script → refresh → restart
+
 ## When the User Reports a Bug
 
-If the user describes a problem with a script (e.g., "the fishing spot isn't being detected", "it gets stuck after banking", "colour click misses the tree"):
+For formal bugs (not quick iteration feedback):
 
-1. **Identify the script** — ask if unclear, or infer from context (e.g., "fishing spot" → `draynor-fish-cook`)
-2. **Save any pasted images** to `.kiro/specs/scripts/<id>/` with a descriptive name (e.g., `game-view-fishing-spot.png`, `minimap-stuck.png`)
-3. **Run the CLI command**:
-   ```
-   osrs-bot bug <id> "description" -i path/to/image1.png path/to/image2.png
-   ```
-   If no images, just: `osrs-bot bug <id> "description"`
-4. **Push the changes**: `osrs-bot deploy --dry-run` to verify, then `osrs-bot deploy`
-5. **Confirm** — tell the user the bug is tracked and will be visible on the Linux dev machine after a pull
+1. **Identify the script** — ask if unclear, or infer from context
+2. **Save any pasted images** to `.kiro/specs/scripts/<id>/`
+3. **Run**: `osrs-bot bug <id> "description" -i path/to/image1.png`
+4. **Push**: `osrs-bot push`
+5. **Confirm** — tell the user the bug is tracked
 
-## When the User Shares Feedback (Not a Bug)
+## When the User Sends Quick Feedback
 
-If the user shares observations, test results, or general notes (e.g., "works for 3 cycles then slows down", "anchovies cook fine but shrimp burns"):
+During active testing, use the live feed instead of formal bugs:
 
-1. Run: `osrs-bot note <id> "message" [-i images...]`
-2. Push if they want it synced: `osrs-bot deploy`
-
-## When the User Pastes Log Output
-
-If the user pastes ChromaScape log lines into chat:
-
-1. Save the relevant lines as a note: `osrs-bot note <id> "Log excerpt: <key lines>"`
-2. Or if it's a bug, include the log context in the bug description
-3. If they want the full log saved: `osrs-bot logs pull <id>` (saves to gitignored local dir)
+1. `osrs-bot live <id> "message"` — quick text
+2. `osrs-bot live <id> "message" -i screenshot.png` — with screenshot
+3. `osrs-bot live <id> "message" -l 10` — with last 10 log errors
+4. `osrs-bot push` — sync to git
 
 ## When the User Wants to Check Script Status
 
-Run: `osrs-bot show <id>` to see bugs, notes, and status. Or `osrs-bot status` for the full overview.
+Run: `osrs-bot show <id>` or `osrs-bot status` for the full overview.
 
 ## Common Phrases
 
 When the user says any of the following, they mean `osrs-bot run`:
 - "run the app", "run it", "start it", "launch it", "fire it up"
-- "start chromascape", "run chromascape", "launch the bot"
+- "start dreambot", "run dreambot", "launch the bot"
 - "pull and run", "update and run"
-
-Only add `--browser` if they specifically mention opening the browser.
 
 Just run the command — no need to confirm what they meant.
 
-- Scripts: `ChromaScape\src\main\java\com\chromascape\scripts\`
-- Images: `ChromaScape\src\main\resources\images\user\`
-- Logs: `ChromaScape\logs\chromascape.log`
-- Specs: `.kiro\specs\scripts\<id>\`
-- Tracker: `.kiro\scripts.json`
+## Key Paths
+
+- Scripts source: `dreambot/src/main/java/scripts/`
+- Built jars: `~/Dropbox/osrs-bot/builds/`
+- DreamBot scripts: `~/DreamBot/Scripts/`
+- Logs: `~/DreamBot/BotData/logs/`
+- Specs: `.kiro/specs/scripts/<id>/`
+- Live feed: `.kiro/live/<id>.md`
+- Tracker: `.kiro/scripts.json`
+- Config: `.osrs-bot.conf`
 
 ## CLI Quick Reference (Windows)
 
 | Task | Command |
 |------|---------|
-| Pull latest from dev | `osrs-bot run` (pulls both repos + launches) |
-| Launch with browser | `osrs-bot run --browser` |
-| Report a bug | `osrs-bot bug <id> "description" [-i image.png]` |
-| Add a note | `osrs-bot note <id> "message" [-i image.png]` |
-| Push feedback to dev | `osrs-bot deploy` |
+| Copy latest jar to DreamBot | `osrs-bot run` |
+| Auto-copy new jars as they arrive | `osrs-bot run --watch` |
+| Quick feedback (text) | `osrs-bot live <id> "message"` |
+| Quick feedback + screenshot | `osrs-bot live <id> "message" -i img.png` |
+| Quick feedback + log errors | `osrs-bot live <id> "message" -l 10` |
+| Report a formal bug | `osrs-bot bug <id> "description" [-i img]` |
+| Add a note | `osrs-bot note <id> "message" [-i img]` |
+| Push feedback to dev | `osrs-bot push` |
 | Check status | `osrs-bot status` |
 | View script details | `osrs-bot show <id>` |
 | Save log locally | `osrs-bot logs pull <id>` |

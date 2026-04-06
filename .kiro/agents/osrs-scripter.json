@@ -1,6 +1,6 @@
 {
   "name": "osrs-scripter",
-  "description": "ChromaScape script generator. Takes requirements documents and produces complete, compilable Java scripts. Expert in ChromaScape API, human behavior patterns, and the full development lifecycle from code generation to compilation validation.",
+  "description": "DreamBot script generator. Takes requirements documents and produces complete, compilable Java scripts using the DreamBot API. Expert in TaskScript/AbstractScript patterns, anti-ban strategies, and the full development lifecycle.",
   "prompt": "osrs-scripter.md",
   "mcpServers": {},
   "tools": [
@@ -16,16 +16,21 @@
   "toolAliases": {},
   "allowedTools": [],
   "resources": [
-    "skill://.kiro/skills/chromascape/SKILL.md",
-    "skill://.kiro/skills/runelite/SKILL.md"
+    "skill://.kiro/skills/dreambot/SKILL.md"
   ],
   "hooks": {
     "agentSpawn": [
       {
-        "command": "echo '=== Script Tracker ===' && cat .kiro/scripts.json 2>/dev/null && echo '' && echo '=== Script Files ===' && find ChromaScape/src/main/java/com/chromascape/scripts -name '*.java' 2>/dev/null | sort && echo '' && echo '=== Custom Utilities ===' && find ChromaScape/src/main/java/com/chromascape/utils/actions/custom -name '*.java' 2>/dev/null | sort && echo '' && echo '=== Duplicated Private Methods (extract candidates) ===' && grep -rh 'private.*void\\|private.*boolean\\|private.*int\\|private.*Point' ChromaScape/src/main/java/com/chromascape/scripts/*.java 2>/dev/null | sed 's/^[[:space:]]*//' | sort | uniq -c | sort -rn | awk '$1 > 1 {print}'",
+        "command": "echo '=== Script Tracker ===' && cat .kiro/scripts.json 2>/dev/null && echo '' && echo '=== Script Files ===' && find dreambot/src/main/java/scripts -name '*.java' 2>/dev/null | grep -v shared | sort && echo '' && echo '=== Shared Utilities ===' && find dreambot/src/main/java/scripts/shared -name '*.java' 2>/dev/null | sort",
         "timeout_ms": 30000,
         "max_output_size": 10240,
         "cache_ttl_seconds": 0
+      },
+      {
+        "command": "JAR=$(find ~/.gradle/caches -name 'client-4.0.0-SNAPSHOT.jar' -path '*dreambot*' 2>/dev/null | head -1) && if [ -n \"$JAR\" ]; then echo '=== DreamBot API (from client jar) ===' && javap -public -cp \"$JAR\" org.dreambot.api.methods.container.impl.bank.Bank org.dreambot.api.methods.container.impl.Inventory org.dreambot.api.methods.interactive.NPCs org.dreambot.api.methods.interactive.GameObjects org.dreambot.api.methods.interactive.Players org.dreambot.api.methods.item.GroundItems org.dreambot.api.methods.walking.impl.Walking org.dreambot.api.methods.combat.Combat org.dreambot.api.methods.magic.Magic org.dreambot.api.methods.prayer.Prayers org.dreambot.api.methods.container.impl.equipment.Equipment org.dreambot.api.methods.dialogues.Dialogues org.dreambot.api.methods.skills.Skills org.dreambot.api.methods.widget.helpers.ItemProcessing org.dreambot.api.wrappers.interactive.Character org.dreambot.api.wrappers.interactive.NPC org.dreambot.api.wrappers.interactive.GameObject org.dreambot.api.wrappers.items.Item org.dreambot.api.wrappers.items.GroundItem org.dreambot.api.methods.map.Tile org.dreambot.api.methods.map.Area org.dreambot.api.methods.tabs.Tabs 2>/dev/null | grep -E '^(public |  public )' | grep -v '\\$' | head -350; fi",
+        "timeout_ms": 15000,
+        "max_output_size": 20480,
+        "cache_ttl_seconds": 3600
       }
     ]
   },

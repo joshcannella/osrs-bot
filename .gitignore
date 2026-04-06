@@ -1,6 +1,10 @@
 # Gradle
-.gradle/
-build/
+dreambot/build/
+dreambot/.gradle/
+
+# Python
+__pycache__/
+.venv/
 
 # IDE
 .idea/
@@ -12,10 +16,5 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# ChromaScape is its own git repo (not a submodule)
-ChromaScape/
-
-# Runtime logs (local only, never committed)
-logs/
+# Runtime logs (local only)
 .kiro/logs/
-
