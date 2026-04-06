@@ -53,14 +53,14 @@ public class ChopLeaf extends Leaf {
     public int onLoop() {
         if (!TREE_AREA.contains(Players.getLocal())) {
             if (Walking.shouldWalk()) Walking.walk(TREE_AREA);
-            return 600;
+            return AntiBanUtil.humanDelay(600, 1200);
         }
         GameObject tree = GameObjects.closest("Tree");
         if (tree != null && !Players.getLocal().isAnimating()) {
             if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
             tree.interact("Chop down");
         }
-        return 600;
+        return AntiBanUtil.humanDelay(600, 1200);
     }
 }
 ```
@@ -112,13 +112,13 @@ public class GenericGatherLeaf extends Leaf {
     public int onLoop() {
         if (!area.contains(Players.getLocal())) {
             if (Walking.shouldWalk()) Walking.walk(area);
-            return 600;
+            return AntiBanUtil.humanDelay(600, 1200);
         }
         GameObject target = GameObjects.closest(objectFilter);
         if (target != null && !Players.getLocal().isAnimating()) {
             target.interact();
         }
-        return 600;
+        return AntiBanUtil.humanDelay(600, 1200);
     }
 }
 ```
@@ -162,7 +162,7 @@ public int onLoop() {
     // Access script-level fields
     WoodcutterScript script = (WoodcutterScript) getTree();
     // ... use script.someField
-    return 600;
+    return AntiBanUtil.humanDelay(600, 1200);
 }
 ```
 
@@ -188,7 +188,7 @@ public class EatNode extends TaskNode {
     @Override
     public int execute() {
         Inventory.interact("Lobster", "Eat");
-        return 600;
+        return AntiBanUtil.humanDelay(600, 1200);
     }
 }
 ```
@@ -197,15 +197,18 @@ Good for combat because eat/loot/attack are independent concerns that don't form
 
 ## Key Coding Practices
 
-### Always Return 600 (One Game Tick)
-OSRS runs on 600ms ticks. Returning less means spam-clicking. Return 600 as the baseline.
+### Never Return Less Than 600 (One Game Tick)
+OSRS runs on 600ms ticks. Returning less means spam-clicking. Use 600 as the **minimum**, but vary above it:
 
 ```java
 // BAD — spam clicks
 return 1;
 
-// GOOD — one action per tick
+// BAD — uniform timing is detectable
 return 600;
+
+// GOOD — varied timing, minimum one tick
+return AntiBanUtil.humanDelay(600, 1200);
 ```
 
 ### One Action Per Loop
@@ -218,8 +221,8 @@ Equipment.equip(EquipmentSlot.WEAPON, "Iron scimitar");
 
 // GOOD — one action, return, re-evaluate
 if (Inventory.isFull()) {
-    if (!Bank.isOpen()) { Bank.open(); return 600; }
-    Bank.depositAll(logFilter); return 600;
+    if (!Bank.isOpen()) { Bank.open(); return AntiBanUtil.humanDelay(600, 1200); }
+    Bank.depositAll(logFilter); return AntiBanUtil.humanDelay(600, 1200);
 }
 ```
 

@@ -92,12 +92,12 @@ For truly trivial scripts only — single action, no branching:
 public class SimpleMinerScript extends AbstractScript {
     @Override
     public int onLoop() {
-        if (Inventory.isFull()) { Inventory.dropAll(); return 600; }
+        if (Inventory.isFull()) { Inventory.dropAll(); return AntiBanUtil.humanDelay(600, 1200); }
         GameObject rock = GameObjects.closest("Rocks");
         if (rock != null && !Players.getLocal().isAnimating()) {
             rock.interact("Mine");
         }
-        return 600;
+        return AntiBanUtil.humanDelay(600, 1200);
     }
 }
 ```
@@ -126,8 +126,8 @@ Always use `AntiBanUtil.humanDelay(min, max)` or `AntiBanUtil.reactionDelay()` i
 ### Use the Tree, Not State Variables
 Your script is a decision tree. Build it with DreamBot's `TreeScript` → `Branch` → `Leaf`. Don't use state enums, `getState()` functions, or `switch` statements — they disconnect decisions from actions and are the root of bugs. See `references/scripting-patterns.md` for the full tree pattern.
 
-### Always Return 600 (One Game Tick)
-OSRS runs on 600ms ticks. Returning less means spam-clicking (worst case: 599 clicks before the next tick). Return 600 as baseline.
+### Never Return Less Than 600 (One Game Tick)
+OSRS runs on 600ms ticks. Returning less means spam-clicking (worst case: 599 clicks before the next tick). Use 600 as the **minimum**, but vary above it with `AntiBanUtil.humanDelay()` or `reactionDelay()` — uniform `return 600` from every leaf is a detectable pattern.
 
 ### One Action Per Loop
 Execute ONE action then return. Let the next tick re-evaluate game state.
