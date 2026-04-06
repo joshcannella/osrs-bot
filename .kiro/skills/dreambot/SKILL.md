@@ -104,20 +104,22 @@ public class SimpleMinerScript extends AbstractScript {
 
 ## Return Value Convention
 
-`onLoop()` and `execute()` return sleep time in ms. Use condition-based returns with randomness:
+`onLoop()` and `execute()` return sleep time in ms. **Never return the same value every time** — uniform timing is a detection signal. Use condition-based returns with randomness:
 
 ```java
-// Actively clicking something
-return Calculations.random(100, 300);
+// Actively clicking something — use reactionDelay() for human-like variation
+return AntiBanUtil.reactionDelay();
 
 // Waiting for an action to complete (fishing, cooking, etc.)
-return Calculations.random(500, 1000);
+return AntiBanUtil.humanDelay(500, 1000);
 
 // Idle / nothing to do right now
-return Calculations.random(2000, 5000);
+return AntiBanUtil.humanDelay(2000, 5000);
 ```
 
-Always use `AntiBanUtil.humanDelay(min, max)` instead of raw `Calculations.random()` for action delays — it adds occasional outlier delays for human-like timing.
+Always use `AntiBanUtil.humanDelay(min, max)` or `AntiBanUtil.reactionDelay()` instead of raw `Calculations.random()` — they add occasional outlier delays and gaussian distribution for human-like timing. For long-running scripts, use `AntiBanUtil.fatigueDelay(startTime, min, max)` so delays increase over the session.
+
+**Never `return 600` from every leaf** — even though 600ms is one game tick, returning it uniformly from every action creates a detectable pattern.
 
 ## Core Patterns
 
@@ -227,7 +229,7 @@ Load `api-reference.md` first for the index. Only load specific domain files whe
 2. Prefer TreeScript (decision tree) — use TaskScript for flat independent concerns, AbstractScript for trivial scripts
 3. No state variables — no state enums, no `getState()`, no `switch` on state
 4. Always add `AntiBanNode` as first leaf/node
-5. Always return 600 from `onLoop()` / leaf nodes (one game tick) — never return 1
+5. Use `AntiBanUtil.humanDelay()` or `reactionDelay()` for return values — never flat `return 600` from every leaf
 6. One action per loop — don't chain actions
 7. `Bank.open()` walks for you — never manually walk to banks
 8. `Walking.shouldWalk()` before every `Walking.walk()` or `Bank.open()`
@@ -237,6 +239,9 @@ Load `api-reference.md` first for the index. Only load specific domain files whe
 12. Paint debug info in `onPaint()` — branch/leaf names for TreeScript
 13. Log from every leaf/node
 14. Package per script: `scripts.{name}`, shared code in `scripts.shared`
+15. Check state before opening interfaces — `if (!Bank.isOpen()) Bank.open()`, `if (Tabs.getOpen() != Tab.INVENTORY) Tabs.open(Tab.INVENTORY)`. Spam-opening is a bot tell.
+16. Vary interaction style — use `AntiBanUtil.shouldForceRightClick()` before primary interactions to occasionally right-click instead of left-click
+17. Use `interact()` not raw `Mouse.move()` + `Mouse.click()` — DreamBot randomizes click position, mouse path, and timing internally. See `knowledge/osrs/dreambot-builtin-randomization.md`
 
 ## CLI Commands
 

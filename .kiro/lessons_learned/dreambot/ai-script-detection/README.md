@@ -54,7 +54,8 @@ The forum poster's final approach: let AI write the script structure, state mana
 - [x] Anti-ban uses DreamBot's built-in randomization, not manual mouse jitter
 - [x] Fatigue system for delays and mouse speed
 - [x] Gaussian reaction delays with outlier spikes
-- [ ] Add interaction variation helpers (sometimes force right-click, sometimes left-click)
-- [ ] Break scheduler for 1-5 minute AFK breaks
-- [ ] Audit existing scripts for uniform return values
-- [ ] Add guard against spam-opening interfaces
+- [x] Interaction variation helpers (`shouldForceRightClick()`)
+- [x] Break scheduler for 1-5 minute AFK breaks (`maybeBreak()`)
+- [x] Return value convention updated — no uniform `return 600`
+- [x] Interface spam guard — critical rule #15: check state before opening
+- [ ] Audit existing scripts once they exist

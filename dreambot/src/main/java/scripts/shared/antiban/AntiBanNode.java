@@ -159,6 +159,10 @@ public class AntiBanNode extends Leaf {
     }
 
     private int doIdle() {
+        // Check if it's time for an extended AFK break (1-5 min)
+        int breakTime = AntiBanUtil.maybeBreak();
+        if (breakTime > 0) return fatigue(200, 600);
+
         long now = System.currentTimeMillis();
         // Extended idle only every 5+ minutes
         if (now - lastIdleTime >= 300_000 && Math.random() < 0.3) {
