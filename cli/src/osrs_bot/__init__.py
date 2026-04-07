@@ -30,7 +30,6 @@ TEMPLATE = SPECS / "TEMPLATE.md"
 LOCAL_LOGS = ROOT / ".kiro/logs"
 
 ENV_MAP = {
-    "dropbox_dir": "OSRS_BOT_DROPBOX",
     "dreambot_scripts": "OSRS_BOT_DREAMBOT",
     "dreambot_logs": "OSRS_BOT_DREAMBOT_LOGS",
 }
@@ -40,7 +39,6 @@ ENV_MAP = {
 
 def load_config() -> dict:
     conf = {
-        "dropbox_dir": Path.home() / "Dropbox/osrs-bot/builds",
         "dreambot_scripts": Path.home() / "DreamBot/Scripts",
         "dreambot_logs": Path.home() / "DreamBot/BotData/logs",
     }
@@ -112,11 +110,16 @@ def run_cmd(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subp
 
 
 def gradle(args: list[str]):
-    wrapper = DREAMBOT_PROJECT / ("gradlew.bat" if platform.system() == "Windows" else "gradlew")
-    if wrapper.exists():
-        cmd = [str(wrapper)] + args
+    wrapper_jar = DREAMBOT_PROJECT / "gradle/wrapper/gradle-wrapper.jar"
+    if platform.system() == "Windows" and wrapper_jar.exists():
+        # Call java directly to avoid WDAC blocking gradlew.bat
+        cmd = ["java", "-jar", str(wrapper_jar)] + args
     else:
-        cmd = ["gradle"] + args
+        wrapper = DREAMBOT_PROJECT / ("gradlew.bat" if platform.system() == "Windows" else "gradlew")
+        if wrapper.exists():
+            cmd = [str(wrapper)] + args
+        else:
+            cmd = ["gradle"] + args
     run_cmd(cmd, cwd=DREAMBOT_PROJECT)
 
 
@@ -299,7 +302,6 @@ def cmd_deploy(args):
     tracker = load_tracker()
 
     ts = jar_timestamp()
-    jar_name = "osrs-scripts"
 
     # Bump versions for changed scripts
     changed = _changed_scripts(tracker)
@@ -312,34 +314,23 @@ def cmd_deploy(args):
 
     save_tracker(tracker)
 
-    # Build
-    gradle(["jar", f"-PjarName={jar_name}", f"-PjarVersion={ts}"])
-    print(f"✓ Compiled {jar_name}-{ts}.jar")
-
-    # Copy to Dropbox
-    dropbox = CONFIG["dropbox_dir"]
-    dropbox.mkdir(parents=True, exist_ok=True)
-    built_jar = DREAMBOT_PROJECT / "build/libs" / f"{jar_name}-{ts}.jar"
-    if not built_jar.exists():
-        print(f"Error: jar not found at {built_jar}", file=sys.stderr)
-        sys.exit(1)
-    dest = dropbox / f"{jar_name}-{ts}.jar"
-    shutil.copy2(built_jar, dest)
-    print(f"✓ Copied to {dest}")
+    # Build (verify it compiles)
+    gradle(["jar"])
+    print(f"✓ Build verified")
 
     if args.dry_run:
         print("✓ Deploy complete (dry-run)")
         return
 
     if args.quick:
-        # Quick deploy still commits live feed so Linux can see it
-        run_cmd(["git", "add", ".kiro/live", ".kiro/scripts.json", ".kiro/specs"], check=False)
+        run_cmd(["git", "add", ".kiro/live", ".kiro/scripts.json", ".kiro/specs",
+                 "dreambot/src/"], check=False)
         result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT, check=False)
         if result.returncode != 0:
             run_cmd(["git", "commit", "-m", f"quick deploy: {ts}"])
             run_cmd(["git", "push"])
         print(f"\n✓ Quick deploy complete — {ts}")
-        print(f"  Dropbox will sync to Windows automatically")
+        print(f"  Windows: osrs-bot run")
         return
 
     # Git push
@@ -353,8 +344,7 @@ def cmd_deploy(args):
         print("  No changes to push")
 
     print(f"\n✓ Deploy complete — {ts}")
-    print(f"  Dropbox will sync to Windows automatically")
-    print(f"  Then run: osrs-bot run")
+    print(f"  Windows: osrs-bot run")
 
     # Clear live feed after full deploy
     if LIVE_DIR.exists():
@@ -363,68 +353,35 @@ def cmd_deploy(args):
         print("  Live feed cleared")
 
 
-def _copy_latest_jar(dropbox: Path, dreambot: Path) -> str | None:
-    """Copy latest jar from Dropbox to DreamBot. Returns jar name or None if already current."""
-    jars = sorted(dropbox.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True)
-    if not jars:
-        return None
-    src = jars[0]
-    current = list(dreambot.glob("osrs-scripts-*.jar"))
-    if current and current[0].name == src.name:
-        return None
-    for old in dreambot.glob("osrs-scripts-*.jar"):
-        old.unlink()
-    shutil.copy2(src, dreambot / src.name)
-    return src.name
-
-
 def cmd_run(args):
     if platform.system() == "Windows":
-        dropbox = CONFIG["dropbox_dir"]
         dreambot = CONFIG["dreambot_scripts"]
         dreambot.mkdir(parents=True, exist_ok=True)
 
-        if args.watch:
-            import time
-            print(f"👀 Watching {dropbox} for new jars... (Ctrl+C to stop)")
-            last_seen = None
-            current = list(dreambot.glob("osrs-scripts-*.jar"))
-            if current:
-                last_seen = current[0].name
-                print(f"  Current: {last_seen}")
-            while True:
-                name = _copy_latest_jar(dropbox, dreambot)
-                if name and name != last_seen:
-                    last_seen = name
-                    print(f"\n✓ New jar detected: {name}")
-                    print(f"  ⚠ Stop your script in DreamBot, then Refresh local scripts")
-                time.sleep(5)
-            return
+        # Pull latest code
+        run_cmd(["git", "pull"], check=False)
 
-        # One-shot mode
-        jars = sorted(dropbox.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True)
+        # Build jar
+        print("Building...")
+        gradle(["jar"])
+
+        # Find the built jar
+        jars = sorted(
+            (DREAMBOT_PROJECT / "build/libs").glob("osrs-scripts-*.jar"),
+            key=lambda f: f.stat().st_mtime, reverse=True,
+        )
         if not jars:
-            print(f"No jars found in {dropbox}", file=sys.stderr)
-            print("Run 'osrs-bot deploy' on the dev machine first")
+            print("Error: no jar found after build", file=sys.stderr)
             sys.exit(1)
 
         src = jars[0]
-        current = list(dreambot.glob("osrs-scripts-*.jar"))
-        if current and current[0].name == src.name:
-            print(f"  Already running {src.name}")
-            print(f"  ⚠ Stop your script in DreamBot before updating")
-            return
 
-        if current:
-            print(f"  Old: {current[0].name}")
-        print(f"  New: {src.name}")
-
+        # Copy to DreamBot/Scripts (remove old versions first)
         for old in dreambot.glob("osrs-scripts-*.jar"):
             old.unlink()
         shutil.copy2(src, dreambot / src.name)
-        print(f"✓ Copied {src.name} → {dreambot}")
+        print(f"✓ {src.name} → {dreambot}")
 
-        run_cmd(["git", "pull"], check=False)
         tracker = load_tracker()
         scripts = tracker.get("scripts", {})
         if scripts:
@@ -434,7 +391,7 @@ def cmd_run(args):
                 vstr = f"v{v['major']}.{v['minor']}" if isinstance(v, dict) else f"v{v}"
                 print(f"    {sid} {vstr}")
 
-        print(f"\n  ⚠ Stop your script in DreamBot, then Refresh local scripts")
+        print(f"\n  In DreamBot: Stop script → Refresh local scripts → Start")
     else:
         run_cmd(["git", "pull"])
         tracker = load_tracker()
@@ -740,13 +697,13 @@ def cmd_status(args):
     tracker = load_tracker()
     scripts = tracker.get("scripts", {})
 
-    # Check Dropbox for latest jar
-    dropbox = CONFIG["dropbox_dir"]
-    jars = sorted(dropbox.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True) if dropbox.exists() else []
+    # Check for built jar
+    build_dir = DREAMBOT_PROJECT / "build/libs"
+    jars = sorted(build_dir.glob("osrs-scripts-*.jar"), key=lambda f: f.stat().st_mtime, reverse=True) if build_dir.exists() else []
     if jars:
-        print(f"=== Latest Jar: {jars[0].name} ===\n")
+        print(f"=== Latest Jar: {jars[0].name} ===")
     else:
-        print(f"=== No jars in {dropbox} ===\n")
+        print(f"=== No jars built yet ===")
 
     dev = {k: v for k, v in scripts.items() if v.get("status") == "dev"}
     done = {k: v for k, v in scripts.items() if v.get("status") == "complete"}
@@ -829,13 +786,12 @@ def main():
     sub.add_parser("build", help="Compile all scripts")
     sub.add_parser("lint", help="Check scripts for common issues")
 
-    p_deploy = sub.add_parser("deploy", help="Compile, copy to Dropbox, push")
+    p_deploy = sub.add_parser("deploy", help="Compile + push to git")
     p_deploy.add_argument("--dry-run", action="store_true")
-    p_deploy.add_argument("--quick", action="store_true", help="Skip git push — just build + Dropbox")
+    p_deploy.add_argument("--quick", action="store_true", help="Skip full git push — just build + quick commit")
     p_deploy.add_argument("--major-script", nargs="+", metavar="ID", help="Bump major version for specific script(s)")
 
-    p_run = sub.add_parser("run", help="Windows: copy jar to DreamBot. Linux: git pull")
-    p_run.add_argument("--watch", action="store_true", help="Watch Dropbox for new jars and auto-copy (Windows)")
+    p_run = sub.add_parser("run", help="Windows: pull + build + copy to DreamBot. Linux: git pull")
 
     p_bug = sub.add_parser("bug", help="Report a bug")
     p_bug.add_argument("script_id")
