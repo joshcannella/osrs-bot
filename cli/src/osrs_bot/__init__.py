@@ -112,14 +112,14 @@ def run_cmd(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subp
 def gradle(args: list[str]):
     wrapper_jar = DREAMBOT_PROJECT / "gradle/wrapper/gradle-wrapper.jar"
     if platform.system() == "Windows" and wrapper_jar.exists():
-        # Call java directly to avoid WDAC blocking gradlew.bat
-        cmd = ["java", "-jar", str(wrapper_jar)] + args
+        # Invoke wrapper jar directly to avoid WDAC blocking gradlew.bat
+        cmd = [
+            "java", "-Xmx64m", "-Xms64m",
+            "-jar", str(wrapper_jar),
+        ] + args
     else:
         wrapper = DREAMBOT_PROJECT / ("gradlew.bat" if platform.system() == "Windows" else "gradlew")
-        if wrapper.exists():
-            cmd = [str(wrapper)] + args
-        else:
-            cmd = ["gradle"] + args
+        cmd = [str(wrapper)] + args if wrapper.exists() else ["gradle"] + args
     run_cmd(cmd, cwd=DREAMBOT_PROJECT)
 
 
