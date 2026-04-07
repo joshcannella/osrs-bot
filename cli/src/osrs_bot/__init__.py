@@ -111,6 +111,18 @@ def run_cmd(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subp
 
 def gradle(args: list[str]):
     wrapper_jar = DREAMBOT_PROJECT / "gradle/wrapper/gradle-wrapper.jar"
+    env = os.environ.copy()
+
+    # Use Java 17 if available (Gradle 8.x doesn't support Java 25+)
+    if not env.get("JAVA_HOME"):
+        for candidate in [
+            Path("/home/linuxbrew/.linuxbrew/opt/openjdk@17"),
+            Path("/usr/lib/jvm/java-17-openjdk-amd64"),
+        ]:
+            if (candidate / "bin/java").exists():
+                env["JAVA_HOME"] = str(candidate)
+                break
+
     if platform.system() == "Windows" and wrapper_jar.exists():
         # Invoke wrapper jar directly to avoid WDAC blocking gradlew.bat
         cmd = [
@@ -121,7 +133,7 @@ def gradle(args: list[str]):
     else:
         wrapper = DREAMBOT_PROJECT / ("gradlew.bat" if platform.system() == "Windows" else "gradlew")
         cmd = [str(wrapper)] + args if wrapper.exists() else ["gradle"] + args
-    run_cmd(cmd, cwd=DREAMBOT_PROJECT)
+    subprocess.run(cmd, cwd=DREAMBOT_PROJECT, check=True, env=env)
 
 
 def today() -> str:
