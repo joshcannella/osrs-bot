@@ -8,6 +8,15 @@
       "category": "FISHING",
       "bugs": [],
       "notes": []
+    },
+    "lumbridge-cooker": {
+      "class": "LumbridgeCookerScript",
+      "package": "scripts.lumbridgecooker",
+      "status": "dev",
+      "version": {"major": 0, "minor": 1},
+      "category": "COOKING",
+      "bugs": [],
+      "notes": []
     }
   }
 }
