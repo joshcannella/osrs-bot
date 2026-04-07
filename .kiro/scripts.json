@@ -1,3 +1,13 @@
 {
-  "scripts": {}
+  "scripts": {
+    "draynor-fisher": {
+      "class": "DraynorFisherScript",
+      "package": "scripts.draynorfisher",
+      "status": "dev",
+      "version": {"major": 0, "minor": 1},
+      "category": "FISHING",
+      "bugs": [],
+      "notes": []
+    }
+  }
 }
