@@ -41,7 +41,7 @@ public class FishLeaf extends Leaf {
         if (spot != null) {
             if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
             Logger.log("[Fish] Net fishing");
-            spot.interact("Net");
+            spot.interact("Small Net");
         }
         return AntiBanUtil.humanDelay(600, 1200);
     }
