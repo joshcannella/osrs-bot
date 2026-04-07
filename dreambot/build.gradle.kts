@@ -19,6 +19,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
 tasks.jar {
     archiveBaseName.set(project.findProperty("jarName") as? String ?: "osrs-scripts")
     archiveVersion.set(project.findProperty("jarVersion") as? String ?: "0.1")
