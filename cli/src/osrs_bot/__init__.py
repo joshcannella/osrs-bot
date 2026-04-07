@@ -115,8 +115,8 @@ def gradle(args: list[str]):
         # Invoke wrapper jar directly to avoid WDAC blocking gradlew.bat
         cmd = [
             "java", "-Xmx64m", "-Xms64m",
-            f"-Duser.dir={DREAMBOT_PROJECT.resolve()}",
             "-jar", str(wrapper_jar.resolve()),
+            "--project-dir", str(DREAMBOT_PROJECT.resolve()),
         ] + args
     else:
         wrapper = DREAMBOT_PROJECT / ("gradlew.bat" if platform.system() == "Windows" else "gradlew")
