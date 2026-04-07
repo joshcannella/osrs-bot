@@ -15,8 +15,6 @@ import scripts.shared.antiban.AntiBanUtil;
  */
 public class BankBranch extends Branch {
 
-    private static final String NET = "Small fishing net";
-
     public BankBranch() {
         addLeaves(new DepositLeaf());
     }
@@ -41,7 +39,7 @@ public class BankBranch extends Branch {
                 return AntiBanUtil.humanDelay(600, 1200);
             }
 
-            if (Bank.depositAllExcept(NET)) {
+            if (Bank.depositAllItems()) {
                 Logger.log("[Bank] Deposited fish");
                 Sleep.sleepUntil(() -> !Inventory.isFull(), 3000);
             }
