@@ -2,10 +2,10 @@
 
 ## Prerequisites
 
-- **Java 11+** — DreamBot requires Java 11 or later
+- **Java 11+** — DreamBot requires Java 11 or later (needed on both machines)
 - **DreamBot client** — Download from [dreambot.org](https://dreambot.org/)
 - **Python 3.12+** and [uv](https://docs.astral.sh/uv/) — for the CLI
-- **Dropbox desktop client** — for syncing jars between machines
+- **Git** — for syncing code between machines
 
 ## First-Time Setup
 
@@ -51,7 +51,7 @@ osrs-bot status
 ### On Linux (Development)
 
 ```bash
-# Deploy scripts (compile + copy to Dropbox + push)
+# Deploy scripts (compile + push)
 osrs-bot deploy
 
 # Quick deploy during iteration (skip full git push)
@@ -64,11 +64,8 @@ osrs-bot inbox
 ### On Windows (Testing)
 
 ```powershell
-# One-shot: copy latest jar to DreamBot
+# Pull, build, and copy jar to DreamBot
 osrs-bot run
-
-# Or: watch mode — auto-copies new jars as they arrive
-osrs-bot run --watch
 
 # Then: Launch DreamBot → Local Scripts → Refresh → Select script → Start
 ```
@@ -78,20 +75,13 @@ osrs-bot run --watch
 The fastest way to iterate on a script:
 
 ```
-Windows terminal 1:  osrs-bot run --watch
-Windows terminal 2:  (send feedback as you test)
-
-  osrs-bot live my-script "stuck at bank"
-  osrs-bot live my-script "NPC targeting wrong" -i screenshot.png
-  osrs-bot live my-script "crashed" -l 10
-  osrs-bot push
-
 Linux:
-  osrs-bot inbox          # see all feedback
   # fix the code...
-  osrs-bot deploy --quick  # build + Dropbox, fast
+  osrs-bot deploy --quick  # build + push
 
-Windows: (watch auto-detects) → stop script → refresh → restart
+Windows:
+  osrs-bot run             # pull + build + copy
+  # stop script → refresh → restart in DreamBot
 ```
 
 ## Creating a New Script
@@ -132,10 +122,9 @@ osrs-bot push
 ## Troubleshooting
 
 ### Jar not appearing in DreamBot
-1. Check Dropbox is syncing: look for `osrs-scripts-*.jar` in `~/Dropbox/osrs-bot/builds/`
-2. Run `osrs-bot run` to copy the jar
-3. In DreamBot, click "Refresh" on the Local Scripts tab
-4. Check `~/DreamBot/Scripts/` for the jar file
+1. On Windows, run `osrs-bot run` to pull, build, and copy the jar
+2. In DreamBot, click "Refresh" on the Local Scripts tab
+3. Check `~/DreamBot/Scripts/` for the jar file
 
 ### Compile errors
 ```bash
@@ -157,8 +146,8 @@ osrs-bot logs summary my-script # extract errors as a note
 |---------|---------|
 | `osrs-bot init <id> [--simple]` | Scaffold new script |
 | `osrs-bot build` | Compile check |
-| `osrs-bot deploy [--quick] [--major-script <id>]` | Build + Dropbox + push |
-| `osrs-bot run [--watch]` | Copy jar to DreamBot / watch for new jars |
+| `osrs-bot deploy [--quick] [--major-script <id>]` | Build + push |
+| `osrs-bot run` | Windows: pull + build + copy to DreamBot. Linux: git pull |
 | `osrs-bot live <id> "msg" [-i img] [-l N]` | Quick feedback during testing |
 | `osrs-bot bug <id> "msg" [-i img]` | Report a formal bug |
 | `osrs-bot note <id> "msg" [-i img]` | Add a note |

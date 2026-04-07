@@ -15,7 +15,7 @@ cd cli && uv tool install --editable . && cd ..
 # 3. Check what's available
 osrs-bot status
 
-# 4. Deploy scripts (compile + copy to Dropbox + push)
+# 4. Deploy scripts (compile + push)
 osrs-bot deploy
 ```
 
@@ -29,7 +29,7 @@ cd osrs-bot
 # 2. Install the CLI
 cd cli; uv tool install --editable .; cd ..
 
-# 3. Copy latest jar to DreamBot
+# 3. Pull, build, and copy jar to DreamBot
 osrs-bot run
 
 # 4. Launch DreamBot → Local Scripts → Refresh → Select script → Start
@@ -56,14 +56,12 @@ See the [User Guide](docs/user-guide.md) for full setup and troubleshooting.
                       gradle jar
                             │
                             ▼
-                     ~/Dropbox/osrs-bot/
-                     builds/osrs-scripts-1.3.jar
-                            │
-                      Dropbox sync
+                     git push / pull
                             │
                             ▼
-                     ~/DreamBot/Scripts/
-                     osrs-scripts-1.3.jar
+                     Windows: osrs-bot run
+                     → gradle jar
+                     → ~/DreamBot/Scripts/
 ```
 
 | Agent | Purpose | Tools |
@@ -84,10 +82,10 @@ See the [User Guide](docs/user-guide.md) for full setup and troubleshooting.
 For active testing sessions:
 
 ```
-Windows: osrs-bot run --watch     ← auto-copies new jars
-Windows: osrs-bot live <id> "msg" ← quick feedback with screenshots/logs
+Linux:   osrs-bot deploy --quick  ← fast build + push
+Windows: osrs-bot run             ← pull + build + copy to DreamBot
+Windows: osrs-bot live <id> "msg" ← quick feedback
 Linux:   osrs-bot inbox           ← see all feedback
-Linux:   osrs-bot deploy --quick  ← fast build + Dropbox, skip full push
 ```
 
 ## Project Structure
@@ -116,15 +114,15 @@ osrs-bot/
 
 Scripts are written in `dreambot/src/main/java/scripts/` and compiled into a single jar. DreamBot discovers all `@ScriptManifest` classes in the jar and lists each as a separate selectable script.
 
-- **Build**: `osrs-bot deploy` compiles via Gradle, copies jar to Dropbox, pushes git
-- **Sync**: Dropbox automatically syncs the jar to Windows
-- **Run**: `osrs-bot run` on Windows copies the jar to `~/DreamBot/Scripts/`
-- **Rollback**: Manual — copy an older versioned jar from the Dropbox folder
+- **Build**: `osrs-bot deploy` compiles via Gradle, pushes to git
+- **Sync**: `git pull` on Windows
+- **Run**: `osrs-bot run` on Windows pulls, builds, and copies jar to `~/DreamBot/Scripts/`
+- **Rollback**: `git checkout` an older commit and re-run
 
 ## Prerequisites
 
 - [Kiro CLI](https://kiro.dev) with agent support
-- Java 11+ (for DreamBot compilation)
+- Java 11+ (for DreamBot compilation — needed on both machines)
 - Python 3.12+ and [uv](https://docs.astral.sh/uv/) (for CLI and MCP servers)
 - [DreamBot client](https://dreambot.org/) (on Windows testing machine)
-- Dropbox desktop client (on both machines)
+- Git (on both machines)
