@@ -62,8 +62,8 @@ public class CookBranch extends Branch {
             CookableFood food = currentFood();
             if (food == null) return AntiBanUtil.reactionDelay();
 
-            Logger.log("[Cook] Cooking all " + food.getCookedName());
-            if (ItemProcessing.makeAll(food.getCookedName())) {
+            Logger.log("[Cook] Cooking all " + food.getRawName());
+            if (ItemProcessing.makeAll(food.getRawName())) {
                 Sleep.sleepUntil(() -> !hasRawFood() || !Players.getLocal().isAnimating(),
                         () -> Players.getLocal().isAnimating(), 60_000, 600);
             }
