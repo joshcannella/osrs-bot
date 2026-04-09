@@ -12,11 +12,10 @@ public class BankLeaf extends Leaf {
 
     @Override
     public boolean isValid() {
-        boolean hasCooked = Inventory.contains("Trout", "Salmon");
         boolean hasRaw = Inventory.contains("Raw trout", "Raw salmon");
         boolean hasBurnt = Inventory.contains("Burnt fish");
 
-        return hasCooked && !hasRaw && !hasBurnt;
+        return !hasRaw && !hasBurnt && Inventory.contains("Trout", "Salmon");
     }
 
     @Override
@@ -27,21 +26,9 @@ public class BankLeaf extends Leaf {
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
-        // Deposit one type per loop tick
-        if (Inventory.contains("Trout")) {
-            Logger.log("[Bank] Depositing trout");
-            if (Bank.depositAll("Trout")) {
-                Sleep.sleepUntil(() -> !Inventory.contains("Trout"), 2000);
-            }
-            return AntiBanUtil.humanDelay(600, 1200);
-        }
-
-        if (Inventory.contains("Salmon")) {
-            Logger.log("[Bank] Depositing salmon");
-            if (Bank.depositAll("Salmon")) {
-                Sleep.sleepUntil(() -> !Inventory.contains("Salmon"), 2000);
-            }
-            return AntiBanUtil.humanDelay(600, 1200);
+        Logger.log("[Bank] Depositing all except rod and feathers");
+        if (Bank.depositAllExcept("Fly fishing rod", "Feather")) {
+            Sleep.sleepUntil(() -> !Inventory.contains("Trout", "Salmon"), 2000);
         }
 
         Logger.log("[Bank] Closing bank");
