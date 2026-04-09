@@ -17,7 +17,7 @@ public class FishLeaf extends Leaf {
 
     @Override
     public boolean isValid() {
-        return !Inventory.isFull() && !Inventory.contains("Raw trout", "Raw salmon");
+        return !Inventory.isFull();
     }
 
     @Override
