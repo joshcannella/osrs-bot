@@ -15,7 +15,7 @@ import scripts.shared.antiban.AntiBanNode;
 
 import java.awt.*;
 
-@ScriptManifest(name = "edgeville-flycook", author = "osrs-bot", version = 0.2,
+@ScriptManifest(name = "edgeville-flycook", author = "osrs-bot", version = 0.3,
                 description = "Fly fishes trout/salmon at Edgeville river and cooks on nearby fire",
                 category = Category.FISHING)
 public class EdgevilleFlyFishCookScript extends TreeScript {
