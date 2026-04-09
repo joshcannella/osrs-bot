@@ -242,6 +242,8 @@ Load `api-reference.md` first for the index. Only load specific domain files whe
 15. Check state before opening interfaces — `if (!Bank.isOpen()) Bank.open()`, `if (Tabs.getOpen() != Tab.INVENTORY) Tabs.open(Tab.INVENTORY)`. Spam-opening is a bot tell.
 16. Vary interaction style — use `AntiBanUtil.shouldForceRightClick()` before primary interactions to occasionally right-click instead of left-click
 17. Use `interact()` not raw `Mouse.move()` + `Mouse.click()` — DreamBot randomizes click position, mouse path, and timing internally. See `knowledge/osrs/dreambot-builtin-randomization.md`
+18. **Stopping from a Leaf/Node:** `return -1` from `onLoop()` to terminate the script. Leaves don't have access to the parent script's `stop()` method, so `return -1` is the standard way to signal the framework to shut down. Use for unrecoverable errors (out of supplies, missing equipment). Always `Logger.error()` before returning -1 so the reason is visible.
+19. **Runtime requirement checks:** Don't only validate requirements in `onStart()` — consumables (feathers, runes, food) deplete during runtime. Check critical supplies in the relevant leaf's `onLoop()` and `return -1` when they run out, rather than letting the script loop uselessly.
 
 ## CLI Commands
 

@@ -8,14 +8,14 @@ import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.frameworks.treebranch.TreeScript;
 import org.dreambot.api.utilities.Logger;
-import scripts.edgevilleflycook.nodes.BankBranch;
+import scripts.edgevilleflycook.nodes.BankLeaf;
 import scripts.edgevilleflycook.nodes.CookBranch;
 import scripts.edgevilleflycook.nodes.FishLeaf;
 import scripts.shared.antiban.AntiBanNode;
 
 import java.awt.*;
 
-@ScriptManifest(name = "edgeville-flycook", author = "osrs-bot", version = 0.1,
+@ScriptManifest(name = "edgeville-flycook", author = "osrs-bot", version = 0.2,
                 description = "Fly fishes trout/salmon at Edgeville river and cooks on nearby fire",
                 category = Category.FISHING)
 public class EdgevilleFlyFishCookScript extends TreeScript {
@@ -37,7 +37,7 @@ public class EdgevilleFlyFishCookScript extends TreeScript {
         AntiBanNode ab = new AntiBanNode();
         ab.setSkillsToCheck(Skill.FISHING, Skill.COOKING);
 
-        addBranches(ab, new BankBranch(), new CookBranch(), new scripts.edgevilleflycook.nodes.leaves.DropBurntLeaf(), new FishLeaf());
+        addBranches(ab, new BankLeaf(), new CookBranch(), new scripts.edgevilleflycook.nodes.leaves.DropBurntLeaf(), new FishLeaf());
     }
 
     @Override
