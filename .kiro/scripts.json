@@ -13,7 +13,7 @@
       "class": "EdgevilleFlyFishCookScript",
       "package": "scripts.edgevilleflycook",
       "status": "dev",
-      "version": {"major": 0, "minor": 2},
+      "version": {"major": 0, "minor": 3},
       "category": "FISHING",
       "bugs": [],
       "notes": []
