@@ -9,6 +9,15 @@
       "bugs": [],
       "notes": []
     },
+    "edgeville-flycook": {
+      "class": "EdgevilleFlyFishCookScript",
+      "package": "scripts.edgevilleflycook",
+      "status": "dev",
+      "version": {"major": 0, "minor": 1},
+      "category": "FISHING",
+      "bugs": [],
+      "notes": []
+    },
     "lumbridge-cooker": {
       "class": "LumbridgeCookerScript",
       "package": "scripts.lumbridgecooker",
