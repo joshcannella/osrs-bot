@@ -1,8 +1,6 @@
 package scripts.brutusfighter.nodes;
 
 import org.dreambot.api.methods.container.impl.Inventory;
-import org.dreambot.api.methods.container.impl.equipment.Equipment;
-import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
@@ -34,39 +32,19 @@ public class AttackLeaf extends Leaf {
 
         BrutusFighterScript script = (BrutusFighterScript) getTree();
 
-        // Not in instance — travel and release gate
+        // Not in instance — walk to gate and release
         if (!script.isInInstance()) {
-            if (!BrutusConstants.COW_FIELD.contains(Players.getLocal())) {
-                if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
-                    Logger.log("[Attack] Teleporting to cow field");
-                    Equipment.interact(EquipmentSlot.AMULET, "Teleport");
-                    Sleep.sleepUntil(() -> BrutusConstants.COW_FIELD.contains(Players.getLocal()),
-                        () -> Players.getLocal().isMoving(), 8000, 600);
-                    return AntiBanUtil.humanDelay(600, 1200);
-                }
-                Logger.log("[Attack] Walking to cow field");
-                if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
-                return AntiBanUtil.humanDelay(600, 1200);
-            }
-
             GameObject gate = GameObjects.closest(g -> g != null
                 && "Gate".equals(g.getName()) && g.hasAction("Release"));
-            if (gate != null) {
-                Logger.log("[Attack] Releasing gate to enter instance");
-                gate.interact("Release");
-                // Mark instance IMMEDIATELY so no other leaf interferes
-                script.setInInstance(true);
-                stuckCount = 0;
-                // Hard sleep through the cutscene
-                Sleep.sleep(8000);
-                // Then wait for Brutus
-                Sleep.sleepUntil(() -> {
-                    NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
-                    return b != null && b.exists();
-                }, 20000);
-            } else {
-                stuckCount++;
+            if (gate == null) {
+                Logger.log("[Attack] Walking to cow field gate");
+                if (Walking.shouldWalk()) Walking.walk(BrutusConstants.GATE_TILE);
+                return AntiBanUtil.humanDelay(600, 1200);
             }
+            Logger.log("[Attack] Releasing gate to enter instance");
+            gate.interact("Release");
+            script.setInInstance(true);
+            Sleep.sleep(10000);
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
@@ -75,7 +53,6 @@ public class AttackLeaf extends Leaf {
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
 
         if (brutus == null || !brutus.exists()) {
-            Logger.log("[Attack] Waiting for Brutus respawn");
             return AntiBanUtil.humanDelay(1000, 2000);
         }
 
@@ -87,12 +64,6 @@ public class AttackLeaf extends Leaf {
 
         if (Players.getLocal().isAnimating()) {
             return AntiBanUtil.humanDelay(600, 1000);
-        }
-
-        if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
-            if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
-            stuckCount++;
-            return AntiBanUtil.humanDelay(600, 1200);
         }
 
         Logger.log("[Attack] Attacking Brutus");
