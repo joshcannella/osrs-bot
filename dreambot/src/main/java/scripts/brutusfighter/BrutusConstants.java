@@ -31,8 +31,7 @@ public final class BrutusConstants {
     public static final String[] LOOT_NAMES = {
         "Raw t-bone steak", "Mooleta", "Cow slippers", "Bottomless milk bucket (empty)",
         "Clue scroll (beginner)", "Clue scroll (easy)",
-        "Iron full helm", "Iron platebody", "Iron platelegs", "Iron plateskirt",
-        "Iron arrow", "Air rune", "Mind rune", "Chaos rune", "Coins"
+        "Air rune", "Mind rune", "Chaos rune", "Coins"
     };
     public static final String BULL_BONES = "Bull bones";
 
