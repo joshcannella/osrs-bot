@@ -62,8 +62,12 @@ public class AttackLeaf extends Leaf {
             stuckCount = 0;
             // Reposition to fight tile if we drifted from dodge
             if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 1) {
-                Logger.log("[Attack] Repositioning to fight tile");
-                Map.interact(BrutusConstants.FIGHT_TILE, "Walk here");
+                Logger.log("[Attack] Repositioning to fight tile onScreen=" + Map.isTileOnScreen(BrutusConstants.FIGHT_TILE));
+                if (Map.isTileOnScreen(BrutusConstants.FIGHT_TILE)) {
+                    Map.interact(BrutusConstants.FIGHT_TILE, "Walk here");
+                } else {
+                    Walking.clickTileOnMinimap(BrutusConstants.FIGHT_TILE);
+                }
                 return AntiBanUtil.humanDelay(600, 1000);
             }
             return AntiBanUtil.humanDelay(600, 1000);
@@ -75,8 +79,12 @@ public class AttackLeaf extends Leaf {
 
         // Move to fight tile before attacking
         if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 1) {
-            Logger.log("[Attack] Moving to fight tile");
-            Map.interact(BrutusConstants.FIGHT_TILE, "Walk here");
+            Logger.log("[Attack] Moving to fight tile onScreen=" + Map.isTileOnScreen(BrutusConstants.FIGHT_TILE));
+            if (Map.isTileOnScreen(BrutusConstants.FIGHT_TILE)) {
+                Map.interact(BrutusConstants.FIGHT_TILE, "Walk here");
+            } else {
+                Walking.clickTileOnMinimap(BrutusConstants.FIGHT_TILE);
+            }
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
