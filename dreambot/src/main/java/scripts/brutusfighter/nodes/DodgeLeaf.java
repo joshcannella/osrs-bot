@@ -34,12 +34,11 @@ public class DodgeLeaf extends Leaf {
 
     @Override
     public int onLoop() {
-        // Dodge 2 tiles north or south from current position
-        int dy = Math.random() < 0.5 ? 2 : -2;
-        Tile dodgeTile = Players.getLocal().getTile().translate(0, dy);
+        // Dodge 2 tiles north or south
+        Tile dodgeTile = Math.random() < 0.5 ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
 
         Logger.log("[Dodge] Dodging to " + dodgeTile);
-        Walking.clickTileOnMinimap(dodgeTile);
+        Walking.walkOnScreen(dodgeTile);
         lastDodgeTime = System.currentTimeMillis();
 
         return AntiBanUtil.humanDelay(600, 900);

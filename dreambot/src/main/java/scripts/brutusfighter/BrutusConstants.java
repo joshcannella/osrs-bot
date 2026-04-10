@@ -15,9 +15,9 @@ public final class BrutusConstants {
 
     // Location
     public static final Area COW_FIELD = new Area(3250, 3270, 3275, 3310);
-    public static final Tile FIGHT_TILE = new Tile(3266, 3297, 0);
-    public static final Tile DODGE_NORTH = new Tile(3266, 3299, 0);
-    public static final Tile DODGE_SOUTH = new Tile(3266, 3295, 0);
+    public static final Tile FIGHT_TILE = new Tile(13472, 2424, 0);
+    public static final Tile DODGE_NORTH = new Tile(13472, 2426, 0);
+    public static final Tile DODGE_SOUTH = new Tile(13472, 2422, 0);
     public static final Tile GATE_TILE = new Tile(3263, 3297, 0); // near the pen gate
 
     // Overhead text for special attacks
