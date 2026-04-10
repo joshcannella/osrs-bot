@@ -12,8 +12,11 @@ import scripts.shared.antiban.AntiBanUtil;
 
 public class DodgeLeaf extends Leaf {
 
+    private long lastDodgeTime = 0;
+
     @Override
     public boolean isValid() {
+        if (System.currentTimeMillis() - lastDodgeTime < 3000) return false;
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         if (brutus == null) return false;
         String overhead = brutus.getOverhead();
@@ -41,6 +44,7 @@ public class DodgeLeaf extends Leaf {
         Tile dodgeTile = myTile.translate(moveX, moveY);
         Logger.log("[Dodge] Dodging special! Moving to " + dodgeTile);
         Walking.walkOnScreen(dodgeTile);
+        lastDodgeTime = System.currentTimeMillis();
 
         return AntiBanUtil.humanDelay(600, 900);
     }
