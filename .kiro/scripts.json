@@ -4,7 +4,10 @@
       "class": "DraynorFisherScript",
       "package": "scripts.draynorfisher",
       "status": "dev",
-      "version": {"major": 0, "minor": 1},
+      "version": {
+        "major": 0,
+        "minor": 1
+      },
       "category": "FISHING",
       "bugs": [],
       "notes": []
@@ -13,7 +16,10 @@
       "class": "EdgevilleFlyFishCookScript",
       "package": "scripts.edgevilleflycook",
       "status": "dev",
-      "version": {"major": 0, "minor": 3},
+      "version": {
+        "major": 0,
+        "minor": 3
+      },
       "category": "FISHING",
       "bugs": [],
       "notes": []
@@ -22,8 +28,23 @@
       "class": "LumbridgeCookerScript",
       "package": "scripts.lumbridgecooker",
       "status": "dev",
-      "version": {"major": 0, "minor": 1},
+      "version": {
+        "major": 0,
+        "minor": 1
+      },
       "category": "COOKING",
+      "bugs": [],
+      "notes": []
+    },
+    "brutus-fighter": {
+      "class": "BrutusFighterScript",
+      "package": "scripts.brutusfighter",
+      "status": "dev",
+      "version": {
+        "major": 0,
+        "minor": 2
+      },
+      "category": "MISC",
       "bugs": [],
       "notes": []
     }

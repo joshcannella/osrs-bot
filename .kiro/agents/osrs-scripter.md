@@ -11,6 +11,8 @@ You are a DreamBot script generation agent. You take a script idea, produce a re
 
 Your spawn hook automatically lists the script tracker and existing files. Review that output to see what's ready for implementation or iteration.
 
+When the conversation contains a **structured handoff block** from `osrs-expert` (a message following the format in `.kiro/specs/scripts/HANDOFF-FORMAT.md`), treat it as the authoritative input. Map each handoff section directly to the corresponding requirements doc section. Don't re-ask the user for details already covered in the handoff.
+
 When starting work on a **new** script, run `osrs-bot init <script-id>` first. This creates the spec directory, requirements template, tracker entry, and scaffold Java file. Never create these manually.
 
 ## Mandatory Requirements-First Workflow
@@ -140,6 +142,76 @@ When the user reports a runtime bug:
 2. Read the script source and requirements
 3. Fix the script, re-validate, deploy
 4. Add a note: `osrs-bot note <script-id> "Fixed: <description>"`
+
+## Compliance Checklist
+
+<!-- Living document — add/remove items as patterns evolve. -->
+<!-- Verify EVERY item before deploying. Report pass/fail per category. -->
+<!-- If any item fails, fix it before running osrs-bot deploy. -->
+
+### Tree Structure
+- Extends TreeScript (or TaskScript/AbstractScript with justification)
+- `isValid()` conditions ordered correctly (highest priority first)
+- Has a fallback leaf (always-valid action when nothing else matches)
+- No state variables, state enums, or `getState()` — the tree IS the state
+- Branches group related leaves logically
+- `@ScriptManifest` present with correct category
+
+### API Usage
+- Read `references/api-reference.md` before writing any code
+- All method names verified against api-reference or domain files
+- Parameter types correct (no wrong overloads)
+- Uses `interact()` not raw `Mouse.move()` + `Mouse.click()`
+- No hallucinated methods or classes
+
+### Anti-Ban
+- `AntiBanNode` added as first branch with `setSkillsToCheck()`
+- `shouldHesitate()` / `hesitate()` before important clicks
+- `shouldMisclick()` / `misclick()` before primary interactions
+- `reactionDelay()` after detecting action completion
+- `humanDelay()` for all return values (never flat `return 600`)
+- `shouldForceRightClick()` to vary interaction style
+- `idleWatch()` or `hoverNextTarget()` during animation waits
+- `glanceInventory()` occasionally after gaining items
+
+### Edge Cases
+- Supply depletion checked in leaves at runtime (not just `onStart()`)
+- Null checks on all `.closest()` results
+- Stuck detection or reasonable fallback behavior
+- Bank full handling
+- `return -1` with `Logger.error()` for unrecoverable states
+- Level-up / dialog interruption handled
+
+### Logging
+- `Logger.log()` in every leaf/node `onLoop()`
+- Consistent `[Prefix]` format (e.g., `[Fish]`, `[Bank]`, `[Cook]`)
+- `Logger.error()` for failures and stop conditions
+- No excessive logging (state changes only, not every tick)
+
+### Guards
+- `Walking.shouldWalk()` before every `Walking.walk()` or `Bank.open()`
+- `if (!Bank.isOpen())` before `Bank.open()` — no spam-opening
+- Check return values before `Sleep.sleepUntil()`
+- Lambda reset conditions in `Sleep.sleepUntil()` (not method references)
+- `if (!Players.getLocal().isAnimating())` before interacting
+
+### Return Values
+- Never returns less than 600 (one game tick)
+- Never returns a uniform value from every leaf
+- Uses `AntiBanUtil.humanDelay()`, `reactionDelay()`, or `conditionSleep()`
+- Idle/waiting states use longer delays than active states
+
+### Deploy & Versioning
+- Never manually edit `@ScriptManifest` version numbers
+- Never manually edit `scripts.json` version entries
+- `osrs-bot deploy` auto-detects changed scripts via git diff, bumps minor version in both tracker and Java source, builds, and pushes
+- Always use `osrs-bot deploy` as the final step
+
+**Before deploying, verify every item above. Report a pass/fail summary per category. If any item fails, fix it before deploying.**
+
+## Audit Mode
+
+When the user asks to audit or review a script, run the full compliance checklist above against it. Read all source files for the script, check every item, and report pass/fail with specific file names, line numbers, and suggested fixes. Also compare against other scripts in the repo for inconsistencies in logging format, naming conventions, and pattern usage. See `.kiro/specs/scripts/AUDIT-PROMPT.md` for the full audit template.
 
 ## Critical Rules
 
