@@ -11,7 +11,7 @@ import scripts.shared.antiban.AntiBanNode;
 
 import java.awt.*;
 
-@ScriptManifest(name = "brutus-fighter", author = "osrs-bot", version = 0.2,
+@ScriptManifest(name = "brutus-fighter", author = "osrs-bot", version = 0.4,
                 description = "Fights Brutus cow boss - dodges specials, eats, loots, banks",
                 category = Category.COMBAT)
 public class BrutusFighterScript extends TreeScript {
@@ -24,6 +24,8 @@ public class BrutusFighterScript extends TreeScript {
 
         AntiBanNode ab = new AntiBanNode();
         ab.setSkillsToCheck(Skill.ATTACK, Skill.STRENGTH, Skill.DEFENCE, Skill.HITPOINTS);
+        ab.setTriggerRate(0.02);     // 2% — rarely fire during active combat
+        ab.setMinInterval(45_000);   // 45s minimum between ambient actions
 
         addBranches(
             ab,

@@ -27,7 +27,7 @@ public class EatLeaf extends Leaf {
         }
         if (food == null) return AntiBanUtil.humanDelay(600, 1200);
 
-        Logger.log("[Brutus] Eating " + food + " (HP: " + Combat.getHealthPercent() + "%)");
+        Logger.log("[Eat] Eating " + food + " (HP: " + Combat.getHealthPercent() + "%)");
         if (Inventory.interact(food, "Eat")) {
             Sleep.sleepUntil(() -> Combat.getHealthPercent() > BrutusConstants.EAT_HP_PERCENT, 2000);
         }

@@ -43,7 +43,7 @@ public class DodgeLeaf extends Leaf {
         int moveY = dy >= 0 ? 3 : -3;
 
         Tile dodgeTile = myTile.translate(moveX, moveY);
-        Logger.log("[Brutus] Dodging special! Moving to " + dodgeTile);
+        Logger.log("[Dodge] Dodging special! Moving to " + dodgeTile);
         Walking.walkExact(dodgeTile);
 
         return AntiBanUtil.humanDelay(600, 900);

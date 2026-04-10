@@ -17,20 +17,17 @@ import scripts.shared.antiban.AntiBanUtil;
 public class RingCowbellLeaf extends Leaf {
 
     private boolean rangThisKill = false;
-    private long lastKillTime = 0;
 
     @Override
     public boolean isValid() {
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         boolean brutusDead = brutus == null || !brutus.exists();
 
-        // Reset flag when Brutus is alive
         if (!brutusDead) {
             rangThisKill = false;
             return false;
         }
 
-        // Don't ring if we already rang this kill, or if there's still loot
         if (rangThisKill) return false;
         if (GroundItems.closest(BrutusConstants.LOOT_NAMES) != null) return false;
         if (GroundItems.closest(BrutusConstants.BULL_BONES) != null) return false;
@@ -40,10 +37,9 @@ public class RingCowbellLeaf extends Leaf {
 
     @Override
     public int onLoop() {
-        Logger.log("[Brutus] Ringing cowbell for fast respawn");
+        Logger.log("[Cowbell] Ringing cowbell for fast respawn");
         Equipment.interact(EquipmentSlot.AMULET, "Ring");
         rangThisKill = true;
-        lastKillTime = System.currentTimeMillis();
         return AntiBanUtil.humanDelay(600, 1200);
     }
 }
