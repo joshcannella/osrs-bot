@@ -60,14 +60,11 @@ public class AttackLeaf extends Leaf {
 
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
             stuckCount = 0;
-            // Reposition to fight tile if we drifted from dodge
-            if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 1) {
-                Logger.log("[Attack] Repositioning to fight tile onScreen=" + Map.isTileOnScreen(BrutusConstants.FIGHT_TILE));
-                if (Map.isTileOnScreen(BrutusConstants.FIGHT_TILE)) {
-                    Map.interact(BrutusConstants.FIGHT_TILE, "Walk here");
-                } else {
-                    Walking.clickTileOnMinimap(BrutusConstants.FIGHT_TILE);
-                }
+            // Reposition east of Brutus if we drifted
+            Tile fightTile = brutus.getTile().translate(3, 0);
+            if (Players.getLocal().getTile().distance(fightTile) > 1) {
+                Logger.log("[Attack] Repositioning. Player=" + Players.getLocal().getTile() + " Target=" + fightTile);
+                Walking.clickTileOnMinimap(fightTile);
                 return AntiBanUtil.humanDelay(600, 1000);
             }
             return AntiBanUtil.humanDelay(600, 1000);
@@ -77,14 +74,11 @@ public class AttackLeaf extends Leaf {
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // Move to fight tile before attacking
-        if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 1) {
-            Logger.log("[Attack] Moving to fight tile onScreen=" + Map.isTileOnScreen(BrutusConstants.FIGHT_TILE));
-            if (Map.isTileOnScreen(BrutusConstants.FIGHT_TILE)) {
-                Map.interact(BrutusConstants.FIGHT_TILE, "Walk here");
-            } else {
-                Walking.clickTileOnMinimap(BrutusConstants.FIGHT_TILE);
-            }
+        // Move east of Brutus before attacking
+        Tile fightTile = brutus.getTile().translate(3, 0);
+        if (Players.getLocal().getTile().distance(fightTile) > 1) {
+            Logger.log("[Attack] Moving to fight position. Player=" + Players.getLocal().getTile() + " Target=" + fightTile);
+            Walking.clickTileOnMinimap(fightTile);
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
