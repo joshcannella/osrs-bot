@@ -2,6 +2,8 @@ package scripts.brutusfighter.nodes;
 
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.container.impl.equipment.Equipment;
+import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.Players;
@@ -66,6 +68,14 @@ public class BankBranch extends Branch {
                 if (gate.interact("Leave")) {
                     Sleep.sleepUntil(() -> Dialogues.inDialogue(),
                         () -> Players.getLocal().isMoving(), 8000, 600);
+                }
+            } else {
+                // No gate found — teleport out with cowbell
+                if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
+                    Logger.log("[Bank] No gate found — teleporting out with cowbell");
+                    Equipment.interact(EquipmentSlot.AMULET, "Teleport");
+                    Sleep.sleep(3000);
+                    script.setInInstance(false);
                 }
             }
             return AntiBanUtil.humanDelay(600, 1200);
