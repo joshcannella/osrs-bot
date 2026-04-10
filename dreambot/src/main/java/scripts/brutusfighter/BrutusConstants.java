@@ -14,7 +14,7 @@ public final class BrutusConstants {
     public static final String BRUTUS_NAME = "Brutus";
 
     // Location
-    public static final Area COW_FIELD = new Area(3255, 3285, 3270, 3305);
+    public static final Area COW_FIELD = new Area(3250, 3270, 3275, 3310);
     public static final Tile FIGHT_TILE = new Tile(3266, 3297, 0); // east of spawn — prevents charge
 
     // Overhead text for special attacks
