@@ -32,17 +32,23 @@ public class DodgeLeaf extends Leaf {
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         if (brutus == null) return AntiBanUtil.humanDelay(600, 1200);
 
+        String overhead = brutus.getOverhead();
         Tile myTile = Players.getLocal().getTile();
-        Tile brutusTile = brutus.getTile();
 
-        int dx = myTile.getX() - brutusTile.getX();
-        int dy = myTile.getY() - brutusTile.getY();
+        Tile dodgeTile;
+        if (overhead != null && overhead.contains("growl")) {
+            // Charge — dodge north or south (perpendicular)
+            int dy = myTile.getY() >= brutus.getTile().getY() ? 2 : -2;
+            dodgeTile = myTile.translate(0, dy);
+            Logger.log("[Dodge] Charge! Sidestepping to " + dodgeTile);
+        } else {
+            // Slam — dodge 1 tile diagonally
+            int dx = myTile.getX() >= brutus.getTile().getX() ? 1 : -1;
+            int dy = myTile.getY() >= brutus.getTile().getY() ? 1 : -1;
+            dodgeTile = myTile.translate(dx, dy);
+            Logger.log("[Dodge] Slam! Moving diagonally to " + dodgeTile);
+        }
 
-        int moveX = dx >= 0 ? 1 : -1;
-        int moveY = dy >= 0 ? 1 : -1;
-
-        Tile dodgeTile = myTile.translate(moveX, moveY);
-        Logger.log("[Dodge] Dodging special! Moving to " + dodgeTile);
         Walking.walkOnScreen(dodgeTile);
         lastDodgeTime = System.currentTimeMillis();
 
