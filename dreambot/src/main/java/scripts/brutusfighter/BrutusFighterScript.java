@@ -11,13 +11,14 @@ import scripts.shared.antiban.AntiBanNode;
 
 import java.awt.*;
 
-@ScriptManifest(name = "brutus-fighter", author = "osrs-bot", version = 0.15,
+@ScriptManifest(name = "brutus-fighter", author = "osrs-bot", version = 0.16,
                 description = "Fights Brutus cow boss - dodges specials, eats, loots, banks",
                 category = Category.COMBAT)
 public class BrutusFighterScript extends TreeScript {
 
     private int killCount = 0;
     private boolean inInstance = false;
+    private long instanceEntryTime = 0;
 
     @Override
     public void onStart() {
@@ -42,7 +43,13 @@ public class BrutusFighterScript extends TreeScript {
 
     public void incrementKills() { killCount++; }
     public boolean isInInstance() { return inInstance; }
-    public void setInInstance(boolean in) { this.inInstance = in; }
+    public void setInInstance(boolean in) {
+        this.inInstance = in;
+        if (in) this.instanceEntryTime = System.currentTimeMillis();
+    }
+    public boolean canLeaveInstance() {
+        return inInstance && (System.currentTimeMillis() - instanceEntryTime) > 15000;
+    }
 
     @Override
     public void onPaint(Graphics2D g) {

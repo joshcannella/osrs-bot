@@ -40,7 +40,7 @@ public class BankBranch extends Branch {
         @Override
         public boolean isValid() {
             BrutusFighterScript script = (BrutusFighterScript) getTree();
-            return script.isInInstance();
+            return script.canLeaveInstance();
         }
 
         @Override
