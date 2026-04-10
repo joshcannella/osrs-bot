@@ -16,11 +16,6 @@ import scripts.brutusfighter.BrutusConstants;
 import scripts.brutusfighter.BrutusFighterScript;
 import scripts.shared.antiban.AntiBanUtil;
 
-/**
- * Fallback leaf: attack Brutus or wait for respawn.
- * Walks to fight position (east of spawn) if not in cow field.
- * Releases gate to enter instance on first visit.
- */
 public class AttackLeaf extends Leaf {
 
     private int stuckCount = 0;
@@ -39,9 +34,8 @@ public class AttackLeaf extends Leaf {
 
         BrutusFighterScript script = (BrutusFighterScript) getTree();
 
-        // Not in instance — need to get there and release gate
+        // Not in instance — travel and release gate
         if (!script.isInInstance()) {
-            // Teleport to cow field if not there
             if (!BrutusConstants.COW_FIELD.contains(Players.getLocal())) {
                 if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
                     Logger.log("[Attack] Teleporting to cow field");
@@ -55,59 +49,52 @@ public class AttackLeaf extends Leaf {
                 return AntiBanUtil.humanDelay(600, 1200);
             }
 
-            // At cow field — release gate
             GameObject gate = GameObjects.closest(g -> g != null
                 && "Gate".equals(g.getName()) && g.hasAction("Release"));
             if (gate != null) {
                 Logger.log("[Attack] Releasing gate to enter instance");
-                if (gate.interact("Release")) {
-                    stuckCount = 0;
-                    // Wait for cutscene + Brutus to appear
-                    Logger.log("[Attack] Waiting for cutscene and Brutus spawn...");
-                    Sleep.sleepUntil(() -> {
-                        NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
-                        return b != null && b.canAttack();
-                    }, 30000);
-                    script.setInInstance(true);
-                } else {
-                    stuckCount++;
-                }
+                gate.interact("Release");
+                // Mark instance IMMEDIATELY so no other leaf interferes
+                script.setInInstance(true);
+                stuckCount = 0;
+                // Hard sleep through the cutscene
+                Sleep.sleep(8000);
+                // Then wait for Brutus
+                Sleep.sleepUntil(() -> {
+                    NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
+                    return b != null && b.exists();
+                }, 20000);
             } else {
                 stuckCount++;
             }
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
-        // === In instance from here ===
+        // === In instance ===
 
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
 
-        // Waiting for respawn
         if (brutus == null || !brutus.exists()) {
             Logger.log("[Attack] Waiting for Brutus respawn");
             return AntiBanUtil.humanDelay(1000, 2000);
         }
 
-        // Already in combat
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
             stuckCount = 0;
             AntiBanUtil.idleWatch(AntiBanUtil.humanDelay(600, 1000));
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // Don't interact while animating
         if (Players.getLocal().isAnimating()) {
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // Walk to fight position (east of spawn) if far
         if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
             if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
             stuckCount++;
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
-        // Attack Brutus
         Logger.log("[Attack] Attacking Brutus");
         if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
         if (AntiBanUtil.shouldMisclick()) AntiBanUtil.misclick(brutus);
