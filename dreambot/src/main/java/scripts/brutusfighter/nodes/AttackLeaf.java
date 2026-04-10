@@ -63,7 +63,7 @@ public class AttackLeaf extends Leaf {
                 if (gate.interact("Release")) {
                     stuckCount = 0;
                     Sleep.sleepUntil(() -> NPCs.closest(BrutusConstants.BRUTUS_NAME) != null,
-                        () -> Players.getLocal().isMoving(), 8000, 600);
+                        () -> Players.getLocal().isMoving(), 15000, 600);
                     BrutusFighterScript script = (BrutusFighterScript) getTree();
                     script.setInInstance(true);
                 } else {
