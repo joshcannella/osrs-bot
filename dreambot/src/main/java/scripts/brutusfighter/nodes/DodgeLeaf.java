@@ -40,7 +40,7 @@ public class DodgeLeaf extends Leaf {
 
         Tile dodgeTile = myTile.translate(moveX, moveY);
         Logger.log("[Dodge] Dodging special! Moving to " + dodgeTile);
-        Walking.walk(dodgeTile);
+        Walking.clickTileOnMinimap(dodgeTile);
 
         return AntiBanUtil.humanDelay(600, 900);
     }
