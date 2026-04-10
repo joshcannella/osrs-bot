@@ -40,42 +40,44 @@ See the [User Guide](docs/user-guide.md) for full setup and troubleshooting.
 ## Agent Architecture
 
 ```
-┌─────────────┐     ┌───────────────┐
-│ osrs-expert │     │ osrs-scripter │
-│  (green)    │     │  (red)        │
-│             │     │               │
-│ Game        │     │ Requirements  │
-│ Knowledge & │────▶│ + Code        │
-│ Brainstorm  │     │ Generator     │
-└─────────────┘     └───────┬───────┘
-                            │
-                            ▼
-                     dreambot/src/
-                     main/java/scripts/
-                            │
-                      gradle jar
-                            │
-                            ▼
-                     git push / pull
-                            │
-                            ▼
-                     Windows: osrs-bot run
-                     → gradle jar
-                     → ~/DreamBot/Scripts/
+┌─────────────┐     structured      ┌───────────────┐
+│ osrs-expert │      handoff        │ osrs-scripter │
+│  (green)    │─────────────────────│  (red)        │
+│             │                     │               │
+│ Game        │  Name, items, NPCs, │ Requirements  │
+│ Knowledge & │  locations, flow,   │ + Code        │
+│ Brainstorm  │  edge cases         │ Generator     │
+└─────────────┘                     └───────┬───────┘
+                                            │
+                                     compliance ✓
+                                            │
+                                     osrs-bot deploy
+                                     (auto-version bump)
+                                            │
+                                            ▼
+                                     git push / pull
+                                            │
+                                            ▼
+                                     Windows: osrs-bot run
+                                     → gradle jar
+                                     → ~/DreamBot/Scripts/
 ```
 
 | Agent | Purpose | Tools |
 |-------|---------|-------|
-| `osrs-expert` | Answers game questions, brainstorms script ideas, assesses feasibility | Read-only + Wiki MCP |
-| `osrs-scripter` | Takes a script idea, produces requirements doc, then generates compilable Java | Full toolset + Shell |
+| `osrs-expert` | Answers game questions, brainstorms script ideas, produces structured handoff | Read-only + Wiki MCP |
+| `osrs-scripter` | Consumes handoff, produces requirements doc, generates code, verifies compliance | Full toolset + Shell |
 
 ## Workflow Overview
 
-1. **Research** — `/agent osrs-expert` to ask game questions and brainstorm script ideas
-2. **Build** — `/agent osrs-scripter` to produce requirements doc, then generate and deploy the script
-3. **Test** — `osrs-bot run` on Windows, launch DreamBot, select script
-4. **Debug** — `osrs-bot bug <id>` to report issues, agent fixes them
-5. **Complete** — `osrs-bot complete <id>` when the script works
+1. **Research** — `/agent osrs-expert` to brainstorm and research the script idea
+2. **Handoff** — Expert produces a structured summary (items, NPCs, locations, state flow, edge cases)
+3. **Build** — `/agent osrs-scripter` to consume the handoff, produce requirements, then generate code
+4. **Compliance** — Scripter verifies against the compliance checklist before deploying
+5. **Deploy** — `osrs-bot deploy` auto-bumps versions for changed scripts, builds, and pushes
+6. **Test** — `osrs-bot run` on Windows, launch DreamBot, select script
+7. **Debug** — `osrs-bot bug <id>` to report issues, agent fixes them
+8. **Audit** — Paste the audit prompt anytime to review a script against the full checklist
 
 ## Rapid Iteration
 
@@ -97,6 +99,9 @@ osrs-bot/
 │   ├── skills/dreambot/                 # DreamBot scripting skill + references
 │   ├── knowledge/                       # OSRS game data
 │   ├── specs/scripts/                   # Script requirements + bug tracking
+│   │   ├── TEMPLATE.md                  # Requirements doc output format
+│   │   ├── HANDOFF-FORMAT.md            # Expert → Scripter handoff format
+│   │   └── AUDIT-PROMPT.md              # Compliance audit prompt
 │   └── live/                            # Live feed messages (cleared on deploy)
 ├── dreambot/                            # DreamBot script project
 │   ├── build.gradle.kts                 # Gradle build (DreamBot Maven repo)
