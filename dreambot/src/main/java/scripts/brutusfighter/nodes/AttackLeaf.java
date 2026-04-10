@@ -3,6 +3,7 @@ package scripts.brutusfighter.nodes;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
+import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
@@ -53,24 +54,31 @@ public class AttackLeaf extends Leaf {
         }
 
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
+        BrutusFighterScript script = (BrutusFighterScript) getTree();
 
-        // Brutus not spawned — release gate or wait for respawn
-        if (brutus == null || !brutus.exists()) {
+        // Not in instance yet — release gate to enter
+        if (!script.isInInstance()) {
             GameObject gate = GameObjects.closest(g -> g != null
                 && "Gate".equals(g.getName()) && g.hasAction("Release"));
             if (gate != null) {
-                Logger.log("[Attack] Releasing gate to spawn Brutus");
+                Logger.log("[Attack] Releasing gate to enter instance");
                 if (gate.interact("Release")) {
                     stuckCount = 0;
-                    Sleep.sleepUntil(() -> NPCs.closest(BrutusConstants.BRUTUS_NAME) != null,
+                    Sleep.sleepUntil(() -> Dialogues.inDialogue()
+                        || Players.getLocal().isInCombat(),
                         () -> Players.getLocal().isMoving(), 30000, 600);
-                    BrutusFighterScript script = (BrutusFighterScript) getTree();
                     script.setInInstance(true);
                 } else {
                     stuckCount++;
                 }
-                return AntiBanUtil.humanDelay(600, 1200);
+            } else {
+                stuckCount++;
             }
+            return AntiBanUtil.humanDelay(600, 1200);
+        }
+
+        // Brutus not spawned inside instance — wait for respawn
+        if (brutus == null || !brutus.exists()) {
             Logger.log("[Attack] Waiting for Brutus respawn");
             return AntiBanUtil.humanDelay(1000, 2000);
         }
@@ -87,9 +95,8 @@ public class AttackLeaf extends Leaf {
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // Walk to fight position (east of spawn) if far — only once in instance
-        BrutusFighterScript script2 = (BrutusFighterScript) getTree();
-        if (script2.isInInstance() && Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
+        // Walk to fight position (east of spawn) if far
+        if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
             if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
             stuckCount++;
             return AntiBanUtil.humanDelay(600, 1200);
