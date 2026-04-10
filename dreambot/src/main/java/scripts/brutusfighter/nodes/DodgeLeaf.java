@@ -10,9 +10,15 @@ import org.dreambot.api.wrappers.interactive.NPC;
 import scripts.brutusfighter.BrutusConstants;
 import scripts.shared.antiban.AntiBanUtil;
 
+/**
+ * Dodge Brutus specials by moving to fixed north/south tiles.
+ * Standing east of spawn prevents charge, but we still dodge it just in case.
+ * After dodging, AttackLeaf handles repositioning back to FIGHT_TILE.
+ */
 public class DodgeLeaf extends Leaf {
 
     private long lastDodgeTime = 0;
+    private boolean dodgeNorth = true; // alternate dodge direction
 
     @Override
     public boolean isValid() {
@@ -29,26 +35,11 @@ public class DodgeLeaf extends Leaf {
 
     @Override
     public int onLoop() {
-        NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
-        if (brutus == null) return AntiBanUtil.humanDelay(600, 1200);
+        // Pick north or south, alternate each time
+        Tile dodgeTile = dodgeNorth ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
+        dodgeNorth = !dodgeNorth;
 
-        String overhead = brutus.getOverhead();
-        Tile myTile = Players.getLocal().getTile();
-
-        Tile dodgeTile;
-        if (overhead != null && overhead.contains("growl")) {
-            // Charge — dodge north or south (perpendicular)
-            int dy = myTile.getY() >= brutus.getTile().getY() ? 2 : -2;
-            dodgeTile = myTile.translate(0, dy);
-            Logger.log("[Dodge] Charge! Sidestepping to " + dodgeTile);
-        } else {
-            // Slam — dodge 1 tile diagonally
-            int dx = myTile.getX() >= brutus.getTile().getX() ? 1 : -1;
-            int dy = myTile.getY() >= brutus.getTile().getY() ? 1 : -1;
-            dodgeTile = myTile.translate(dx, dy);
-            Logger.log("[Dodge] Slam! Moving diagonally to " + dodgeTile);
-        }
-
+        Logger.log("[Dodge] Moving to " + (dodgeNorth ? "south" : "north") + " dodge tile");
         Walking.walkOnScreen(dodgeTile);
         lastDodgeTime = System.currentTimeMillis();
 
