@@ -11,7 +11,7 @@ import scripts.shared.antiban.AntiBanNode;
 
 import java.awt.*;
 
-@ScriptManifest(name = "brutus-fighter", author = "osrs-bot", version = 0.36,
+@ScriptManifest(name = "brutus-fighter", author = "osrs-bot", version = 0.37,
                 description = "Fights Brutus cow boss - dodges specials, eats, loots, banks",
                 category = Category.COMBAT)
 public class BrutusFighterScript extends TreeScript {

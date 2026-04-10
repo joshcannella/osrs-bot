@@ -36,8 +36,12 @@ public class DodgeLeaf extends Leaf {
 
     @Override
     public int onLoop() {
-        // Dodge 2 tiles north or south
-        Tile dodgeTile = Math.random() < 0.5 ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
+        // Log player position for debugging instance coords
+        Tile myTile = Players.getLocal().getTile();
+        Logger.log("[Dodge] Player at " + myTile);
+
+        // Dodge 2 tiles north or south from current position
+        Tile dodgeTile = Math.random() < 0.5 ? myTile.translate(0, 2) : myTile.translate(0, -2);
 
         Logger.log("[Dodge] Dodging to " + dodgeTile + " onScreen=" + Map.isTileOnScreen(dodgeTile) + " onMap=" + Map.isTileOnMap(dodgeTile));
         if (Map.isTileOnScreen(dodgeTile)) {
@@ -45,7 +49,8 @@ public class DodgeLeaf extends Leaf {
         } else if (Map.isTileOnMap(dodgeTile)) {
             Walking.clickTileOnMinimap(dodgeTile);
         } else {
-            Logger.error("[Dodge] Tile not reachable!");
+            // Last resort — just click minimap with relative tile
+            Walking.clickTileOnMinimap(dodgeTile);
         }
         lastDodgeTime = System.currentTimeMillis();
 
