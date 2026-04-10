@@ -3,7 +3,6 @@ package scripts.brutusfighter.nodes;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
-import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
@@ -33,40 +32,42 @@ public class AttackLeaf extends Leaf {
 
     @Override
     public int onLoop() {
-        // F4: Stuck detection
         if (stuckCount > 10) {
             Logger.error("[Attack] Stuck for too long — stopping");
             return -1;
         }
 
-        // Walk to cow field if not there
-        if (!BrutusConstants.COW_FIELD.contains(Players.getLocal())) {
-            if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
-                Logger.log("[Attack] Teleporting to cow field");
-                Equipment.interact(EquipmentSlot.AMULET, "Teleport");
-                Sleep.sleepUntil(() -> BrutusConstants.COW_FIELD.contains(Players.getLocal()),
-                    () -> Players.getLocal().isMoving(), 8000, 600);
-                return AntiBanUtil.humanDelay(600, 1200);
-            }
-            Logger.log("[Attack] Walking to cow field");
-            if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
-            return AntiBanUtil.humanDelay(600, 1200);
-        }
-
-        NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         BrutusFighterScript script = (BrutusFighterScript) getTree();
 
-        // Not in instance yet — release gate to enter
+        // Not in instance — need to get there and release gate
         if (!script.isInInstance()) {
+            // Teleport to cow field if not there
+            if (!BrutusConstants.COW_FIELD.contains(Players.getLocal())) {
+                if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
+                    Logger.log("[Attack] Teleporting to cow field");
+                    Equipment.interact(EquipmentSlot.AMULET, "Teleport");
+                    Sleep.sleepUntil(() -> BrutusConstants.COW_FIELD.contains(Players.getLocal()),
+                        () -> Players.getLocal().isMoving(), 8000, 600);
+                    return AntiBanUtil.humanDelay(600, 1200);
+                }
+                Logger.log("[Attack] Walking to cow field");
+                if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
+                return AntiBanUtil.humanDelay(600, 1200);
+            }
+
+            // At cow field — release gate
             GameObject gate = GameObjects.closest(g -> g != null
                 && "Gate".equals(g.getName()) && g.hasAction("Release"));
             if (gate != null) {
                 Logger.log("[Attack] Releasing gate to enter instance");
                 if (gate.interact("Release")) {
                     stuckCount = 0;
-                    Sleep.sleepUntil(() -> Dialogues.inDialogue()
-                        || Players.getLocal().isInCombat(),
-                        () -> Players.getLocal().isMoving(), 30000, 600);
+                    // Wait for cutscene + Brutus to appear
+                    Logger.log("[Attack] Waiting for cutscene and Brutus spawn...");
+                    Sleep.sleepUntil(() -> {
+                        NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
+                        return b != null && b.canAttack();
+                    }, 30000);
                     script.setInInstance(true);
                 } else {
                     stuckCount++;
@@ -77,20 +78,24 @@ public class AttackLeaf extends Leaf {
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
-        // Brutus not spawned inside instance — wait for respawn
+        // === In instance from here ===
+
+        NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
+
+        // Waiting for respawn
         if (brutus == null || !brutus.exists()) {
             Logger.log("[Attack] Waiting for Brutus respawn");
             return AntiBanUtil.humanDelay(1000, 2000);
         }
 
-        // Already in combat with Brutus
+        // Already in combat
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
             stuckCount = 0;
             AntiBanUtil.idleWatch(AntiBanUtil.humanDelay(600, 1000));
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // F8: Don't interact while animating
+        // Don't interact while animating
         if (Players.getLocal().isAnimating()) {
             return AntiBanUtil.humanDelay(600, 1000);
         }
