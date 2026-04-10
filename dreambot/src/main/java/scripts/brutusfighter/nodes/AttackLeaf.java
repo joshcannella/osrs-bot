@@ -13,11 +13,13 @@ import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
 import scripts.brutusfighter.BrutusConstants;
+import scripts.brutusfighter.BrutusFighterScript;
 import scripts.shared.antiban.AntiBanUtil;
 
 /**
  * Fallback leaf: attack Brutus or wait for respawn.
  * Walks to fight position (east of spawn) if not in cow field.
+ * Releases gate to enter instance on first visit.
  */
 public class AttackLeaf extends Leaf {
 
@@ -62,6 +64,8 @@ public class AttackLeaf extends Leaf {
                     stuckCount = 0;
                     Sleep.sleepUntil(() -> NPCs.closest(BrutusConstants.BRUTUS_NAME) != null,
                         () -> Players.getLocal().isMoving(), 8000, 600);
+                    BrutusFighterScript script = (BrutusFighterScript) getTree();
+                    script.setInInstance(true);
                 } else {
                     stuckCount++;
                 }

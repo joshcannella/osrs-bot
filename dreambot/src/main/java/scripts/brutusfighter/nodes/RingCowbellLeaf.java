@@ -8,6 +8,7 @@ import org.dreambot.api.script.frameworks.treebranch.Leaf;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.wrappers.interactive.NPC;
 import scripts.brutusfighter.BrutusConstants;
+import scripts.brutusfighter.BrutusFighterScript;
 import scripts.shared.antiban.AntiBanUtil;
 
 /**
@@ -20,6 +21,9 @@ public class RingCowbellLeaf extends Leaf {
 
     @Override
     public boolean isValid() {
+        BrutusFighterScript script = (BrutusFighterScript) getTree();
+        if (!script.isInInstance()) return false;
+
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         boolean brutusDead = brutus == null || !brutus.exists();
 

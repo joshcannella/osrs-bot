@@ -12,6 +12,7 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import scripts.brutusfighter.BrutusConstants;
+import scripts.brutusfighter.BrutusFighterScript;
 import scripts.shared.antiban.AntiBanUtil;
 
 /**
@@ -34,18 +35,24 @@ public class BankBranch extends Branch {
      */
     private static class LeaveInstanceLeaf extends Leaf {
 
+        private LeaveInstanceLeaf() {}
+
         @Override
         public boolean isValid() {
-            return BrutusConstants.COW_FIELD.contains(Players.getLocal());
+            BrutusFighterScript script = (BrutusFighterScript) getTree();
+            return script.isInInstance();
         }
 
         @Override
         public int onLoop() {
-            // Handle the "do you want to leave?" dialogue
+            BrutusFighterScript script = (BrutusFighterScript) getTree();
+
             if (Dialogues.inDialogue()) {
                 if (Dialogues.areOptionsAvailable()) {
                     Logger.log("[Bank] Confirming leave instance");
                     Dialogues.chooseFirstOptionContaining("Yes");
+                    Sleep.sleepUntil(() -> !Dialogues.inDialogue(), 3000);
+                    script.setInInstance(false);
                 } else if (Dialogues.canContinue()) {
                     Dialogues.continueDialogue();
                 }
@@ -57,8 +64,7 @@ public class BankBranch extends Branch {
             if (gate != null) {
                 Logger.log("[Bank] Leaving instance via gate");
                 if (gate.interact("Leave")) {
-                    Sleep.sleepUntil(() -> Dialogues.inDialogue()
-                        || !BrutusConstants.COW_FIELD.contains(Players.getLocal()),
+                    Sleep.sleepUntil(() -> Dialogues.inDialogue(),
                         () -> Players.getLocal().isMoving(), 8000, 600);
                 }
             }
@@ -73,7 +79,8 @@ public class BankBranch extends Branch {
 
         @Override
         public boolean isValid() {
-            return !BrutusConstants.COW_FIELD.contains(Players.getLocal());
+            BrutusFighterScript script = (BrutusFighterScript) getTree();
+            return !script.isInInstance();
         }
 
         @Override
