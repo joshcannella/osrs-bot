@@ -4,6 +4,7 @@ import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.frameworks.treebranch.Leaf;
 import org.dreambot.api.utilities.Logger;
@@ -58,10 +59,11 @@ public class AttackLeaf extends Leaf {
 
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
             stuckCount = 0;
-            // Reposition east if we drifted from dodge
-            if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 2) {
+            // Reposition east of Brutus if we drifted from dodge
+            Tile eastOfBrutus = brutus.getTile().translate(3, 0);
+            if (Players.getLocal().getTile().distance(eastOfBrutus) > 2) {
                 Logger.log("[Attack] Repositioning east of Brutus");
-                Walking.walkOnScreen(BrutusConstants.FIGHT_TILE);
+                Walking.clickTileOnMinimap(eastOfBrutus);
                 return AntiBanUtil.humanDelay(600, 1000);
             }
             return AntiBanUtil.humanDelay(600, 1000);
@@ -71,10 +73,11 @@ public class AttackLeaf extends Leaf {
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // Move to east position before attacking
-        if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 2) {
+        // Move east of Brutus before attacking
+        Tile eastOfBrutus = brutus.getTile().translate(3, 0);
+        if (Players.getLocal().getTile().distance(eastOfBrutus) > 2) {
             Logger.log("[Attack] Moving to east position");
-            Walking.walkOnScreen(BrutusConstants.FIGHT_TILE);
+            Walking.clickTileOnMinimap(eastOfBrutus);
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
