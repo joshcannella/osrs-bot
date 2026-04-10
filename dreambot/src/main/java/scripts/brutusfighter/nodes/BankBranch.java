@@ -78,6 +78,14 @@ public class BankBranch extends Branch {
             GameObject gate = GameObjects.closest(g -> g != null
                 && "Gate".equals(g.getName()) && g.hasAction("Leave"));
             if (gate != null) {
+                // Walk near the gate first
+                if (gate.distance() > 3) {
+                    Logger.log("[Bank] Running to gate");
+                    Walking.walk(gate.getTile());
+                    Sleep.sleepUntil(() -> gate.distance() <= 3,
+                        () -> Players.getLocal().isMoving(), 5000, 600);
+                    return AntiBanUtil.humanDelay(600, 1200);
+                }
                 Logger.log("[Bank] Leaving instance via gate");
                 if (gate.interact("Leave")) {
                     Sleep.sleepUntil(() -> Dialogues.inDialogue(),
