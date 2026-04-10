@@ -3,12 +3,14 @@ package scripts.brutusfighter.nodes;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.equipment.Equipment;
 import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
+import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.frameworks.treebranch.Leaf;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
 import scripts.brutusfighter.BrutusConstants;
 import scripts.shared.antiban.AntiBanUtil;
@@ -50,13 +52,26 @@ public class AttackLeaf extends Leaf {
 
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
 
-        // Brutus not spawned — wait for respawn
+        // Brutus not spawned — release gate or wait for respawn
         if (brutus == null || !brutus.exists()) {
+            GameObject gate = GameObjects.closest(g -> g != null
+                && "Gate".equals(g.getName()) && g.hasAction("Release"));
+            if (gate != null) {
+                Logger.log("[Attack] Releasing gate to spawn Brutus");
+                if (gate.interact("Release")) {
+                    stuckCount = 0;
+                    Sleep.sleepUntil(() -> NPCs.closest(BrutusConstants.BRUTUS_NAME) != null,
+                        () -> Players.getLocal().isMoving(), 8000, 600);
+                } else {
+                    stuckCount++;
+                }
+                return AntiBanUtil.humanDelay(600, 1200);
+            }
             Logger.log("[Attack] Waiting for Brutus respawn");
             return AntiBanUtil.humanDelay(1000, 2000);
         }
 
-        // Already in combat with Brutus — F2: idleWatch during combat
+        // Already in combat with Brutus
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
             stuckCount = 0;
             AntiBanUtil.idleWatch(AntiBanUtil.humanDelay(600, 1000));
@@ -76,28 +91,13 @@ public class AttackLeaf extends Leaf {
         }
 
         // Attack Brutus
-        if (brutus.hasAction("Attack")) {
-            Logger.log("[Attack] Attacking Brutus");
-            if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
-            if (AntiBanUtil.shouldMisclick()) AntiBanUtil.misclick(brutus);
-            if (brutus.interact("Attack")) {
-                stuckCount = 0;
-                Sleep.sleepUntil(() -> Players.getLocal().isInCombat(),
-                    () -> Players.getLocal().isMoving(), 5000, 600);
-            } else {
-                stuckCount++;
-            }
-        } else if (brutus.hasAction("Release")) {
-            Logger.log("[Attack] Releasing Brutus");
-            if (brutus.interact("Release")) {
-                stuckCount = 0;
-                Sleep.sleepUntil(() -> {
-                    NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
-                    return b != null && b.hasAction("Attack");
-                }, 5000);
-            } else {
-                stuckCount++;
-            }
+        Logger.log("[Attack] Attacking Brutus");
+        if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
+        if (AntiBanUtil.shouldMisclick()) AntiBanUtil.misclick(brutus);
+        if (brutus.interact("Attack")) {
+            stuckCount = 0;
+            Sleep.sleepUntil(() -> Players.getLocal().isInCombat(),
+                () -> Players.getLocal().isMoving(), 5000, 600);
         } else {
             stuckCount++;
         }

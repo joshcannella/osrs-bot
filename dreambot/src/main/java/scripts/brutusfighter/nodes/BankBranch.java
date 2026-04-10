@@ -2,22 +2,26 @@ package scripts.brutusfighter.nodes;
 
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.dialogues.Dialogues;
+import org.dreambot.api.methods.interactive.GameObjects;
+import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.frameworks.treebranch.Branch;
 import org.dreambot.api.script.frameworks.treebranch.Leaf;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
+import org.dreambot.api.wrappers.interactive.GameObject;
 import scripts.brutusfighter.BrutusConstants;
 import scripts.shared.antiban.AntiBanUtil;
 
 /**
  * Branch: active when no food in inventory.
- * Handles depositing loot and withdrawing food.
+ * Leaves the instance via the exit gate, then banks.
  */
 public class BankBranch extends Branch {
 
     public BankBranch() {
-        addLeaves(new BankLeaf());
+        addLeaves(new LeaveInstanceLeaf(), new BankLeaf());
     }
 
     @Override
@@ -25,11 +29,51 @@ public class BankBranch extends Branch {
         return !Inventory.contains(BrutusConstants.FOOD_NAMES);
     }
 
+    /**
+     * If still inside the instance (cow field area), leave via the exit gate.
+     */
+    private static class LeaveInstanceLeaf extends Leaf {
+
+        @Override
+        public boolean isValid() {
+            return BrutusConstants.COW_FIELD.contains(Players.getLocal());
+        }
+
+        @Override
+        public int onLoop() {
+            // Handle the "do you want to leave?" dialogue
+            if (Dialogues.inDialogue()) {
+                if (Dialogues.areOptionsAvailable()) {
+                    Logger.log("[Bank] Confirming leave instance");
+                    Dialogues.chooseFirstOptionContaining("Yes");
+                } else if (Dialogues.canContinue()) {
+                    Dialogues.continueDialogue();
+                }
+                return AntiBanUtil.humanDelay(600, 1200);
+            }
+
+            GameObject gate = GameObjects.closest(g -> g != null
+                && "Gate".equals(g.getName()) && g.hasAction("Leave"));
+            if (gate != null) {
+                Logger.log("[Bank] Leaving instance via gate");
+                if (gate.interact("Leave")) {
+                    Sleep.sleepUntil(() -> Dialogues.inDialogue()
+                        || !BrutusConstants.COW_FIELD.contains(Players.getLocal()),
+                        () -> Players.getLocal().isMoving(), 8000, 600);
+                }
+            }
+            return AntiBanUtil.humanDelay(600, 1200);
+        }
+    }
+
+    /**
+     * Once outside the instance, bank normally.
+     */
     private static class BankLeaf extends Leaf {
 
         @Override
         public boolean isValid() {
-            return true;
+            return !BrutusConstants.COW_FIELD.contains(Players.getLocal());
         }
 
         @Override
@@ -45,7 +89,6 @@ public class BankBranch extends Branch {
                 Logger.log("[Bank] Depositing loot");
                 Bank.depositAllItems();
                 Sleep.sleepUntil(Inventory::isEmpty, 3000);
-                // F5: Bank full handling
                 if (!Inventory.isEmpty()) {
                     Logger.error("[Bank] Bank appears full — stopping");
                     Bank.close();
