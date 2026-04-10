@@ -18,7 +18,6 @@ import scripts.shared.antiban.AntiBanUtil;
 public class DodgeLeaf extends Leaf {
 
     private long lastDodgeTime = 0;
-    private boolean dodgeNorth = true; // alternate dodge direction
 
     @Override
     public boolean isValid() {
@@ -35,11 +34,10 @@ public class DodgeLeaf extends Leaf {
 
     @Override
     public int onLoop() {
-        // Pick north or south, alternate each time
-        Tile dodgeTile = dodgeNorth ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
-        dodgeNorth = !dodgeNorth;
+        // Pick north or south randomly
+        Tile dodgeTile = Math.random() < 0.5 ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
 
-        Logger.log("[Dodge] Moving to " + (dodgeNorth ? "south" : "north") + " dodge tile");
+        Logger.log("[Dodge] Moving to dodge tile " + dodgeTile);
         Walking.walkOnScreen(dodgeTile);
         lastDodgeTime = System.currentTimeMillis();
 
