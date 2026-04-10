@@ -87,8 +87,9 @@ public class AttackLeaf extends Leaf {
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
-        // Walk to fight position (east of spawn) if far
-        if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
+        // Walk to fight position (east of spawn) if far — only once in instance
+        BrutusFighterScript script2 = (BrutusFighterScript) getTree();
+        if (script2.isInInstance() && Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
             if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
             stuckCount++;
             return AntiBanUtil.humanDelay(600, 1200);
