@@ -11,7 +11,6 @@ import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.utilities.Sleep;
 import org.dreambot.api.wrappers.interactive.NPC;
 import scripts.brutusfighter.BrutusConstants;
-import scripts.brutusfighter.BrutusFighterScript;
 import scripts.shared.antiban.AntiBanUtil;
 
 /**
@@ -20,6 +19,8 @@ import scripts.shared.antiban.AntiBanUtil;
  */
 public class AttackLeaf extends Leaf {
 
+    private int stuckCount = 0;
+
     @Override
     public boolean isValid() {
         return Inventory.contains(BrutusConstants.FOOD_NAMES);
@@ -27,17 +28,22 @@ public class AttackLeaf extends Leaf {
 
     @Override
     public int onLoop() {
+        // F4: Stuck detection
+        if (stuckCount > 10) {
+            Logger.error("[Attack] Stuck for too long — stopping");
+            return -1;
+        }
+
         // Walk to cow field if not there
         if (!BrutusConstants.COW_FIELD.contains(Players.getLocal())) {
-            // Try cowbell teleport first
             if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
-                Logger.log("[Brutus] Teleporting to cow field");
+                Logger.log("[Attack] Teleporting to cow field");
                 Equipment.interact(EquipmentSlot.AMULET, "Teleport");
                 Sleep.sleepUntil(() -> BrutusConstants.COW_FIELD.contains(Players.getLocal()),
                     () -> Players.getLocal().isMoving(), 8000, 600);
                 return AntiBanUtil.humanDelay(600, 1200);
             }
-            Logger.log("[Brutus] Walking to cow field");
+            Logger.log("[Attack] Walking to cow field");
             if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
             return AntiBanUtil.humanDelay(600, 1200);
         }
@@ -46,36 +52,54 @@ public class AttackLeaf extends Leaf {
 
         // Brutus not spawned — wait for respawn
         if (brutus == null || !brutus.exists()) {
+            Logger.log("[Attack] Waiting for Brutus respawn");
             return AntiBanUtil.humanDelay(1000, 2000);
         }
 
-        // Already in combat with Brutus
+        // Already in combat with Brutus — F2: idleWatch during combat
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
+            stuckCount = 0;
+            AntiBanUtil.idleWatch(AntiBanUtil.humanDelay(600, 1000));
+            return AntiBanUtil.humanDelay(600, 1000);
+        }
+
+        // F8: Don't interact while animating
+        if (Players.getLocal().isAnimating()) {
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
         // Walk to fight position (east of spawn) if far
         if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 5) {
             if (Walking.shouldWalk()) Walking.walk(BrutusConstants.FIGHT_TILE);
+            stuckCount++;
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
         // Attack Brutus
         if (brutus.hasAction("Attack")) {
-            Logger.log("[Brutus] Attacking Brutus");
+            Logger.log("[Attack] Attacking Brutus");
             if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
             if (AntiBanUtil.shouldMisclick()) AntiBanUtil.misclick(brutus);
             if (brutus.interact("Attack")) {
+                stuckCount = 0;
                 Sleep.sleepUntil(() -> Players.getLocal().isInCombat(),
                     () -> Players.getLocal().isMoving(), 5000, 600);
+            } else {
+                stuckCount++;
             }
         } else if (brutus.hasAction("Release")) {
-            Logger.log("[Brutus] Releasing Brutus");
-            brutus.interact("Release");
-            Sleep.sleepUntil(() -> {
-                NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
-                return b != null && b.hasAction("Attack");
-            }, 5000);
+            Logger.log("[Attack] Releasing Brutus");
+            if (brutus.interact("Release")) {
+                stuckCount = 0;
+                Sleep.sleepUntil(() -> {
+                    NPC b = NPCs.closest(BrutusConstants.BRUTUS_NAME);
+                    return b != null && b.hasAction("Attack");
+                }, 5000);
+            } else {
+                stuckCount++;
+            }
+        } else {
+            stuckCount++;
         }
 
         return AntiBanUtil.reactionDelay();

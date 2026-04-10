@@ -18,10 +18,10 @@ public class DialogueLeaf extends Leaf {
     @Override
     public int onLoop() {
         if (Dialogues.canContinue()) {
-            Logger.log("[Brutus] Continuing dialogue");
+            Logger.log("[Dialogue] Continuing dialogue");
             Dialogues.continueDialogue();
         } else if (Dialogues.areOptionsAvailable()) {
-            Logger.log("[Brutus] Choosing Yes option");
+            Logger.log("[Dialogue] Choosing Yes option");
             Dialogues.chooseFirstOptionContaining("Yes");
         }
         return AntiBanUtil.humanDelay(600, 1200);

@@ -20,7 +20,6 @@ public class LootLeaf extends Leaf {
     @Override
     public boolean isValid() {
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
-        // Loot when Brutus is dead (not present) and there's loot nearby
         if (brutus != null && brutus.exists()) return false;
         return hasLoot() || hasBullBones();
     }
@@ -30,7 +29,7 @@ public class LootLeaf extends Leaf {
         // Bury bull bones first (ground action is "Bury")
         GroundItem bones = GroundItems.closest(BrutusConstants.BULL_BONES);
         if (bones != null) {
-            Logger.log("[Brutus] Burying bull bones");
+            Logger.log("[Loot] Burying bull bones");
             if (bones.interact("Bury")) {
                 Sleep.sleepUntil(() -> GroundItems.closest(BrutusConstants.BULL_BONES) == null, 3000);
             }
@@ -39,19 +38,24 @@ public class LootLeaf extends Leaf {
 
         // Pick up loot
         if (Inventory.isFull()) {
-            Logger.log("[Brutus] Inventory full, skipping remaining loot");
+            Logger.log("[Loot] Inventory full, skipping remaining loot");
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
         GroundItem loot = GroundItems.closest(BrutusConstants.LOOT_NAMES);
         if (loot != null) {
-            Logger.log("[Brutus] Looting " + loot.getName());
+            Logger.log("[Loot] Looting " + loot.getName());
             if (AntiBanUtil.shouldHesitate()) AntiBanUtil.hesitate();
-            if (loot.interact("Take")) {
-                String name = loot.getName();
-                Sleep.sleepUntil(() -> GroundItems.closest(name) == null || Inventory.contains(name), 3000);
+            // F1: Use shouldForceRightClick() correctly
+            if (AntiBanUtil.shouldForceRightClick()) {
+                loot.interactForceRight("Take");
+            } else {
+                loot.interact("Take");
             }
-            if (AntiBanUtil.shouldForceRightClick()) AntiBanUtil.glanceInventory();
+            String name = loot.getName();
+            Sleep.sleepUntil(() -> GroundItems.closest(name) == null || Inventory.contains(name), 3000);
+            // F3: Separate glance check after gaining items
+            if (Math.random() < 0.15) AntiBanUtil.glanceInventory();
             return AntiBanUtil.reactionDelay();
         }
 
