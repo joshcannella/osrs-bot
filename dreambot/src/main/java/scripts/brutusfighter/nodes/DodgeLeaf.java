@@ -38,10 +38,19 @@ public class DodgeLeaf extends Leaf {
     public int onLoop() {
         // Log player position for debugging instance coords
         Tile myTile = Players.getLocal().getTile();
+        NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         Logger.log("[Dodge] Player at " + myTile);
 
-        // Dodge 2 tiles north or south from current position
-        Tile dodgeTile = Math.random() < 0.5 ? myTile.translate(0, 2) : myTile.translate(0, -2);
+        // Dodge north or south — pick direction away from nearest fence
+        // If player is north of Brutus, dodge south (away from north fence)
+        // If player is south of Brutus, dodge north (away from south fence)
+        int dy;
+        if (brutus != null) {
+            dy = myTile.getY() > brutus.getTile().getY() ? -2 : 2;
+        } else {
+            dy = Math.random() < 0.5 ? 2 : -2;
+        }
+        Tile dodgeTile = myTile.translate(0, dy);
 
         Logger.log("[Dodge] Dodging to " + dodgeTile + " onScreen=" + Map.isTileOnScreen(dodgeTile) + " onMap=" + Map.isTileOnMap(dodgeTile));
         if (Map.isTileOnScreen(dodgeTile)) {
