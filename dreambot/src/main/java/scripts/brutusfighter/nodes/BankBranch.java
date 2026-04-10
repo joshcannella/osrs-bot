@@ -38,6 +38,7 @@ public class BankBranch extends Branch {
     private static class LeaveInstanceLeaf extends Leaf {
 
         private LeaveInstanceLeaf() {}
+        private int gateAttempts = 0;
 
         @Override
         public boolean isValid() {
@@ -55,8 +56,21 @@ public class BankBranch extends Branch {
                     Dialogues.chooseFirstOptionContaining("Yes");
                     Sleep.sleepUntil(() -> !Dialogues.inDialogue(), 3000);
                     script.setInInstance(false);
+                    gateAttempts = 0;
                 } else if (Dialogues.canContinue()) {
                     Dialogues.continueDialogue();
+                }
+                return AntiBanUtil.humanDelay(600, 1200);
+            }
+
+            // After 3 failed gate attempts, just teleport out
+            if (gateAttempts >= 3) {
+                if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
+                    Logger.log("[Bank] Gate not working — teleporting out with cowbell");
+                    Equipment.interact(EquipmentSlot.AMULET, "Teleport");
+                    Sleep.sleep(3000);
+                    script.setInInstance(false);
+                    gateAttempts = 0;
                 }
                 return AntiBanUtil.humanDelay(600, 1200);
             }
@@ -67,16 +81,13 @@ public class BankBranch extends Branch {
                 Logger.log("[Bank] Leaving instance via gate");
                 if (gate.interact("Leave")) {
                     Sleep.sleepUntil(() -> Dialogues.inDialogue(),
-                        () -> Players.getLocal().isMoving(), 8000, 600);
+                        () -> Players.getLocal().isMoving(), 5000, 600);
+                    if (!Dialogues.inDialogue()) gateAttempts++;
+                } else {
+                    gateAttempts++;
                 }
             } else {
-                // No gate found — teleport out with cowbell
-                if (Equipment.slotContains(EquipmentSlot.AMULET, BrutusConstants.COWBELL_AMULET)) {
-                    Logger.log("[Bank] No gate found — teleporting out with cowbell");
-                    Equipment.interact(EquipmentSlot.AMULET, "Teleport");
-                    Sleep.sleep(3000);
-                    script.setInInstance(false);
-                }
+                gateAttempts++;
             }
             return AntiBanUtil.humanDelay(600, 1200);
         }
