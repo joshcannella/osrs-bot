@@ -2,6 +2,7 @@ package scripts.brutusfighter.nodes;
 
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.frameworks.treebranch.Leaf;
@@ -38,7 +39,7 @@ public class DodgeLeaf extends Leaf {
         Tile dodgeTile = Math.random() < 0.5 ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
 
         Logger.log("[Dodge] Dodging to " + dodgeTile);
-        Walking.walkOnScreen(dodgeTile);
+        Map.interact(dodgeTile, "Walk here");
         lastDodgeTime = System.currentTimeMillis();
 
         return AntiBanUtil.humanDelay(600, 900);
