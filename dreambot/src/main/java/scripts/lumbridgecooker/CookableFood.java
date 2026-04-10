@@ -9,7 +9,8 @@ public enum CookableFood {
     SALMON("Raw salmon", "Salmon"),
     TUNA("Raw tuna", "Tuna"),
     LOBSTER("Raw lobster", "Lobster"),
-    SWORDFISH("Raw swordfish", "Swordfish");
+    SWORDFISH("Raw swordfish", "Swordfish"),
+    T_BONE_STEAK("Raw t-bone steak", "Cooked t-bone steak");
 
     private final String rawName;
     private final String cookedName;

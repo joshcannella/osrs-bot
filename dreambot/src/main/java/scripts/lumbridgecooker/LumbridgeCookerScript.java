@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@ScriptManifest(name = "lumbridge-cooker", author = "osrs-bot", version = 0.1,
+@ScriptManifest(name = "lumbridge-cooker", author = "osrs-bot", version = 0.2,
                 description = "Cooks food at Lumbridge castle range and banks",
                 category = Category.COOKING)
 public class LumbridgeCookerScript extends TreeScript {
