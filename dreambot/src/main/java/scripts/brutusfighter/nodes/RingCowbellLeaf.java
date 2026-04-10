@@ -44,6 +44,8 @@ public class RingCowbellLeaf extends Leaf {
         Logger.log("[Cowbell] Ringing cowbell for fast respawn");
         Equipment.interact(EquipmentSlot.AMULET, "Ring");
         rangThisKill = true;
+        BrutusFighterScript script = (BrutusFighterScript) getTree();
+        script.incrementKills();
         return AntiBanUtil.humanDelay(600, 1200);
     }
 }
