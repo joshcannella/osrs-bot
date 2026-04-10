@@ -58,12 +58,24 @@ public class AttackLeaf extends Leaf {
 
         if (Players.getLocal().isInCombat() && brutus.isInteractedWith()) {
             stuckCount = 0;
-            AntiBanUtil.idleWatch(AntiBanUtil.humanDelay(600, 1000));
+            // Reposition east if we drifted from dodge
+            if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 2) {
+                Logger.log("[Attack] Repositioning east of Brutus");
+                Walking.walkOnScreen(BrutusConstants.FIGHT_TILE);
+                return AntiBanUtil.humanDelay(600, 1000);
+            }
             return AntiBanUtil.humanDelay(600, 1000);
         }
 
         if (Players.getLocal().isAnimating()) {
             return AntiBanUtil.humanDelay(600, 1000);
+        }
+
+        // Move to east position before attacking
+        if (Players.getLocal().getTile().distance(BrutusConstants.FIGHT_TILE) > 2) {
+            Logger.log("[Attack] Moving to east position");
+            Walking.walkOnScreen(BrutusConstants.FIGHT_TILE);
+            return AntiBanUtil.humanDelay(600, 1200);
         }
 
         Logger.log("[Attack] Attacking Brutus");
