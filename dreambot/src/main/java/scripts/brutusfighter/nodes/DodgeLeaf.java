@@ -5,6 +5,7 @@ import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.walking.impl.Walking;
+import org.dreambot.api.methods.walking.impl.Walking;
 import org.dreambot.api.script.frameworks.treebranch.Leaf;
 import org.dreambot.api.utilities.Logger;
 import org.dreambot.api.wrappers.interactive.NPC;
@@ -38,8 +39,14 @@ public class DodgeLeaf extends Leaf {
         // Dodge 2 tiles north or south
         Tile dodgeTile = Math.random() < 0.5 ? BrutusConstants.DODGE_NORTH : BrutusConstants.DODGE_SOUTH;
 
-        Logger.log("[Dodge] Dodging to " + dodgeTile);
-        Map.interact(dodgeTile, "Walk here");
+        Logger.log("[Dodge] Dodging to " + dodgeTile + " onScreen=" + Map.isTileOnScreen(dodgeTile) + " onMap=" + Map.isTileOnMap(dodgeTile));
+        if (Map.isTileOnScreen(dodgeTile)) {
+            Map.interact(dodgeTile, "Walk here");
+        } else if (Map.isTileOnMap(dodgeTile)) {
+            Walking.clickTileOnMinimap(dodgeTile);
+        } else {
+            Logger.error("[Dodge] Tile not reachable!");
+        }
         lastDodgeTime = System.currentTimeMillis();
 
         return AntiBanUtil.humanDelay(600, 900);
