@@ -35,8 +35,8 @@ public class DodgeLeaf extends Leaf {
         int dx = myTile.getX() - brutusTile.getX();
         int dy = myTile.getY() - brutusTile.getY();
 
-        int moveX = dx >= 0 ? 2 : -2;
-        int moveY = dy >= 0 ? 2 : -2;
+        int moveX = dx >= 0 ? 1 : -1;
+        int moveY = dy >= 0 ? 1 : -1;
 
         Tile dodgeTile = myTile.translate(moveX, moveY);
         Logger.log("[Dodge] Dodging special! Moving to " + dodgeTile);
