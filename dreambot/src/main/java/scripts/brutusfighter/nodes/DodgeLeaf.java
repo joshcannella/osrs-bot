@@ -36,29 +36,39 @@ public class DodgeLeaf extends Leaf {
         return false;
     }
 
+    // Instance coords — gate is near the north fence
+    private static final int MAX_Y = BrutusConstants.GATE_TILE.getY() - 5;
+
     @Override
     public int onLoop() {
         Tile myTile = Players.getLocal().getTile();
         NPC brutus = NPCs.closest(BrutusConstants.BRUTUS_NAME);
         Logger.log("[Dodge] Player at " + myTile + " attack=" + (isSlamAttack ? "slam" : "charge"));
 
-        // Sidestep 1 tile north or south — pick direction away from Brutus Y
+        // Sidestep 2 tiles north or south — pick direction away from Brutus Y
         int dy = 1;
         if (brutus != null) {
             dy = myTile.getY() >= brutus.getTile().getY() ? 1 : -1;
         }
 
         Tile dodgeTile = myTile.translate(0, dy * 2);
-        Logger.log("[Dodge] Sidestepping to " + dodgeTile);
 
-        if (Map.isTileOnScreen(dodgeTile)) {
-            Map.interact(dodgeTile, "Walk here");
+        // Clamp: stay at least 5 tiles south of gate — if dodge goes too far north, go south instead
+        if (dodgeTile.getY() > MAX_Y) {
+            dodgeTile = myTile.translate(0, -2);
+            Logger.log("[Dodge] Clamped — dodging south instead");
+        }
+        final Tile target = dodgeTile;
+        Logger.log("[Dodge] Sidestepping to " + target);
+
+        if (Map.isTileOnScreen(target)) {
+            Map.interact(target, "Walk here");
         } else {
-            Walking.clickTileOnMinimap(dodgeTile);
+            Walking.clickTileOnMinimap(target);
         }
 
         // Wait until we've moved
-        Sleep.sleepUntil(() -> Players.getLocal().getTile().distance(dodgeTile) < 1, 1200);
+        Sleep.sleepUntil(() -> Players.getLocal().getTile().distance(target) < 1, 1200);
 
         lastDodgeTime = System.currentTimeMillis();
 
