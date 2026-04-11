@@ -26,7 +26,7 @@ public final class BrutusConstants {
 
     // Food
     public static final String[] FOOD_NAMES = {"Lobster", "Cooked t-bone steak", "Salmon", "Trout"};
-    public static final int FOOD_COUNT = 20;
+    public static final int FOOD_COUNT = 24;
     public static final int EAT_HP_PERCENT = 50;
 
     // Loot
