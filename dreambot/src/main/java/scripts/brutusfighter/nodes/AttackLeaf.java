@@ -1,6 +1,7 @@
 package scripts.brutusfighter.nodes;
 
 import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.methods.interactive.NPCs;
 import org.dreambot.api.methods.interactive.Players;
@@ -45,8 +46,13 @@ public class AttackLeaf extends Leaf {
             }
             Logger.log("[Attack] Releasing gate to enter instance");
             gate.interact("Release");
+            // Wait for dialogue to appear, confirm it, then wait 1 tick for Brutus to spawn
+            Sleep.sleepUntil(Dialogues::inDialogue, 5000);
+            if (Dialogues.canContinue()) Dialogues.continueDialogue();
+            if (Dialogues.areOptionsAvailable()) Dialogues.chooseFirstOptionContaining("Yes");
+            Sleep.sleepUntil(() -> !Dialogues.inDialogue(), 3000);
             script.setInInstance(true);
-            Sleep.sleep(10000);
+            Sleep.sleep(600);
             return AntiBanUtil.humanDelay(600, 1200);
         }
 

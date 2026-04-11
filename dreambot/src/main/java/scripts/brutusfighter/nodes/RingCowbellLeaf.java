@@ -14,10 +14,12 @@ import scripts.shared.antiban.AntiBanUtil;
 /**
  * Ring the cowbell amulet after a kill for faster respawn (13 ticks vs 36).
  * Valid when Brutus is dead, no loot remaining, and cowbell is equipped.
+ * Waits at least 1 tick after death before ringing to confirm the kill.
  */
 public class RingCowbellLeaf extends Leaf {
 
     private boolean rangThisKill = false;
+    private long deathTime = 0;
 
     @Override
     public boolean isValid() {
@@ -29,8 +31,15 @@ public class RingCowbellLeaf extends Leaf {
 
         if (!brutusDead) {
             rangThisKill = false;
+            deathTime = 0;
             return false;
         }
+
+        // Record when we first noticed death
+        if (deathTime == 0) deathTime = System.currentTimeMillis();
+
+        // Wait at least 1 tick (600ms) to confirm death animation finished
+        if (System.currentTimeMillis() - deathTime < 600) return false;
 
         if (rangThisKill) return false;
         if (GroundItems.closest(BrutusConstants.LOOT_NAMES) != null) return false;

@@ -25,7 +25,7 @@ public final class BrutusConstants {
     public static final String SLAM_OVERHEAD = "*snorts*";
 
     // Food
-    public static final String[] FOOD_NAMES = {"Lobster", "Salmon", "Trout"};
+    public static final String[] FOOD_NAMES = {"Lobster", "Cooked t-bone steak", "Salmon", "Trout"};
     public static final int FOOD_COUNT = 20;
     public static final int EAT_HP_PERCENT = 50;
 
@@ -33,7 +33,7 @@ public final class BrutusConstants {
     public static final String[] LOOT_NAMES = {
         "Raw t-bone steak", "Mooleta", "Cow slippers", "Bottomless milk bucket (empty)",
         "Clue scroll (beginner)", "Clue scroll (easy)",
-        "Air rune", "Mind rune", "Chaos rune", "Coins"
+        "Air rune", "Mind rune", "Chaos rune", "Coins", "Iron arrow"
     };
     public static final String BULL_BONES = "Bull bones";
 
