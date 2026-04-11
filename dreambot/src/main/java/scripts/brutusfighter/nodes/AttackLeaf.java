@@ -1,5 +1,6 @@
 package scripts.brutusfighter.nodes;
 
+import org.dreambot.api.methods.input.Camera;
 import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.interactive.GameObjects;
@@ -54,6 +55,7 @@ public class AttackLeaf extends Leaf {
             Sleep.sleepUntil(() -> !Dialogues.inDialogue(), 3000);
             script.setInInstance(true);
             Sleep.sleep(600);
+            Camera.rotateTo(270, Camera.getPitch()); // Face west
             return AntiBanUtil.humanDelay(600, 1200);
         }
 
