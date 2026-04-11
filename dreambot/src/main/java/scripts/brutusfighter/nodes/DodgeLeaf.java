@@ -48,7 +48,7 @@ public class DodgeLeaf extends Leaf {
             dy = myTile.getY() >= brutus.getTile().getY() ? 1 : -1;
         }
 
-        Tile dodgeTile = myTile.translate(0, dy);
+        Tile dodgeTile = myTile.translate(0, dy * 2);
         Logger.log("[Dodge] Sidestepping to " + dodgeTile);
 
         if (Map.isTileOnScreen(dodgeTile)) {
