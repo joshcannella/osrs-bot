@@ -62,8 +62,8 @@ public class DodgeLeaf extends Leaf {
 
         lastDodgeTime = System.currentTimeMillis();
 
-        // Slam: 3 hits over ~5.4s — stay away the full duration
-        // Charge: passes in ~1.8s — shorter wait
-        return isSlamAttack ? 4800 : 1800;
+        // Short return so the tree re-evaluates quickly — EatLeaf can fire if needed.
+        // The 3s cooldown in isValid() prevents re-dodging the same attack.
+        return 600;
     }
 }
