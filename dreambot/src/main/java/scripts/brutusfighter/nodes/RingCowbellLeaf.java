@@ -38,8 +38,8 @@ public class RingCowbellLeaf extends Leaf {
         // Record when we first noticed death
         if (deathTime == 0) deathTime = System.currentTimeMillis();
 
-        // Wait at least 1 tick (600ms) to confirm death animation finished
-        if (System.currentTimeMillis() - deathTime < 600) return false;
+        // Wait at least 2 ticks (1200ms) to confirm death animation and loot spawn
+        if (System.currentTimeMillis() - deathTime < 1200) return false;
 
         if (rangThisKill) return false;
         if (GroundItems.closest(BrutusConstants.LOOT_NAMES) != null) return false;
