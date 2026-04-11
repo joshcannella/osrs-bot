@@ -12,9 +12,10 @@ import org.dreambot.api.wrappers.interactive.NPC;
 import scripts.brutusfighter.BrutusConstants;
 
 /**
- * Dodge Brutus specials by sidestepping 1 tile north or south.
- * Charge (*growls*): 3-tick window — step north/south, wait for charge to pass.
- * Slam (*snorts*): 4-tick window, 3 slams — step away, wait for all slams to finish.
+ * Dodge Brutus specials by sidestepping 2 tiles north or south.
+ * Charge (*growls*): 3-tick window.
+ * Slam (*snorts*): 4-tick window, 3 slams.
+ * Clamps dodge so player stays at least 5 tiles south of the gate.
  */
 public class DodgeLeaf extends Leaf {
 
@@ -36,9 +37,6 @@ public class DodgeLeaf extends Leaf {
         return false;
     }
 
-    // Instance coords — gate is near the north fence
-    private static final int MAX_Y = BrutusConstants.GATE_TILE.getY() - 5;
-
     @Override
     public int onLoop() {
         Tile myTile = Players.getLocal().getTile();
@@ -51,14 +49,13 @@ public class DodgeLeaf extends Leaf {
             dy = myTile.getY() >= brutus.getTile().getY() ? 1 : -1;
         }
 
-        Tile dodgeTile = myTile.translate(0, dy * 2);
-
-        // Clamp: stay at least 5 tiles south of gate — if dodge goes too far north, go south instead
-        if (dodgeTile.getY() > MAX_Y) {
-            dodgeTile = myTile.translate(0, -2);
-            Logger.log("[Dodge] Clamped — dodging south instead");
+        // If dodging north would put us within 5 tiles of the gate, go south instead
+        int targetY = myTile.getY() + (dy * 2);
+        if (targetY > BrutusConstants.FIGHT_TILE.getY() + 3) {
+            dy = -1;
         }
-        final Tile target = dodgeTile;
+
+        final Tile target = myTile.translate(0, dy * 2);
         Logger.log("[Dodge] Sidestepping to " + target);
 
         if (Map.isTileOnScreen(target)) {
@@ -67,13 +64,10 @@ public class DodgeLeaf extends Leaf {
             Walking.clickTileOnMinimap(target);
         }
 
-        // Wait until we've moved
         Sleep.sleepUntil(() -> Players.getLocal().getTile().distance(target) < 1, 1200);
-
         lastDodgeTime = System.currentTimeMillis();
 
-        // Short return so the tree re-evaluates quickly — EatLeaf can fire if needed.
-        // The 3s cooldown in isValid() prevents re-dodging the same attack.
+        // Short return so EatLeaf can fire if needed
         return 600;
     }
 }
