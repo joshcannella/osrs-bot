@@ -41,7 +41,9 @@ public class AttackLeaf extends Leaf {
                 && "Gate".equals(g.getName()) && g.hasAction("Release"));
             if (gate == null) {
                 Logger.log("[Attack] Walking to cow field gate");
-                if (Walking.shouldWalk()) Walking.walk(BrutusConstants.GATE_TILE);
+                Walking.walk(BrutusConstants.GATE_TILE);
+                Sleep.sleepUntil(() -> Players.getLocal().getTile().distance(BrutusConstants.GATE_TILE) < 5,
+                    () -> Players.getLocal().isMoving(), 8000, 600);
                 return AntiBanUtil.humanDelay(600, 1200);
             }
             Logger.log("[Attack] Releasing gate to enter instance");
